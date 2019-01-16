@@ -1,0 +1,10 @@
+<form [formGroup]="_config.formGroup">
+  <ng-container *ngFor="let item of mappedConfig">
+    <lib-control-wrapper
+      *ngIf="item.config.componentAccessor"
+      [formControl]="formGroup.controls[item.name]"
+      [control]="item.config"
+    ></lib-control-wrapper>
+    <lib-template-wrapper *ngIf="!item.config.componentAccessor" [template]="item.config"></lib-template-wrapper>
+  </ng-container>
+</form>

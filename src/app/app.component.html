@@ -1,0 +1,14 @@
+<div><lib-dynamic-form [formModel]="config"></lib-dynamic-form></div>
+<div><button></button></div>
+
+<ng-template #temp> <div (click)="click()" style="width: 100px; height: 100px;background: red;"></div> </ng-template>
+<ng-template #late>
+  <div style="width: 100px; height: 100px;background: green;">
+    <p>{{ text }}</p>
+  </div>
+</ng-template>
+<ng-template let-age="age" #letTmpl>
+  <div style="width: 100px; height: 100px;background: green;">
+    <p>{{ age }}</p>
+  </div>
+</ng-template>

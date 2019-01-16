@@ -1,0 +1,11 @@
+<div class="card" style="width: 18rem;">
+  <div *ngIf="label" class="card-header">{{ label }}</div>
+  <div (blur)="markAsDirty()" tabindex="0" class="dropdown">
+    <div (click)="toggleDropdown()" class="form-control">{{ !value ? placeholder : displayOptionValue(value) }}</div>
+    <ul [class.is-opened]="isDropdownOpened" class="dropdown-menu is-closed">
+      <li (click)="selectOption(option)" *ngFor="let option of options" class="dropdown-item" href="#">
+        {{ displayOptionValue(option) }}
+      </li>
+    </ul>
+  </div>
+</div>
