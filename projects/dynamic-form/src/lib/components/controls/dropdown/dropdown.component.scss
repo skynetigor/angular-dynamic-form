@@ -1,11 +1,15 @@
-:host {
-  margin: 10px;
-}
-
 .is-closed {
   display: none;
 }
 
 .is-opened {
   display: block;
+}
+
+.dropdown-menu {
+  width: 100%;
+}
+
+.card {
+  margin-bottom: 20px;
 }

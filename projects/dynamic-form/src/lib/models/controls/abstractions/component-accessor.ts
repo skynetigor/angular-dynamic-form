@@ -1,7 +1,28 @@
+import { Subject, ReplaySubject } from 'rxjs';
+
 export class ComponentAccessor {
   private metadataObj: any = {};
 
-  constructor(public componentType, private inputsObj: any, private outputsObj: any, initialValue?: any) {
+  private componentTypeChangedSbj: ReplaySubject<any> = new ReplaySubject<any>();
+  private _componentType;
+
+  public get componentTypeChanged$() {
+    return this.componentTypeChangedSbj.asObservable();
+  }
+
+  public get componentType() {
+    return this._componentType;
+  }
+
+  public set componentType(v) {
+    if (this._componentType !== v) {
+      this._componentType = v;
+      this.componentTypeChangedSbj.next(v);
+    }
+  }
+
+  constructor(componentType, private inputsObj: any, private outputsObj: any, initialValue?: any) {
+    this.componentType = componentType;
     this.metadataObj.config = initialValue ? { ...initialValue } : {};
   }
 

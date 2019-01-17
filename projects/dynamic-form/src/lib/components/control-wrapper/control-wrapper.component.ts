@@ -5,7 +5,8 @@ import {
   Input,
   OnInit,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
+  OnDestroy
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
@@ -17,7 +18,7 @@ import { MakeProvider } from '../../abstractions';
   styleUrls: ['./control-wrapper.component.scss'],
   providers: [MakeProvider(ControlWrapperComponent)]
 })
-export class ControlWrapperComponent implements ControlValueAccessor, OnInit {
+export class ControlWrapperComponent implements ControlValueAccessor, OnInit, OnDestroy {
   private viewContainerRef: ViewContainerRef;
   private componentInstance: ControlValueAccessor;
 
@@ -52,9 +53,15 @@ export class ControlWrapperComponent implements ControlValueAccessor, OnInit {
   ) {}
 
   ngOnInit() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      this.control.componentAccessor.componentType
+    this.control.componentAccessor.componentTypeChanged$.subscribe(componentType =>
+      this.resolveComponent(componentType)
     );
+  }
+
+  public resolveComponent(componentType) {
+    this.viewContainerRef.clear();
+
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
 
     this.componentInstance = <any>this.viewContainerRef.createComponent(componentFactory).instance;
     this.control.componentAccessor.registerComponent(
@@ -64,4 +71,6 @@ export class ControlWrapperComponent implements ControlValueAccessor, OnInit {
     );
     this.changeDetectorRef.detectChanges();
   }
+
+  public ngOnDestroy() {}
 }

@@ -48,9 +48,7 @@ export class DropdownComponent extends AbstractValueAccessor implements OnInit {
   placeholder: string;
 
   constructor(
-    private eref: ElementRef,
     injector: Injector,
-    private componentFactoryResolver: ComponentFactoryResolver
   ) {
     super(injector);
   }

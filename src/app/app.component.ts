@@ -1,5 +1,6 @@
 import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { DropdownControlModel, FormModel, TemplateModel, TextFieldModel } from 'dynamic-form';
+import { TextfieldComponent } from 'dynamic-form';
 
 @Component({
   selector: 'app-root',
@@ -48,8 +49,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   public click() {
-    this.config.controls.list2.inputs.options = <any>['somename1', 'somename4', 'somename21', '2213'];
-
+    this.config.controls.list2.inputs.options = ['somename1', 'somename4', 'somename21', '2213'];
     if (!this.config.controls.text.formControl.disabled) {
       this.config.controls.text.formControl.disable();
     } else {

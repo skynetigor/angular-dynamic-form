@@ -15,8 +15,10 @@ export class TemplateModel<TContext> {
   }
 
   public set templateRef(value) {
-    this._currentTemplateRef = value;
-    this._templateRefChangedSubject.next(value);
+    if (this._currentTemplateRef !== value) {
+      this._currentTemplateRef = value;
+      this._templateRefChangedSubject.next(value);
+    }
   }
 
   constructor(context?: TContext, templateRef?: TemplateRef<any>) {

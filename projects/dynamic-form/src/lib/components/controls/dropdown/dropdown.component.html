@@ -1,4 +1,4 @@
-<div class="card" style="width: 18rem;">
+<div class="card">
   <div *ngIf="label" class="card-header">{{ label }}</div>
   <div (blur)="markAsDirty()" tabindex="0" class="dropdown">
     <div (click)="toggleDropdown()" class="form-control">{{ !value ? placeholder : displayOptionValue(value) }}</div>
