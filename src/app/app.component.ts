@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { DropdownControlModel, FormModel, TemplateModel, TextFieldModel } from 'dynamic-form';
 import { TextfieldComponent } from 'dynamic-form';
 
@@ -7,7 +7,7 @@ import { TextfieldComponent } from 'dynamic-form';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewChecked {
+export class AppComponent implements OnInit, AfterViewInit {
   config = new FormModel({
     list: new DropdownControlModel({
       options: ['hello', 'amigos', 'privet', 'medved'],
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
     this.config.controls.list3.outputs.dropdownOpened.subscribe(console.log);
     this.config.controls.list.outputs.dropdown2Opened.subscribe(t => {
       console.log(` dropdown2Opened ${t}`);
