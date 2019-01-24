@@ -42,10 +42,10 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   click() {
-    if (this.formModel.templateBetweenAll) {
-      this.formModel.templateBetweenAll = null;
+    if (this.formModel.tmplBetweenAll) {
+      this.formModel.tmplBetweenAll = null;
     } else {
-      this.formModel.templateBetweenAll = new TemplateModel(
+      this.formModel.tmplBetweenAll = new TemplateModel(
         { text: 'This is template between elements in FormModel' },
         this.redBoxTmpl
       );

@@ -5,7 +5,8 @@ import {
   OnChanges,
   OnInit,
   ViewEncapsulation,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  TemplateRef
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -50,7 +51,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     }
   }
 
-  tmplBetweenAll(tmpl: TemplateModel<any>) {
+  tmplBetweenAll(tmpl: TemplateRef<any> | TemplateModel<any>) {
     if (tmpl) {
       if (!(tmpl instanceof TemplateModel)) {
         tmpl = new TemplateModel<any>(null, tmpl);

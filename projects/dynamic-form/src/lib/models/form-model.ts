@@ -3,24 +3,25 @@ import { Subject } from 'rxjs';
 import { isArray } from 'util';
 
 import { TemplateModel } from './controls';
+import { TemplateRef } from '@angular/core';
 
 export class FormModel<TControlsInterface> {
   formGroup: FormGroup;
 
-  private ____templateBetweenAll: TemplateModel<any>;
-  private ____templateBetweenAllChangedSbj = new Subject<TemplateModel<any>>();
+  private __tmplBetweenAll: TemplateRef<any> | TemplateModel<any>;
+  private __tmplBetweenAllChangedSbj = new Subject<TemplateRef<any> | TemplateModel<any>>();
 
   public get tmplBetweenAllChanged$() {
-    return this.____templateBetweenAllChangedSbj.asObservable();
+    return this.__tmplBetweenAllChangedSbj.asObservable();
   }
 
-  public get templateBetweenAll() {
-    return this.____templateBetweenAll;
+  public get tmplBetweenAll() {
+    return this.__tmplBetweenAll;
   }
-  public set templateBetweenAll(template) {
-    if (this.____templateBetweenAll !== template) {
-      this.____templateBetweenAll = template;
-      this.____templateBetweenAllChangedSbj.next(template);
+  public set tmplBetweenAll(t: TemplateRef<any> | TemplateModel<any>) {
+    if (this.__tmplBetweenAll !== t) {
+      this.__tmplBetweenAll = t;
+      this.__tmplBetweenAllChangedSbj.next(t);
     }
   }
 
