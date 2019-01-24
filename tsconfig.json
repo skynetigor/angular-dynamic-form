@@ -13,7 +13,8 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
-      "dynamic-form": ["projects/dynamic-form/src/index.ts"]
+      "dynamic-form": ["projects/dynamic-form/src/index.ts"],
+      "bootstrap-controls": ["projects/bootstrap-controls/src/index.ts"]
     }
   }
 }

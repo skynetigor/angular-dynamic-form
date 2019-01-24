@@ -1,8 +1,28 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { isArray } from 'util';
+
+import { TemplateModel } from './controls';
 
 export class FormModel<TControlsInterface> {
   formGroup: FormGroup;
+
+  private ____templateBetweenAll: TemplateModel<any>;
+  private ____templateBetweenAllChangedSbj = new Subject<TemplateModel<any>>();
+
+  public get tmplBetweenAllChanged$() {
+    return this.____templateBetweenAllChangedSbj.asObservable();
+  }
+
+  public get templateBetweenAll() {
+    return this.____templateBetweenAll;
+  }
+  public set templateBetweenAll(template) {
+    if (this.____templateBetweenAll !== template) {
+      this.____templateBetweenAll = template;
+      this.____templateBetweenAllChangedSbj.next(template);
+    }
+  }
 
   constructor(public controls: TControlsInterface) {
     const formBuilder = new FormBuilder();

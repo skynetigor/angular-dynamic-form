@@ -1,0 +1,17 @@
+<div class="card">
+  <lib-dynamic-form [formModel]="formModel"></lib-dynamic-form>
+  <div class="dropdown-divider"></div>
+  <button [disabled]="!formModel.formGroup.valid" type="button" class="btn btn-primary">Send</button>
+</div>
+
+<ng-template let-text="text" #redBox>
+  <div (click)="click()" class="redBox">
+    <span>{{ text }}</span>
+  </div>
+</ng-template>
+
+<ng-template let-text="text" #greenBox>
+  <div (click)="click()" class="greenBox">
+    <span>{{ text }}</span>
+  </div>
+</ng-template>

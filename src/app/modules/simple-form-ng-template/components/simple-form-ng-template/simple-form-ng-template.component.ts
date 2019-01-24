@@ -1,0 +1,60 @@
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { FormModel, TemplateModel } from 'dynamic-form';
+import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
+
+@Component({
+  selector: 'app-simple-form',
+  templateUrl: './simple-form-ng-template.component.html',
+  styleUrls: ['./simple-form-ng-template.component.scss']
+})
+export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
+  @ViewChild('redBox') redBoxTmpl;
+  @ViewChild('greenBox') greenBoxTmpl;
+
+  formModel = new FormModel({
+    greenBox: new TemplateModel(
+      {
+        text:
+          'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
+      },
+      this.greenBoxTmpl
+    ),
+    name: new BootstrapTextFieldModel({
+      label: 'Your name',
+      placeholder: 'Please enter your name here',
+      required: true
+    }),
+    email: new BootstrapTextFieldModel({
+      label: 'Email',
+      placeholder: 'Please enter youre email here',
+      required: true
+    }),
+    subject: new BootstrapDropdownControlModel({
+      label: 'Subject',
+      options: [{ name: 'Incorrect work', obj: { empty: 'isEmty' } }],
+      required: true,
+      displayedProperty: 'name',
+      placeholder: 'Please pick subject'
+    }),
+    message: new BootstrapTextFieldModel({ label: 'Your message', placeholder: 'Message', multiline: true })
+  });
+
+  constructor() {}
+
+  click() {
+    if (this.formModel.templateBetweenAll) {
+      this.formModel.templateBetweenAll = null;
+    } else {
+      this.formModel.templateBetweenAll = new TemplateModel(
+        { text: 'This is template between elements in FormModel' },
+        this.redBoxTmpl
+      );
+    }
+  }
+
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.formModel.controls.greenBox.templateRef = this.greenBoxTmpl;
+  }
+}

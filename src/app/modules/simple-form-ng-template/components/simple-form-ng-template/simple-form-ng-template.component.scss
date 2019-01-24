@@ -1,0 +1,23 @@
+.card {
+  padding: 30px;
+  max-width: 550px;
+}
+
+.greenBox,
+.redBox {
+  text-align: center;
+  width: 100%;
+  margin: 5px 0px 5px 0px;
+}
+
+.redBox {
+  background: rgb(238, 121, 121);
+  height: 50px;
+}
+
+.greenBox {
+  overflow: hidden;
+  background: rgb(101, 194, 101);
+  padding: 20px;
+  text-overflow: ellipsis;
+}

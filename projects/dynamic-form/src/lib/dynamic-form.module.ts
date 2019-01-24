@@ -2,25 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  ControlWrapperComponent,
-  TextfieldComponent,
-  DynamicFormComponent,
-  TemplateWrapperComponent
-} from './components';
-import { DropdownComponent } from './components';
+import { ControlWrapperComponent, DynamicFormComponent, TemplateWrapperComponent } from './components';
 
-const controls = [DropdownComponent, TextfieldComponent];
 @NgModule({
-  declarations: [
-    ...controls,
-    ControlWrapperComponent,
-    DynamicFormComponent,
-    ControlWrapperComponent,
-    TemplateWrapperComponent
-  ],
+  declarations: [ControlWrapperComponent, DynamicFormComponent, ControlWrapperComponent, TemplateWrapperComponent],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  exports: [...controls, ReactiveFormsModule, DynamicFormComponent],
-  entryComponents: controls
+  exports: [ReactiveFormsModule, DynamicFormComponent, FormsModule]
 })
-export class FormRendererModule {}
+export class DynamicFormModule {}

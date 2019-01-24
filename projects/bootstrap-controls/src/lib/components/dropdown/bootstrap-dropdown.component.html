@@ -1,0 +1,19 @@
+<header class="label" *ngIf="label && label !== ''">
+  <span *ngIf="required" class="asterik"></span> <span>{{ label }}</span>
+</header>
+<div (blur)="markAsDirty()" tabindex="0" class="dropdown">
+  <div (click)="toggleDropdown()" class="form-control title">
+    {{ !value ? placeholder : displayOptionValue(value) }}
+  </div>
+  <ul [class.is-opened]="isDropdownOpened" class="dropdown-menu is-closed">
+    <li
+      [class.active]="value === option"
+      (click)="selectOption(option)"
+      *ngFor="let option of options"
+      class="dropdown-item"
+      href="#"
+    >
+      {{ displayOptionValue(option) }}
+    </li>
+  </ul>
+</div>

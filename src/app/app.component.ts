@@ -1,66 +1,57 @@
-import { AfterViewChecked, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { DropdownControlModel, FormModel, TemplateModel, TextFieldModel } from 'dynamic-form';
-import { TextfieldComponent } from 'dynamic-form';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { isPrimitive } from 'util';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewInit {
-  config = new FormModel({
-    list: new DropdownControlModel({
-      options: ['hello', 'amigos', 'privet', 'medved'],
-      placeholder: 'list'
-    }),
-    list2: new DropdownControlModel({
-      options: ['kniga', 'amiknigagos', 'privetkniga', 'medved'],
-      placeholder: 'kniga'
-    }),
-    list3: new DropdownControlModel({
-      options: ['heldropalo', 'amigos', 'pridropavet', 'dropadropadropa'],
-      placeholder: 'dropa',
-      label: 'Some label'
-    }),
-    tmpl: new TemplateModel(),
-    text: new TextFieldModel({
-      label: 'I dont know',
-      placeholder: 'type here',
-      required: true
-    }),
-    someTemplate1: new TemplateModel<any>(),
-    letTmpl: new TemplateModel({ age: 200 }),
-    letTmpl1: new TemplateModel({ age: 123321 }),
-    letTmpl2: new TemplateModel({ age: 'Hello' })
-  });
+export class AppComponent implements OnInit, OnDestroy {
+  private forms = {
+    'Simple form': 'simple-form',
+    'Simple form with <ng-teplate></ng-template>': 'simple-form-ng-temlate'
+  };
 
-  text = 'Hello from ng-template';
+  formState = {
+    Controls: 'controls',
+    Valid: 'valid',
+    Dirty: 'dirty',
+    Pristine: 'pristine'
+  };
 
-  @ViewChild('temp') temp;
-  @ViewChild('late') late;
-  @ViewChild('letTmpl') letTmpl;
+  public formButtons = Object.keys(this.forms).map(key => ({ title: key, path: this.forms[key] }));
+  public formStateReflecting = Object.keys(this.formState).map(key => ({
+    title: key,
+    selector: () => this.currentComponent.formModel.formGroup[this.formState[key]]
+  }));
 
-  ngOnInit(): void {
-    this.config.controls.tmpl.templateRef = this.temp;
-    this.config.controls.someTemplate1.templateRef = this.late;
-    this.config.controls.letTmpl.templateRef = this.letTmpl;
-    this.config.controls.letTmpl1.templateRef = this.letTmpl;
-    this.config.controls.letTmpl2.templateRef = this.letTmpl;
+  private subscriptions: Subscription[] = [];
+
+  currentComponent: any;
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {}
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(t => t.unsubscribe());
   }
 
-  public click() {
-    this.config.controls.list2.inputs.options = ['somename1', 'somename4', 'somename21', '2213'];
-    if (!this.config.controls.text.formControl.disabled) {
-      this.config.controls.text.formControl.disable();
+  activateRoute(component: any) {
+    this.currentComponent = component;
+  }
+
+  deactivateRoute(component: any) {
+    console.log(component);
+  }
+
+  parse(obj) {
+    if (isPrimitive(obj)) {
+      return obj;
     } else {
-      this.config.controls.text.formControl.enable();
+      return Object.keys(obj).join(', ');
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.config.controls.list3.outputs.dropdownOpened.subscribe(console.log);
-    this.config.controls.list.outputs.dropdown2Opened.subscribe(t => {
-      console.log(` dropdown2Opened ${t}`);
-    });
   }
 }

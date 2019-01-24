@@ -1,14 +1,40 @@
-<div><lib-dynamic-form [formModel]="config"></lib-dynamic-form></div>
-<div><button></button></div>
-
-<ng-template #temp> <div (click)="click()" style="width: 100px; height: 100px;background: red;"></div> </ng-template>
-<ng-template #late>
-  <div style="width: 100px; height: 100px;background: green;">
-    <p>{{ text }}</p>
+<div class="sidebar">
+  <div class="title">Dynamic Form Showcase</div>
+  <button
+    *ngFor="let formButton of formButtons"
+    type="button"
+    [routerLink]="formButton.path"
+    routerLinkActive="btn-active"
+    class="btn btn-dark"
+  >
+    {{ formButton.title }}
+  </button>
+</div>
+<div class="content">
+  <div><router-outlet (activate)="activateRoute($event)" (deactivate)="deactivateRoute($event)"></router-outlet></div>
+</div>
+<div class="sidebar">
+  <div class="card form-output">
+    <div class="card-header">Form output</div>
+    <div class="card-body">
+      <pre
+        [innerHtml]="
+          currentComponent ? (currentComponent.formModel.formGroup.valueChanges | async | prettyjson: 3) : ''
+        "
+      ></pre>
+    </div>
   </div>
-</ng-template>
-<ng-template let-age="age" #letTmpl>
-  <div style="width: 100px; height: 100px;background: green;">
-    <p>{{ age }}</p>
+  <div class="card form-state">
+    <div class="card-header">Form State</div>
+    <div class="card-body">
+      <ng-container *ngIf="currentComponent">
+        <div *ngFor="let fs of formStateReflecting" class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">{{ fs.title }}</span>
+          </div>
+          <input type="text" readonly class="form-control" [value]="parse(fs.selector())" />
+        </div>
+      </ng-container>
+    </div>
   </div>
-</ng-template>
+</div>

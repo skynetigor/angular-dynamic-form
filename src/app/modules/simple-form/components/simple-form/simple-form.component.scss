@@ -1,0 +1,14 @@
+.card {
+  padding: 30px;
+  min-width: 550px;
+}
+
+:host::ng-deep {
+  .gnida {
+    display: none;
+  }
+
+  .one-more {
+    width: 1px;
+  }
+}

@@ -6,24 +6,29 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
-  OnDestroy
+  OnDestroy,
+  ViewEncapsulation,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 import { MakeProvider } from '../../abstractions';
+import { BaseControlModel } from '../../models';
 
 @Component({
   selector: 'lib-control-wrapper',
   templateUrl: './control-wrapper.component.html',
   styleUrls: ['./control-wrapper.component.scss'],
-  providers: [MakeProvider(ControlWrapperComponent)]
+  providers: [MakeProvider(ControlWrapperComponent)],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlWrapperComponent implements ControlValueAccessor, OnInit, OnDestroy {
   private viewContainerRef: ViewContainerRef;
   private componentInstance: ControlValueAccessor;
 
   @Input()
-  control;
+  control: BaseControlModel<any>;
 
   get displayControl() {
     return this.control.isDisplayed === null || this.control.isDisplayed === undefined || this.control.isDisplayed;
@@ -47,29 +52,24 @@ export class ControlWrapperComponent implements ControlValueAccessor, OnInit, On
     this.viewContainerRef = v;
   }
 
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit() {
-    this.control.componentAccessor.componentTypeChanged$.subscribe(componentType =>
-      this.resolveComponent(componentType)
-    );
+    this.control.componentTypeChanged$.subscribe(componentType => this.resolveComponent(componentType));
   }
 
   public resolveComponent(componentType) {
     this.viewContainerRef.clear();
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+    const componentRef = this.viewContainerRef.createComponent<any>(componentFactory);
+    this.componentInstance = <any>componentRef.instance;
 
-    this.componentInstance = <any>this.viewContainerRef.createComponent(componentFactory).instance;
-    this.control.componentAccessor.registerComponent(
-      this.componentInstance,
-      componentFactory.inputs,
-      componentFactory.outputs
+    this.control.registerComponent(
+      componentRef,
+      componentFactory.inputs.map(t => t.propName),
+      componentFactory.outputs.map(t => t.propName)
     );
-    this.changeDetectorRef.detectChanges();
   }
 
   public ngOnDestroy() {}

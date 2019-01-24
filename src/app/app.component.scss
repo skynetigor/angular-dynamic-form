@@ -1,14 +1,97 @@
 :host {
+  position: absolute;
   display: flex;
+  flex-direction: row;
   width: 100%;
-  height: 50%;
-  justify-content: center;
-  padding: 50px;
+  height: 100%;
+
+  ::ng-deep {
+    pre {
+      height: 100%;
+
+      span {
+        white-space: normal;
+      }
+      .string {
+        color: green;
+      }
+      .number {
+        color: darkorange;
+      }
+      .boolean {
+        color: blue;
+      }
+      .null {
+        color: magenta;
+      }
+      .key {
+        color: red;
+      }
+    }
+  }
 }
 
-:host > div {
-  min-width: 300px;
-  margin: 20px;
-  border: 2px black solid;
-  padding: 20px;
+:host {
+  > div {
+    height: 100%;
+  }
+}
+
+.btn-active {
+  background-color: #003b75;
+}
+
+.sidebar {
+  min-width: 400px;
+  background-color: #484848;
+  padding: 0px 25px 0px 25px;
+
+  button {
+    width: 100%;
+  }
+
+  .title {
+    margin: 0px 25px 25px 25px;
+    border-bottom: white 2px solid;
+    padding: 15px 25px 15px 25px;
+    font-weight: 600;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #a3f1f1;
+  }
+}
+
+.content {
+  width: 100%;
+  background-color: #9da8ef;
+  display: flex;
+  justify-content: center;
+  > * {
+    margin: auto;
+  }
+}
+
+.card {
+  border-radius: 10px;
+  margin-top: 50px;
+}
+
+.form-output {
+  height: 500px;
+
+  .card-body {
+    overflow: auto;
+  }
+}
+
+.form-state {
+  .input-group-prepend {
+    span {
+      width: 90px;
+    }
+  }
+
+  .form-control[readonly] {
+    background-color: white;
+  }
 }
