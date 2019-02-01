@@ -1,13 +1,13 @@
 import { ComponentRef } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 
+import { dynamicControlAttrName, dynamicComponentHiddenAttrName } from '../../constants';
 import { ComponentController } from './component-controller';
-import { dynamicControlClassName, dynamicControlHiddenAttrName } from '../../constants';
 
 export class BaseControlModel<TInterface> extends ComponentController<TInterface, any> {
-  private _name: string;
   private _isDisplayed = true;
-  private _dynamicControlHiddenAttr = document.createAttribute(dynamicControlHiddenAttrName);
+  private _dynamicControlHiddenAttr = document.createAttribute(dynamicComponentHiddenAttrName);
+  private _dynamicControlAttr = document.createAttribute(dynamicControlAttrName);
 
   formControl: AbstractControl;
   validators: ValidatorFn | ValidatorFn[];
@@ -21,17 +21,13 @@ export class BaseControlModel<TInterface> extends ComponentController<TInterface
       const componentNativeElement = this.metadataObj.componentRef.location.nativeElement as HTMLElement;
 
       if (v) {
-        componentNativeElement.attributes.removeNamedItem(dynamicControlHiddenAttrName);
+        componentNativeElement.attributes.removeNamedItem(dynamicComponentHiddenAttrName);
       } else {
         componentNativeElement.attributes.setNamedItem(this._dynamicControlHiddenAttr);
       }
 
       this._isDisplayed = v;
     }
-  }
-
-  public get name() {
-    return this._name;
   }
 
   get componentNativeElement(): HTMLElement {
@@ -49,8 +45,9 @@ export class BaseControlModel<TInterface> extends ComponentController<TInterface
     inputsProperties: string[],
     outputsProperties: string[]
   ) {
+    super.componentRegistered(componentRef, inputsProperties, outputsProperties);
     const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
-    componentNativeElement.classList.add(dynamicControlClassName);
-    componentNativeElement.classList.add(this.name);
+
+    componentNativeElement.attributes.setNamedItem(this._dynamicControlAttr);
   }
 }

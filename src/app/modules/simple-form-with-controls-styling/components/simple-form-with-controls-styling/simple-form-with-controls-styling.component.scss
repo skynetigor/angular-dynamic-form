@@ -1,0 +1,20 @@
+.form-container {
+  max-width: 550px;
+}
+
+:host::ng-deep {
+  [dynamic-control] {
+    margin-top: 25px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(150, 219, 153);
+
+    &.email {
+      background-color: rgb(247, 183, 183);
+    }
+  }
+
+  .message {
+    background-color: rgb(154, 152, 252);
+  }
+}

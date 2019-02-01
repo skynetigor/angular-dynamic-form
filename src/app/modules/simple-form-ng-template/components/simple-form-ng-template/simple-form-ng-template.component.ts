@@ -8,11 +8,11 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
   styleUrls: ['./simple-form-ng-template.component.scss']
 })
 export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
-  @ViewChild('redBox') redBoxTmpl;
-  @ViewChild('greenBox') greenBoxTmpl;
+  @ViewChild('tmpl') tmpl;
 
   formModel = new FormModel({
     greenBox: new TemplateModel({
+      alertClass: 'alert-success',
       text:
         'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
     }),
@@ -47,14 +47,14 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
       this.formModel.tmplBetweenAll = null;
     } else {
       this.formModel.tmplBetweenAll = new TemplateModel(
-        { text: 'This is template between elements in FormModel' },
-        this.redBoxTmpl
+        { text: 'This is template between elements in FormModel', alertClass: 'alert-primary' },
+        this.tmpl
       );
     }
   }
 
   ngOnInit() {
-    this.formModel.controls.greenBox.templateRef = this.greenBoxTmpl;
+    this.formModel.controls.greenBox.templateRef = this.tmpl;
   }
 
   ngAfterViewInit() {}

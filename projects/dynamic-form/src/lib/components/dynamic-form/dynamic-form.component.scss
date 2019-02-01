@@ -1,5 +1,5 @@
 :host::ng-deep {
-  .dynamic-control[dynamic-control-hidden] {
+  [dynamic-component][dynamic-component-hidden] {
     display: none;
   }
 }

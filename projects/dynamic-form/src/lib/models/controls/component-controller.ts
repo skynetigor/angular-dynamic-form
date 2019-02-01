@@ -1,5 +1,7 @@
 import { ReplaySubject } from 'rxjs';
 import { ComponentRef } from '@angular/core';
+import { dynamicComponentAttrName } from '../../constants';
+import { isString } from 'util';
 
 export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
   protected metadataObj: { config: any; componentRef: ComponentRef<any> } = {
@@ -9,6 +11,8 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
 
   private _componentTypeChangedSbj: ReplaySubject<any> = new ReplaySubject<any>();
   private _componentType;
+  private _name: string;
+  private _dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
 
   public get componentTypeChanged$() {
     return this._componentTypeChangedSbj.asObservable();
@@ -23,6 +27,10 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
       this._componentType = v;
       this._componentTypeChangedSbj.next(v);
     }
+  }
+
+  public get name() {
+    return this._name;
   }
 
   public inputs: TInputsInterface = <any>{};
@@ -47,7 +55,14 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
     componentRef: ComponentRef<any>,
     inputsProperties: string[],
     outputsProperties: string[]
-  ) {}
+  ) {
+    const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
+    componentNativeElement.attributes.setNamedItem(this._dynamicComponentAttr);
+
+    if (isString(this.name)) {
+      componentNativeElement.classList.add(this.name);
+    }
+  }
 
   private bindInputsProperties(inputs: string[]) {
     const _this = this;
@@ -61,6 +76,7 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
           set: function(value) {
             _this.metadataObj.config[propName] = value;
             _this.metadataObj.componentRef.instance[propName] = value;
+            _this.metadataObj.componentRef.changeDetectorRef.detectChanges();
           }
         });
       }

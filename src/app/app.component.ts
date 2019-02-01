@@ -12,7 +12,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private forms = {
     'Simple form without renderer': 'simple-form-without-renderer',
     'Simple form': 'simple-form',
-    'Simple form with <ng-teplate></ng-template>': 'simple-form-ng-temlate'
+    'Simple form with <ng-teplate></ng-template>': 'simple-form-ng-temlate',
+    'Simple form with controls styling': 'simple-form-with-controls-styling'
   };
 
   formState = {
