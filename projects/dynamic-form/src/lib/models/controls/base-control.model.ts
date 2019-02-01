@@ -30,12 +30,6 @@ export class BaseControlModel<TInterface> extends ComponentController<TInterface
     }
   }
 
-  get componentNativeElement(): HTMLElement {
-    if (this.metadataObj.componentRef) {
-      return this.metadataObj.componentRef.location.nativeElement;
-    }
-  }
-
   constructor(config: TInterface, componentType) {
     super(componentType, config);
   }

@@ -33,6 +33,12 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
     return this._name;
   }
 
+  get componentNativeElement(): HTMLElement {
+    if (this.metadataObj.componentRef) {
+      return this.metadataObj.componentRef.location.nativeElement;
+    }
+  }
+
   public inputs: TInputsInterface = <any>{};
   public outputs: TOutputsInterfase = <any>{};
 
