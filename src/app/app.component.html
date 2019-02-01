@@ -18,9 +18,7 @@
     <div class="card-header">Form output</div>
     <div class="card-body">
       <pre
-        [innerHtml]="
-          currentComponent ? (currentComponent.formModel.formGroup.valueChanges | async | prettyjson: 3) : ''
-        "
+        [innerHtml]="currentComponent ? (currentComponent.formGroup.valueChanges | async | prettyjson: 3) : ''"
       ></pre>
     </div>
   </div>

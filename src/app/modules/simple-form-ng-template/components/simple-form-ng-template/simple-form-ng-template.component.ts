@@ -3,7 +3,7 @@ import { FormModel, TemplateModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
 @Component({
-  selector: 'app-simple-form',
+  selector: 'app-simple-form-ng-template',
   templateUrl: './simple-form-ng-template.component.html',
   styleUrls: ['./simple-form-ng-template.component.scss']
 })
@@ -12,13 +12,10 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   @ViewChild('greenBox') greenBoxTmpl;
 
   formModel = new FormModel({
-    greenBox: new TemplateModel(
-      {
-        text:
-          'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
-      },
-      this.greenBoxTmpl
-    ),
+    greenBox: new TemplateModel({
+      text:
+        'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
+    }),
     name: new BootstrapTextFieldModel({
       label: 'Your name',
       placeholder: 'Please enter your name here',
@@ -39,6 +36,10 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     message: new BootstrapTextFieldModel({ label: 'Your message', placeholder: 'Message', multiline: true })
   });
 
+  get formGroup() {
+    return this.formModel.formGroup;
+  }
+
   constructor() {}
 
   click() {
@@ -52,9 +53,9 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit() {}
-
-  ngAfterViewInit() {
+  ngOnInit() {
     this.formModel.controls.greenBox.templateRef = this.greenBoxTmpl;
   }
+
+  ngAfterViewInit() {}
 }

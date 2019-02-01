@@ -8,6 +8,7 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
   styleUrls: ['./simple-form.component.scss']
 })
 export class SimpleFormComponent implements OnInit {
+  index = 0;
   formModel = new FormModel({
     name: new BootstrapTextFieldModel({
       label: 'Your name',
@@ -27,6 +28,10 @@ export class SimpleFormComponent implements OnInit {
     }),
     message: new BootstrapTextFieldModel({ label: 'Your message', placeholder: 'Message', multiline: true })
   });
+
+  get formGroup() {
+    return this.formModel.formGroup;
+  }
 
   constructor() {}
 

@@ -16,7 +16,6 @@ export class BootstrapTextfieldComponent extends AbstractValueAccessor {
   multiline = false;
 
   setDisabledState(isDisabled: boolean) {
-    console.log(isDisabled);
     this.isDisabled = isDisabled;
   }
 }

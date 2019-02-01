@@ -1,3 +1,5 @@
-.is-hided {
-  display: none;
+:host::ng-deep {
+  .dynamic-control[dynamic-control-hidden] {
+    display: none;
+  }
 }

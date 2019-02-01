@@ -1,8 +1,8 @@
-import { forwardRef, Input, OnInit, Injector, Injectable } from '@angular/core';
+import { forwardRef, Input, OnInit, Injector, Injectable, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl, NgControl } from '@angular/forms';
 
 @Injectable()
-export abstract class AbstractValueAccessor implements ControlValueAccessor, OnInit {
+export abstract class AbstractValueAccessor implements ControlValueAccessor, OnInit, AfterViewInit {
   dirty = false;
 
   @Input()
@@ -67,8 +67,10 @@ export abstract class AbstractValueAccessor implements ControlValueAccessor, OnI
     this.isDisabled = isDisabled;
   }
 
-  ngOnInit() {
-    this.formControl = this.injector.get(NgControl);
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.formControl = this.injector.get(NgControl).control;
   }
 }
 

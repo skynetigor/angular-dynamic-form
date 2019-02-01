@@ -10,6 +10,7 @@ import { isPrimitive } from 'util';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private forms = {
+    'Simple form without renderer': 'simple-form-without-renderer',
     'Simple form': 'simple-form',
     'Simple form with <ng-teplate></ng-template>': 'simple-form-ng-temlate'
   };
@@ -24,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public formButtons = Object.keys(this.forms).map(key => ({ title: key, path: this.forms[key] }));
   public formStateReflecting = Object.keys(this.formState).map(key => ({
     title: key,
-    selector: () => this.currentComponent.formModel.formGroup[this.formState[key]]
+    selector: () => this.currentComponent.formGroup[this.formState[key]]
   }));
 
   private subscriptions: Subscription[] = [];

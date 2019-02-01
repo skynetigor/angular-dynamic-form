@@ -1,15 +1,16 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
-  ViewEncapsulation,
-  ChangeDetectorRef,
   TemplateRef
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { isNullOrUndefined } from 'util';
 
 import { BaseControlModel, FormModel, TemplateModel } from '../../models';
 import { isControl, isTemplate } from '../../utils/utils';
@@ -18,35 +19,52 @@ import { isControl, isTemplate } from '../../utils/utils';
   selector: 'lib-dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss'],
-  encapsulation: ViewEncapsulation.None
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DynamicFormComponent implements OnInit, OnChanges {
+export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
+  private subscriptions: Subscription[] = [];
+  private __formModel: FormModel<any>;
+
   public formGroup: FormGroup;
   private tmplBetweenAllSub: Subscription;
 
   @Input()
   formModel: FormModel<any>;
 
-  mappedConfig: (BaseControlModel<any> | TemplateModel<any>)[];
+  renderingFormConfig: (BaseControlModel<any> | TemplateModel<any>)[];
+
+  get formConfig() {
+    return this.renderingFormConfig;
+  }
+
+  set formConfig(v) {
+    this.renderingFormConfig = v;
+    this.cd.detectChanges();
+  }
 
   constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit() {}
 
   ngOnChanges() {
-    if (this.formModel) {
-      if (this.formModel instanceof FormModel) {
-        this.formGroup = this.formModel.formGroup;
-        this.mappedConfig = this.buildMappedConfig();
+    if (this.formModel !== this.__formModel) {
+      this.unsubscribeFromAllSubscriptions();
+      this.__formModel = this.formModel;
 
-        if (this.tmplBetweenAllSub) {
-          this.tmplBetweenAllSub.unsubscribe();
+      if (!isNullOrUndefined(this.formModel)) {
+        if (this.formModel instanceof FormModel) {
+          this.formGroup = this.formModel.formGroup;
+          this.buildMappedConfig();
+
+          if (this.tmplBetweenAllSub) {
+            this.tmplBetweenAllSub.unsubscribe();
+          }
+
+          this.subscriptions.push(this.formModel.tmplBetweenAllChanged$.subscribe(tmpl => this.tmplBetweenAll(tmpl)));
+          this.subscriptions.push(this.formModel.controlsStateChanged$.subscribe(() => this.buildMappedConfig()));
+        } else {
+          throw Error('formModel value should inherit FormModel');
         }
-
-        this.formModel.tmplBetweenAllChanged$.subscribe(tmpl => this.tmplBetweenAll(tmpl));
-      } else {
-        throw Error('formModel value should inherit FormModel');
       }
     }
   }
@@ -57,24 +75,32 @@ export class DynamicFormComponent implements OnInit, OnChanges {
         tmpl = new TemplateModel<any>(null, tmpl);
       }
       const temp = [];
-      const configLength = this.mappedConfig.length;
-      this.mappedConfig.forEach((el, index) => {
+      const configLength = this.formConfig.length;
+      this.formConfig.forEach((el, index) => {
         temp.push(el);
         if (index < configLength) {
           temp.push(tmpl);
         }
       });
 
-      this.mappedConfig = temp;
+      this.formConfig = temp;
     } else {
-      this.mappedConfig = this.buildMappedConfig();
+      this.buildMappedConfig();
     }
+  }
 
-    this.cd.detectChanges();
+  private unsubscribeFromAllSubscriptions() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeFromAllSubscriptions();
   }
 
   buildMappedConfig() {
-    return <any>Object.values(this.formModel.controls).filter(value => isControl(value) || isTemplate(value));
+    this.formConfig = <any>(
+      Object.values(this.formModel.controls).filter(value => isControl(value) || isTemplate(value))
+    );
   }
 
   isControl(c) {
@@ -82,7 +108,6 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   isTemplate(t) {
-    console.log(isTemplate(t));
     return isTemplate(t);
   }
 }

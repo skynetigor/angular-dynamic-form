@@ -1,13 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-  TemplateRef,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -28,7 +19,7 @@ export class TemplateWrapperComponent implements OnInit, OnDestroy {
 
   private viewContainerRef: ViewContainerRef;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  constructor() {}
 
   get displayTemplate() {
     return this.template.isDisplayed === null || this.template.isDisplayed === undefined || this.template.isDisplayed;
@@ -47,7 +38,6 @@ export class TemplateWrapperComponent implements OnInit, OnDestroy {
     if (templateRef) {
       this.viewContainerRef.clear();
       this.viewContainerRef.createEmbeddedView(templateRef, this.template.context);
-      this.changeDetectorRef.detectChanges();
     }
   }
 }

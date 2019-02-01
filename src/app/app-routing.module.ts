@@ -6,6 +6,11 @@ const routes: Routes = [
     path: '',
     children: [
       { path: '', redirectTo: 'simple-form', pathMatch: 'prefix' },
+      {
+        path: 'simple-form-without-renderer',
+        loadChildren:
+          './modules/simple-form-without-renderer/simple-form-without-renderer.module#SimpleFormWithoutRendererModule'
+      },
       { path: 'simple-form', loadChildren: './modules/simple-form/simple-form.module#SimpleFormModule' },
       {
         path: 'simple-form-ng-temlate',
