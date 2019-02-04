@@ -1,9 +1,13 @@
-import { IBootstrapDropdownControl } from '../interfaces';
-import { BootstrapDropdownComponent } from '../components';
-import { BaseControlModel } from 'dynamic-form';
+import { BaseControlModel, IControlConfiguration } from 'dynamic-form';
 
-export class BootstrapDropdownControlModel<T> extends BaseControlModel<IBootstrapDropdownControl<T>> {
-  constructor(config: IBootstrapDropdownControl<T>) {
+import { BootstrapDropdownComponent } from '../components';
+import { IBootstrapDropdownInputs } from '../interfaces';
+
+export class BootstrapDropdownControlModel<T> extends BaseControlModel<
+  BootstrapDropdownComponent,
+  IBootstrapDropdownInputs<T>
+> {
+  constructor(config: IControlConfiguration<IBootstrapDropdownInputs<T>>) {
     super(config, BootstrapDropdownComponent);
   }
 }

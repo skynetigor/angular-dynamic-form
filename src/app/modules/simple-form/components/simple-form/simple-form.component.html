@@ -1,5 +1,5 @@
-<div class="card">
+<div class="card form-container">
   <lib-dynamic-form [formModel]="formModel"></lib-dynamic-form>
   <div class="dropdown-divider"></div>
-  <button [disabled]="!formModel.formGroup.valid" type="button" class="btn btn-primary">Send</button>
+  <button [hidden]="true" [disabled]="!formModel.formGroup.valid" type="button" class="btn btn-primary">Send</button>
 </div>

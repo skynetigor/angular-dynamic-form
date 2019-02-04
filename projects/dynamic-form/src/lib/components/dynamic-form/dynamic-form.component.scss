@@ -1,3 +1,5 @@
-.is-hided {
-  display: none;
+:host::ng-deep {
+  [dynamic-component][dynamic-component-hidden] {
+    display: none;
+  }
 }

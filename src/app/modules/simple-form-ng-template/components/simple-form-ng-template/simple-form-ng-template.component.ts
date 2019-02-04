@@ -3,41 +3,50 @@ import { FormModel, TemplateModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
 @Component({
-  selector: 'app-simple-form',
+  selector: 'app-simple-form-ng-template',
   templateUrl: './simple-form-ng-template.component.html',
   styleUrls: ['./simple-form-ng-template.component.scss']
 })
 export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
-  @ViewChild('redBox') redBoxTmpl;
-  @ViewChild('greenBox') greenBoxTmpl;
+  @ViewChild('tmpl') tmpl;
 
   formModel = new FormModel({
-    greenBox: new TemplateModel(
-      {
-        text:
-          'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
-      },
-      this.greenBoxTmpl
-    ),
+    greenBox: new TemplateModel({
+      alertClass: 'alert-success',
+      text:
+        'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
+    }),
     name: new BootstrapTextFieldModel({
-      label: 'Your name',
-      placeholder: 'Please enter your name here',
-      required: true
+      initialInputs: {
+        label: 'Your name',
+        placeholder: 'Please enter your name here',
+        required: true
+      }
     }),
     email: new BootstrapTextFieldModel({
-      label: 'Email',
-      placeholder: 'Please enter youre email here',
-      required: true
+      initialInputs: {
+        label: 'Email',
+        placeholder: 'Please enter youre email here',
+        required: true
+      }
     }),
     subject: new BootstrapDropdownControlModel({
-      label: 'Subject',
-      options: [{ name: 'Incorrect work', obj: { empty: 'isEmty' } }],
-      required: true,
-      displayedProperty: 'name',
-      placeholder: 'Please pick subject'
+      initialInputs: {
+        label: 'Subject',
+        options: [{ name: 'Incorrect work', obj: { empty: 'isEmty' } }],
+        required: true,
+        displayedProperty: 'name',
+        placeholder: 'Please pick subject'
+      }
     }),
-    message: new BootstrapTextFieldModel({ label: 'Your message', placeholder: 'Message', multiline: true })
+    message: new BootstrapTextFieldModel({
+      initialInputs: { label: 'Your message', placeholder: 'Message', multiline: true }
+    })
   });
+
+  get formGroup() {
+    return this.formModel.formGroup;
+  }
 
   constructor() {}
 
@@ -46,15 +55,15 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
       this.formModel.tmplBetweenAll = null;
     } else {
       this.formModel.tmplBetweenAll = new TemplateModel(
-        { text: 'This is template between elements in FormModel' },
-        this.redBoxTmpl
+        { text: 'This is template between elements in FormModel', alertClass: 'alert-primary' },
+        this.tmpl
       );
     }
   }
 
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    this.formModel.controls.greenBox.templateRef = this.greenBoxTmpl;
+  ngOnInit() {
+    this.formModel.controls.greenBox.templateRef = this.tmpl;
   }
+
+  ngAfterViewInit() {}
 }

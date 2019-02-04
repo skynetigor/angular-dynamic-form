@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormModel } from 'dynamic-form';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormModel, TemplateModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
 @Component({
-  selector: 'app-simple-form',
-  templateUrl: './simple-form.component.html',
-  styleUrls: ['./simple-form.component.scss']
+  selector: 'app-simple-form-with-controls-styling',
+  templateUrl: './simple-form-with-controls-styling.component.html',
+  styleUrls: ['./simple-form-with-controls-styling.component.scss']
 })
-export class SimpleFormComponent implements OnInit {
+export class SimpleFormWithControlsStylingComponent implements OnInit {
+  @ViewChild('infoTmpl') infoTmpl;
+
   formModel = new FormModel({
+    info: new TemplateModel(),
     name: new BootstrapTextFieldModel({
       initialInputs: {
         label: 'Your name',
@@ -42,5 +45,7 @@ export class SimpleFormComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.formModel.controls.info.templateRef = this.infoTmpl;
+  }
 }

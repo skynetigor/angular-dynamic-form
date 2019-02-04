@@ -1,14 +1,12 @@
 import {
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ComponentFactoryResolver,
   Input,
+  OnDestroy,
   OnInit,
   ViewChild,
-  ViewContainerRef,
-  OnDestroy,
-  ViewEncapsulation,
-  ChangeDetectionStrategy
+  ViewContainerRef
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
@@ -20,7 +18,6 @@ import { BaseControlModel } from '../../models';
   templateUrl: './control-wrapper.component.html',
   styleUrls: ['./control-wrapper.component.scss'],
   providers: [MakeProvider(ControlWrapperComponent)],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlWrapperComponent implements ControlValueAccessor, OnInit, OnDestroy {

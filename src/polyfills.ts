@@ -21,8 +21,9 @@
 /** IE9, IE10 and IE11 requires all of the following polyfills. **/
 
 /* Required polyfills */
-import 'core-js/es6/string'; // nnn
-import 'core-js/es6/array'; // nnn
+import 'core-js/es6/string';
+import 'core-js/es6/array';
+import 'core-js/es7/object';
 /* END */
 
 // import 'core-js/es6/symbol';

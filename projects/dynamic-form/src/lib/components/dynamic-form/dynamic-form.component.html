@@ -1,5 +1,5 @@
 <form [formGroup]="formModel.formGroup">
-  <ng-container *ngFor="let item of mappedConfig">
+  <ng-container *ngFor="let item of (formModel.controlsStateChanged$ | async)">
     <lib-control-wrapper
       *ngIf="isControl(item)"
       [formControl]="item.formControl"

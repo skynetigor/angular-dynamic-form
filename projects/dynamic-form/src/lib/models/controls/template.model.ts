@@ -1,8 +1,8 @@
 import { TemplateRef } from '@angular/core';
-import { ReplaySubject, Observable } from 'rxjs';
+import { ReplaySubject, Observable, BehaviorSubject } from 'rxjs';
 
 export class TemplateModel<TContext> {
-  private _templateRefChangedSubject: ReplaySubject<TemplateRef<any>>;
+  private readonly _templateRefChangedSubject = new BehaviorSubject<TemplateRef<any>>(undefined);
   private _currentTemplateRef: TemplateRef<any>;
 
   isDisplayed: boolean;
@@ -23,7 +23,6 @@ export class TemplateModel<TContext> {
 
   constructor(context?: TContext, templateRef?: TemplateRef<any>) {
     this.context = context ? context : <TContext>{};
-    this._templateRefChangedSubject = new ReplaySubject<TemplateRef<any>>();
     this.templateRefChanged$ = this._templateRefChangedSubject.asObservable();
     this.templateRef = templateRef;
   }
