@@ -5,8 +5,8 @@ import { isString } from 'util';
 import { ComponentMetadata } from '../../types';
 
 export abstract class ComponentController<TComponentType, TInputsInterface, TOutputsInterfase> {
-  protected metadataObj: ComponentMetadata<TComponentType> = {
-    config: {},
+  protected metadataObj: ComponentMetadata<TComponentType, TInputsInterface> = {
+    inputs: <any>{},
     componentRef: null
   };
 
@@ -55,7 +55,7 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
     this.componentType = componentType;
 
     if (inputs) {
-      this.metadataObj.config = inputs;
+      this.metadataObj.inputs = inputs;
     }
   }
 
@@ -91,16 +91,16 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
       if (typeof this[propName] === 'undefined') {
         Object.defineProperty(this.inputs, propName, {
           get: function() {
-            return _this.metadataObj.config[propName];
+            return _this.metadataObj.inputs[propName];
           },
           set: function(value) {
-            _this.metadataObj.config[propName] = value;
+            _this.metadataObj.inputs[propName] = value;
             _this.metadataObj.componentRef.instance[propName] = value;
             _this.metadataObj.componentRef.changeDetectorRef.detectChanges();
           }
         });
       }
-      this.metadataObj.componentRef.instance[propName] = this.metadataObj.config[propName];
+      this.metadataObj.componentRef.instance[propName] = this.metadataObj.inputs[propName];
     });
   }
 
