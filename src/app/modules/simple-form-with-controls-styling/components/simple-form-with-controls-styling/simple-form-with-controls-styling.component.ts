@@ -11,24 +11,32 @@ export class SimpleFormWithControlsStylingComponent implements OnInit {
   @ViewChild('infoTmpl') infoTmpl;
 
   formModel = new FormModel({
-    info: new TemplateModel(this.infoTmpl),
+    info: new TemplateModel(),
     name: new BootstrapTextFieldModel({
-      label: 'Your name',
-      placeholder: 'Please enter your name here',
-      required: true
+      initialInputs: {
+        label: 'Your name',
+        placeholder: 'Please enter your name here',
+        required: true
+      }
     }),
     email: new BootstrapTextFieldModel({
-      label: 'Email',
-      placeholder: 'Please enter youre email here',
-      required: true
+      initialInputs: {
+        label: 'Email',
+        placeholder: 'Please enter youre email here',
+        required: true
+      }
     }),
     subject: new BootstrapDropdownControlModel({
-      label: 'Subject',
-      options: ['Incorrect work', 'Unexpected behaviour'],
-      required: true,
-      placeholder: 'Please pick subject'
+      initialInputs: {
+        label: 'Subject',
+        options: ['Incorrect work', 'Unexpected behaviour'],
+        required: true,
+        placeholder: 'Please pick subject'
+      }
     }),
-    message: new BootstrapTextFieldModel({ label: 'Your message', placeholder: 'Message', multiline: true })
+    message: new BootstrapTextFieldModel({
+      initialInputs: { label: 'Your message', placeholder: 'Message', multiline: true }
+    })
   });
 
   get formGroup() {

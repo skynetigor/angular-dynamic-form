@@ -8,25 +8,32 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
   styleUrls: ['./simple-form.component.scss']
 })
 export class SimpleFormComponent implements OnInit {
-  index = 0;
   formModel = new FormModel({
     name: new BootstrapTextFieldModel({
-      label: 'Your name',
-      placeholder: 'Please enter your name here',
-      required: true
+      initialInputs: {
+        label: 'Your name',
+        placeholder: 'Please enter your name here',
+        required: true
+      }
     }),
     email: new BootstrapTextFieldModel({
-      label: 'Email',
-      placeholder: 'Please enter youre email here',
-      required: true
+      initialInputs: {
+        label: 'Email',
+        placeholder: 'Please enter youre email here',
+        required: true
+      }
     }),
     subject: new BootstrapDropdownControlModel({
-      label: 'Subject',
-      options: ['Incorrect work', 'Unexpected behaviour'],
-      required: true,
-      placeholder: 'Please pick subject'
+      initialInputs: {
+        label: 'Subject',
+        options: ['Incorrect work', 'Unexpected behaviour'],
+        required: true,
+        placeholder: 'Please pick subject'
+      }
     }),
-    message: new BootstrapTextFieldModel({ label: 'Your message', placeholder: 'Message', multiline: true })
+    message: new BootstrapTextFieldModel({
+      initialInputs: { label: 'Your message', placeholder: 'Message', multiline: true }
+    })
   });
 
   get formGroup() {

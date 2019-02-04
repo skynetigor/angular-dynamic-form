@@ -1,6 +1,6 @@
-import { IBaseBootstrapControl } from './base-bootstrap-control.interface';
+import { IBaseBootstrapInputs } from './base-bootstrap-control.interface';
 
-export interface IBootstrapDropdownControl<TValue> extends IBaseBootstrapControl<TValue> {
+export interface IBootstrapDropdownInputs<TValue = any> extends IBaseBootstrapInputs {
   options?: TValue[];
   displayedProperty?: string;
 }

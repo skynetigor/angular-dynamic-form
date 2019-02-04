@@ -17,23 +17,31 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
         'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
     }),
     name: new BootstrapTextFieldModel({
-      label: 'Your name',
-      placeholder: 'Please enter your name here',
-      required: true
+      initialInputs: {
+        label: 'Your name',
+        placeholder: 'Please enter your name here',
+        required: true
+      }
     }),
     email: new BootstrapTextFieldModel({
-      label: 'Email',
-      placeholder: 'Please enter youre email here',
-      required: true
+      initialInputs: {
+        label: 'Email',
+        placeholder: 'Please enter youre email here',
+        required: true
+      }
     }),
     subject: new BootstrapDropdownControlModel({
-      label: 'Subject',
-      options: [{ name: 'Incorrect work', obj: { empty: 'isEmty' } }],
-      required: true,
-      displayedProperty: 'name',
-      placeholder: 'Please pick subject'
+      initialInputs: {
+        label: 'Subject',
+        options: [{ name: 'Incorrect work', obj: { empty: 'isEmty' } }],
+        required: true,
+        displayedProperty: 'name',
+        placeholder: 'Please pick subject'
+      }
     }),
-    message: new BootstrapTextFieldModel({ label: 'Your message', placeholder: 'Message', multiline: true })
+    message: new BootstrapTextFieldModel({
+      initialInputs: { label: 'Your message', placeholder: 'Message', multiline: true }
+    })
   });
 
   get formGroup() {

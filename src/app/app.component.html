@@ -18,6 +18,7 @@
     <div class="card-header">Form output</div>
     <div class="card-body">
       <pre
+        class="json-display"
         [innerHtml]="currentComponent ? (currentComponent.formGroup.valueChanges | async | prettyjson: 3) : ''"
       ></pre>
     </div>

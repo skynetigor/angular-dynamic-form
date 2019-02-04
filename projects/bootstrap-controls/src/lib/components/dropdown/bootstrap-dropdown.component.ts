@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { AbstractValueAccessor, MakeProvider } from 'dynamic-form';
+import { IBootstrapDropdownInputs } from '../../interfaces';
 
 @Component({
   selector: 'lib-bootstrap-dropdown',
@@ -7,7 +8,7 @@ import { AbstractValueAccessor, MakeProvider } from 'dynamic-form';
   styleUrls: ['./bootstrap-dropdown.component.scss', '../common-styles.scss'],
   providers: [MakeProvider(BootstrapDropdownComponent)]
 })
-export class BootstrapDropdownComponent extends AbstractValueAccessor implements OnInit {
+export class BootstrapDropdownComponent extends AbstractValueAccessor implements OnInit, IBootstrapDropdownInputs {
   private _options = [];
 
   isDropdownOpened = false;

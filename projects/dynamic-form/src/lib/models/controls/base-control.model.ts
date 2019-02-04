@@ -3,6 +3,7 @@ import { AbstractControl, AsyncValidatorFn, ValidatorFn, ControlValueAccessor } 
 
 import { dynamicControlAttrName, dynamicComponentHiddenAttrName } from '../../constants';
 import { ComponentController } from './component-controller';
+import { IControlConfiguration } from '../../types';
 
 // tslint:disable-next-line:max-line-length
 export class BaseControlModel<
@@ -34,8 +35,11 @@ export class BaseControlModel<
     }
   }
 
-  constructor(config: TInterface, componentType: Type<TControlComponent>) {
-    super(componentType, config);
+  constructor(config: IControlConfiguration<TInterface>, componentType: Type<TControlComponent>) {
+    super(componentType, config.initialInputs);
+
+    this.validators = config.validators;
+    this.asyncValidators = config.asyncValidators;
   }
 
   protected componentRegistered(

@@ -2,10 +2,10 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { ComponentRef, Type } from '@angular/core';
 import { dynamicComponentAttrName } from '../../constants';
 import { isString } from 'util';
-import { ComponentMetadata } from '../../types';
+import { IComponentMetadata } from '../../types';
 
 export abstract class ComponentController<TComponentType, TInputsInterface, TOutputsInterfase> {
-  protected metadataObj: ComponentMetadata<TComponentType, TInputsInterface> = {
+  protected metadataObj: IComponentMetadata<TComponentType, TInputsInterface> = {
     inputs: <any>{},
     componentRef: null
   };
