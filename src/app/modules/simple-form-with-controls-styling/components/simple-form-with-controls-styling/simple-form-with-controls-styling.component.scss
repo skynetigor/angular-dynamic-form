@@ -18,14 +18,18 @@
   }
 
   .subject:hover {
-    background-color: rgb(234, 255, 112);
+    background-color: rgb(4, 0, 255);
   }
 
   .name {
-    transition: transform 0.5s linear;
+    // styles for particular control
+    & > * {
+      transition: transform 0.5s linear;
+    }
 
-    &:hover {
-      transform: rotate(180deg);
+    &:hover > * {
+      transform: scale(-1, 1);
+      filter: FlipH;
     }
   }
 

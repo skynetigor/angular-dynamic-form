@@ -1,16 +1,19 @@
-import { ReplaySubject } from 'rxjs';
-import { ComponentRef } from '@angular/core';
+import { ReplaySubject, Subject } from 'rxjs';
+import { ComponentRef, Type } from '@angular/core';
 import { dynamicComponentAttrName } from '../../constants';
 import { isString } from 'util';
+import { ComponentMetadata } from '../../types';
 
 export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
-  protected metadataObj: { config: any; componentRef: ComponentRef<any> } = {
+  protected metadataObj: ComponentMetadata = {
     config: {},
     componentRef: null
   };
 
-  private _componentTypeChangedSbj: ReplaySubject<any> = new ReplaySubject<any>();
-  private _componentType;
+  private readonly _componentTypeChangedSbj = new ReplaySubject<any>();
+  private readonly _componentRendered = new Subject<ComponentController<TInputsInterface, TOutputsInterfase>>();
+
+  private _componentType: Type<any>;
   private _name: string;
   private _dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
 
@@ -20,6 +23,10 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
 
   public get componentType() {
     return this._componentType;
+  }
+
+  public get componentRendered() {
+    return this._componentRendered.asObservable();
   }
 
   public set componentType(v) {
@@ -55,6 +62,7 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
     this.bindInputsProperties(inputsProperties);
     this.bindOutputsProperties(outputsProperties);
     this.componentRegistered(componentRef, inputsProperties, outputsProperties);
+    this._componentRendered.next(this);
   }
 
   protected componentRegistered(

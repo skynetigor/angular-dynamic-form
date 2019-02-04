@@ -63,7 +63,8 @@
   justify-content: center;
   overflow-y: auto;
   > * {
-    margin: auto;
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }
 
