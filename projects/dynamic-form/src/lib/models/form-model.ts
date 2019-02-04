@@ -1,5 +1,5 @@
 import { TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { isArray } from 'util';
 
@@ -39,7 +39,11 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
     this.initialize();
   }
 
-  public addControl<TСontrol>(name: string, control: BaseControlModel<TСontrol>, index?: number) {
+  public addControl<TControlComponent extends ControlValueAccessor, TInputs>(
+    name: string,
+    control: BaseControlModel<TControlComponent, TInputs>,
+    index?: number
+  ) {
     if (index && index < 0) {
       throw new Error(`Index should be equal or greater than 0, but was ${index}.`);
     }
@@ -85,7 +89,7 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
     controlsForFormGroup.forEach(v => this.formGroup.addControl(v.name, v.formControl));
   }
 
-  private createReactiveFormControl(name: string, control: BaseControlModel<any>) {
+  private createReactiveFormControl(name: string, control: BaseControlModel<any, any>) {
     control['_name'] = name;
     const validators = isArray(control.validators) ? control.validators : [];
     const asyncValidators = isArray(control.asyncValidators) ? control.asyncValidators : [];

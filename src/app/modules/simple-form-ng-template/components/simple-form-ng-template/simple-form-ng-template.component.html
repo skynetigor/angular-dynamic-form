@@ -5,5 +5,6 @@
 </div>
 
 <ng-template let-text="text" let-alertClass="alertClass" #tmpl>
+  <div class="beep"></div>
   <div (click)="click()" class="alert {{ alertClass }}">{{ text }}</div>
 </ng-template>

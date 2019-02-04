@@ -1,10 +1,14 @@
-import { ComponentRef } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
+import { ComponentRef, Type } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, ValidatorFn, ControlValueAccessor } from '@angular/forms';
 
 import { dynamicControlAttrName, dynamicComponentHiddenAttrName } from '../../constants';
 import { ComponentController } from './component-controller';
 
-export class BaseControlModel<TInterface> extends ComponentController<TInterface, any> {
+// tslint:disable-next-line:max-line-length
+export class BaseControlModel<
+  TControlComponent extends ControlValueAccessor,
+  TInterface = any
+> extends ComponentController<TControlComponent, TInterface, any> {
   private _isDisplayed = true;
   private _dynamicControlHiddenAttr = document.createAttribute(dynamicComponentHiddenAttrName);
   private _dynamicControlAttr = document.createAttribute(dynamicControlAttrName);
@@ -30,7 +34,7 @@ export class BaseControlModel<TInterface> extends ComponentController<TInterface
     }
   }
 
-  constructor(config: TInterface, componentType) {
+  constructor(config: TInterface, componentType: Type<TControlComponent>) {
     super(componentType, config);
   }
 

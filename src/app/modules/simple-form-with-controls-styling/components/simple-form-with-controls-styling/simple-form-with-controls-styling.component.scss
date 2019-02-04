@@ -2,6 +2,16 @@
   max-width: 550px;
 }
 
+@keyframes show-animations {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
+
 :host::ng-deep {
   [dynamic-control] {
     // styles for all controls in FormModel
@@ -23,13 +33,9 @@
 
   .name {
     // styles for particular control
-    & > * {
-      transition: transform 0.5s linear;
-    }
 
     &:hover > * {
-      transform: scale(-1, 1);
-      filter: FlipH;
+      animation: show-animations 1000ms;
     }
   }
 

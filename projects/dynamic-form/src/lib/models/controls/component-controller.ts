@@ -4,16 +4,18 @@ import { dynamicComponentAttrName } from '../../constants';
 import { isString } from 'util';
 import { ComponentMetadata } from '../../types';
 
-export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
-  protected metadataObj: ComponentMetadata = {
+export abstract class ComponentController<TComponentType, TInputsInterface, TOutputsInterfase> {
+  protected metadataObj: ComponentMetadata<TComponentType> = {
     config: {},
     componentRef: null
   };
 
   private readonly _componentTypeChangedSbj = new ReplaySubject<any>();
-  private readonly _componentRendered = new Subject<ComponentController<TInputsInterface, TOutputsInterfase>>();
+  private readonly _componentRendered = new Subject<
+    ComponentController<TComponentType, TInputsInterface, TOutputsInterfase>
+  >();
 
-  private _componentType: Type<any>;
+  private _componentType: Type<TComponentType>;
   private _name: string;
   private _dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
 
@@ -49,15 +51,19 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
   public inputs: TInputsInterface = <any>{};
   public outputs: TOutputsInterfase = <any>{};
 
-  constructor(componentType, initialValue?: any) {
+  constructor(componentType: Type<TComponentType>, inputs?: TInputsInterface) {
     this.componentType = componentType;
 
-    if (initialValue) {
-      this.metadataObj.config = initialValue;
+    if (inputs) {
+      this.metadataObj.config = inputs;
     }
   }
 
-  public registerComponent(componentRef: ComponentRef<any>, inputsProperties: string[], outputsProperties: string[]) {
+  public registerComponent(
+    componentRef: ComponentRef<TComponentType>,
+    inputsProperties: string[],
+    outputsProperties: string[]
+  ) {
     this.metadataObj.componentRef = componentRef;
     this.bindInputsProperties(inputsProperties);
     this.bindOutputsProperties(outputsProperties);
@@ -66,7 +72,7 @@ export abstract class ComponentController<TInputsInterface, TOutputsInterfase> {
   }
 
   protected componentRegistered(
-    componentRef: ComponentRef<any>,
+    componentRef: ComponentRef<TComponentType>,
     inputsProperties: string[],
     outputsProperties: string[]
   ) {
