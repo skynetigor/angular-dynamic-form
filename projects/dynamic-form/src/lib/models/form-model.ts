@@ -4,7 +4,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { isArray } from 'util';
 
 import { ControlOrTemplate } from '../types';
-import { TemplateModel, BaseControlModel } from './controls';
+import { TemplateModel, BaseControlModel, ComponentController } from './controls';
 import { isControl, isTemplate } from '../utils/utils';
 
 export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
@@ -30,7 +30,7 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
   public set tmplBetweenAll(t: TemplateRef<any> | TemplateModel<any>) {
     if (this.__tmplBetweenAll !== t) {
       this.__tmplBetweenAll = t;
-      this.OtmplBetweenAll(t);
+      this.changeTmplBetweenAll(t);
     }
   }
 
@@ -45,6 +45,10 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
 
     Object.keys(this.controls).forEach((key: any) => {
       const control = this.controls[key];
+
+      if (control instanceof ComponentController || control instanceof TemplateModel) {
+        control['_name'] = key;
+      }
 
       if (control instanceof BaseControlModel) {
         if (!control.formControl) {
@@ -64,11 +68,12 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
     this.__controlsStateChangedSbj.next(controlsArray);
   }
 
-  OtmplBetweenAll(tmpl: TemplateRef<any> | TemplateModel<any>) {
+  changeTmplBetweenAll(tmpl: TemplateRef<any> | TemplateModel<any>) {
     if (tmpl) {
       if (!(tmpl instanceof TemplateModel)) {
         tmpl = new TemplateModel<any>(null, tmpl);
       }
+      tmpl['_name'] = 'dynamic-template-between-controls';
       const temp = [];
       const controlsArray = this.buildControlsArray();
       const configLength = controlsArray.length;
@@ -91,7 +96,6 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
   }
 
   private createReactiveFormControl(name: string, control: BaseControlModel<any, any>) {
-    control['_name'] = name;
     const validators = isArray(control.validators) ? control.validators : [];
     const asyncValidators = isArray(control.asyncValidators) ? control.asyncValidators : [];
     return this.formBuilder.control('', validators, asyncValidators);

@@ -6,12 +6,14 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
+  OnChanges
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 import { MakeProvider } from '../../abstractions';
 import { BaseControlModel } from '../../models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lib-control-wrapper',
@@ -20,16 +22,15 @@ import { BaseControlModel } from '../../models';
   providers: [MakeProvider(ControlWrapperComponent)],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ControlWrapperComponent implements ControlValueAccessor, OnInit, OnDestroy {
-  private viewContainerRef: ViewContainerRef;
+export class ControlWrapperComponent implements ControlValueAccessor, OnDestroy, OnChanges {
   private componentInstance: ControlValueAccessor;
+  private subscriptions: Subscription[] = [];
+
+  @ViewChild('host', { read: ViewContainerRef })
+  viewContainerRef: ViewContainerRef;
 
   @Input()
   control: BaseControlModel<any>;
-
-  get displayControl() {
-    return this.control.isDisplayed === null || this.control.isDisplayed === undefined || this.control.isDisplayed;
-  }
 
   writeValue(obj: any): void {
     this.componentInstance.writeValue(obj);
@@ -44,15 +45,13 @@ export class ControlWrapperComponent implements ControlValueAccessor, OnInit, On
     this.componentInstance.setDisabledState(isDisabled);
   }
 
-  @ViewChild('host', { read: ViewContainerRef })
-  set prop(v) {
-    this.viewContainerRef = v;
-  }
-
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
-  ngOnInit() {
-    this.control.componentTypeChanged$.subscribe(componentType => this.resolveComponent(componentType));
+  ngOnChanges() {
+    this.unsubscribe();
+    this.subscriptions.push(
+      this.control.componentTypeChanged$.subscribe(componentType => this.resolveComponent(componentType))
+    );
   }
 
   public resolveComponent(componentType) {
@@ -69,5 +68,11 @@ export class ControlWrapperComponent implements ControlValueAccessor, OnInit, On
     );
   }
 
-  public ngOnDestroy() {}
+  public ngOnDestroy() {
+    this.unsubscribe();
+  }
+
+  private unsubscribe() {
+    this.subscriptions.forEach(t => t.unsubscribe());
+  }
 }

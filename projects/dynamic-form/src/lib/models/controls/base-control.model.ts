@@ -5,14 +5,11 @@ import { dynamicControlAttrName, dynamicComponentHiddenAttrName } from '../../co
 import { ComponentController } from './component-controller';
 import { IControlConfiguration } from '../../types';
 
-// tslint:disable-next-line:max-line-length
 export class BaseControlModel<
   TControlComponent extends ControlValueAccessor,
   TInterface = any
 > extends ComponentController<TControlComponent, TInterface, any> {
   private _isDisplayed = true;
-  private _dynamicControlHiddenAttr = document.createAttribute(dynamicComponentHiddenAttrName);
-  private _dynamicControlAttr = document.createAttribute(dynamicControlAttrName);
 
   formControl: AbstractControl;
   validators: ValidatorFn | ValidatorFn[];
@@ -28,7 +25,8 @@ export class BaseControlModel<
       if (v) {
         componentNativeElement.attributes.removeNamedItem(dynamicComponentHiddenAttrName);
       } else {
-        componentNativeElement.attributes.setNamedItem(this._dynamicControlHiddenAttr);
+        const dynamicControlHiddenAttr = document.createAttribute(dynamicComponentHiddenAttrName);
+        componentNativeElement.attributes.setNamedItem(dynamicControlHiddenAttr);
       }
 
       this._isDisplayed = v;
@@ -49,7 +47,8 @@ export class BaseControlModel<
   ) {
     super.componentRegistered(componentRef, inputsProperties, outputsProperties);
     const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
+    const dynamicControlAttr = document.createAttribute(dynamicControlAttrName);
 
-    componentNativeElement.attributes.setNamedItem(this._dynamicControlAttr);
+    componentNativeElement.attributes.setNamedItem(dynamicControlAttr);
   }
 }
