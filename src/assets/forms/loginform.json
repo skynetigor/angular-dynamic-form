@@ -1,0 +1,18 @@
+{
+  "login": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Login",
+      "multiline": false,
+      "placeholder": "Enter login"
+    }
+  },
+  "password": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Password",
+      "multiline": false,
+      "placeholder": "Enter password"
+    }
+  }
+}

@@ -13,7 +13,8 @@ export class AppComponent implements OnInit, OnDestroy {
     'Simple form without renderer': 'simple-form-without-renderer',
     'Simple form': 'simple-form',
     'Simple form with <ng-teplate></ng-template>': 'simple-form-ng-temlate',
-    'Simple form with controls styling': 'simple-form-with-controls-styling'
+    'Simple form with controls styling': 'simple-form-with-controls-styling',
+    'Forms from server': 'forms-from-server'
   };
 
   formState = {
@@ -28,6 +29,17 @@ export class AppComponent implements OnInit, OnDestroy {
     title: key,
     selector: () => this.currentComponent.formGroup[this.formState[key]]
   }));
+
+  public get formStateReflectings() {
+    if (this.currentComponent.formGroup) {
+      return Object.keys(this.formState).map(key => ({
+        title: key,
+        selector: () => this.currentComponent.formGroup[this.formState[key]]
+      }));
+    }
+
+    return [];
+  }
 
   private subscriptions: Subscription[] = [];
 

@@ -86,7 +86,6 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
 
   private bindInputsProperties(inputs: string[]) {
     const _this = this;
-
     inputs.forEach(propName => {
       if (typeof this[propName] === 'undefined') {
         Object.defineProperty(this.inputs, propName, {

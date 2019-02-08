@@ -5,7 +5,7 @@
   <input
     *ngIf="!multiline"
     [disabled]="isDisabled"
-    type="text"
+    [type]="type"
     class="form-control"
     [(ngModel)]="value"
     [placeholder]="placeholder"
@@ -15,7 +15,6 @@
   <textarea
     *ngIf="multiline"
     [disabled]="isDisabled"
-    type="text"
     class="form-control"
     [(ngModel)]="value"
     [placeholder]="placeholder"

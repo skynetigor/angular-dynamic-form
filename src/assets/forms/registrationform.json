@@ -1,0 +1,60 @@
+{
+  "login": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Login",
+      "multiline": false,
+      "placeholder": "Enter login"
+    }
+  },
+  "password": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Password",
+      "multiline": false,
+      "placeholder": "Enter password"
+    }
+  },
+  "confirmPassword": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Confirm password",
+      "multiline": false,
+      "placeholder": "Enter password"
+    }
+  },
+  "email": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Email",
+      "multiline": false,
+      "placeholder": "Enter email",
+      "type": "email"
+    }
+  },
+  "phone": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Phone",
+      "multiline": false,
+      "placeholder": "Enter your phone",
+      "type": "number"
+    }
+  },
+  "age": {
+    "type": "BootstrapDropdown",
+    "inputs": {
+      "label": "Age",
+      "placeholder": "Pick your age",
+      "options": ["Less then 10", 20, 21, 22, 23, 24, 25, "More then 25"]
+    }
+  },
+  "signature": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Signature",
+      "placeholder": "Enter your signature",
+      "multiline": true
+    }
+  }
+}

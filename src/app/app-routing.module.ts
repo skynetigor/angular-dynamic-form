@@ -20,6 +20,10 @@ const routes: Routes = [
         path: 'simple-form-with-controls-styling',
         loadChildren:
           './modules/simple-form-with-controls-styling/simple-form-with-controls-styling.module#SimpleFormWithControlsStylingModule'
+      },
+      {
+        path: 'forms-from-server',
+        loadChildren: './modules/forms-from-server/forms-from-server.module#FormsFromServerModule'
       }
     ]
   },

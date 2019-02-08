@@ -14,7 +14,7 @@ export class BootstrapTextfieldComponent extends AbstractValueAccessor implement
   @Input()
   multiline = false;
   @Input()
-  type?: 'text' | 'number' = 'text';
+  type: 'text' | 'number' = 'text';
 
   setDisabledState(isDisabled: boolean) {
     this.isDisabled = isDisabled;

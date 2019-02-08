@@ -19,7 +19,11 @@
     <div class="card-body">
       <pre
         class="json-display"
-        [innerHtml]="currentComponent ? (currentComponent.formGroup.valueChanges | async | prettyjson: 3) : ''"
+        [innerHtml]="
+          currentComponent && currentComponent.formGroup
+            ? (currentComponent.formGroup.valueChanges | async | prettyjson: 3)
+            : ''
+        "
       ></pre>
     </div>
   </div>
@@ -27,7 +31,7 @@
     <div class="card-header">Form State</div>
     <div class="card-body">
       <ng-container *ngIf="currentComponent">
-        <div *ngFor="let fs of formStateReflecting" class="input-group mb-3">
+        <div *ngFor="let fs of formStateReflectings" class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-sm">{{ fs.title }}</span>
           </div>

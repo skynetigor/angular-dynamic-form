@@ -1,0 +1,25 @@
+{
+  "textField": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Login",
+      "placeholder": "Enter something here"
+    }
+  },
+  "multilineTextField": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Multiline text field",
+      "multiline": true,
+      "placeholder": "Enter something here"
+    }
+  },
+  "dropDown": {
+    "type": "BootstrapDropdown",
+    "inputs": {
+      "label": "Dropdown",
+      "placeholder": "Pick something",
+      "options": ["Dropdown value 1", "Dropdown value 2", "Dropdown value 3", "Dropdown value 4"]
+    }
+  }
+}
