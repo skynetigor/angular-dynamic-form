@@ -80,7 +80,7 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
     componentNativeElement.attributes.setNamedItem(this._dynamicComponentAttr);
 
     if (isString(this.name)) {
-      componentNativeElement.classList.add(this.name);
+      componentNativeElement.id = this.name;
     }
   }
 
