@@ -1,10 +1,10 @@
 <form *ngIf="formModel" [formGroup]="formModel.formGroup">
   <ng-container *ngFor="let item of (formModel.controlsStateChanged$ | async)">
-    <lib-control-wrapper
+    <lib-dynamic-control-outlet
       *ngIf="isControl(item)"
       [formControl]="item.formControl"
       [control]="item"
-    ></lib-control-wrapper>
-    <lib-template-wrapper *ngIf="isTemplate(item)" [template]="item"></lib-template-wrapper>
+    ></lib-dynamic-control-outlet>
+    <lib-dynamic-template-outlet *ngIf="isTemplate(item)" [template]="item"></lib-dynamic-template-outlet>
   </ng-container>
 </form>

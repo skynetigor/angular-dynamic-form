@@ -5,12 +5,12 @@ import { FormModel } from '../../models';
 import { isControl, isTemplate } from '../../utils/utils';
 
 @Component({
-  selector: 'lib-dynamic-form',
-  templateUrl: './dynamic-form.component.html',
-  styleUrls: ['./dynamic-form.component.scss'],
+  selector: 'lib-dynamic-form-outlet',
+  templateUrl: './dynamic-form-outlet.component.html',
+  styleUrls: ['./dynamic-form-outlet.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DynamicFormComponent implements OnChanges {
+export class DynamicFormOutletComponent implements OnChanges {
   @Input()
   formModel: FormModel<any>;
 

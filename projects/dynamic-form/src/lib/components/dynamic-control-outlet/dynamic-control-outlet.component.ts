@@ -3,26 +3,25 @@ import {
   Component,
   ComponentFactoryResolver,
   Input,
+  OnChanges,
   OnDestroy,
-  OnInit,
   ViewChild,
-  ViewContainerRef,
-  OnChanges
+  ViewContainerRef
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { MakeProvider } from '../../abstractions';
 import { BaseControlModel } from '../../models';
-import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'lib-control-wrapper',
-  templateUrl: './control-wrapper.component.html',
-  styleUrls: ['./control-wrapper.component.scss'],
-  providers: [MakeProvider(ControlWrapperComponent)],
+  selector: 'lib-dynamic-control-outlet',
+  templateUrl: './dynamic-control-outlet.component.html',
+  styleUrls: ['./dynamic-control-outlet.component.scss'],
+  providers: [MakeProvider(DynamicControlOutletComponent)],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ControlWrapperComponent implements ControlValueAccessor, OnDestroy, OnChanges {
+export class DynamicControlOutletComponent implements ControlValueAccessor, OnDestroy, OnChanges {
   private componentInstance: ControlValueAccessor;
   private subscriptions: Subscription[] = [];
 

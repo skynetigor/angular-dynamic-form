@@ -1,3 +1,3 @@
-export * from './control-wrapper/control-wrapper.component';
-export * from './dynamic-form/dynamic-form.component';
-export * from './template-wrapper/template-wrapper.component';
+export * from './dynamic-control-outlet/dynamic-control-outlet.component';
+export * from './dynamic-form-outlet/dynamic-form-outlet.component';
+export * from './dynamic-template-outlet/dynamic-template-outlet.component';

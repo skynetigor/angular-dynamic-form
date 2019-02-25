@@ -1,8 +1,8 @@
 <div class="card form-container">
-  <lib-dynamic-form [formModel]="selectorFormModel"></lib-dynamic-form>
+  <lib-dynamic-form-outlet [formModel]="selectorFormModel"></lib-dynamic-form-outlet>
   <div>
     <div class="dropdown-divider"></div>
-    <lib-dynamic-form [formModel]="selectFormValueChanges | async"></lib-dynamic-form>
+    <lib-dynamic-form-outlet [formModel]="selectFormValueChanges | async"></lib-dynamic-form-outlet>
     <div class="dropdown-divider"></div>
     <button *ngIf="formGroup" [disabled]="!formGroup.valid" type="button" class="btn btn-primary">Send</button>
   </div>

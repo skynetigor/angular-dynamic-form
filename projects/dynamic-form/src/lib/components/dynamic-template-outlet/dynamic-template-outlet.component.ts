@@ -16,12 +16,12 @@ import { dynamicTemplateHiddenAttrName, dynamicTemplateHostAttrName } from '../.
 import { TemplateModel } from '../../models';
 
 @Component({
-  selector: 'lib-template-wrapper',
-  templateUrl: './template-wrapper.component.html',
-  styleUrls: ['./template-wrapper.component.scss'],
+  selector: 'lib-dynamic-template-outlet',
+  templateUrl: './dynamic-template-outlet.component.html',
+  styleUrls: ['./dynamic-template-outlet.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplateWrapperComponent implements OnInit, OnDestroy, OnChanges {
+export class DynamicTemplateOutletComponent implements OnInit, OnDestroy, OnChanges {
   private subscriptions: Subscription[] = [];
   private hostNativeElement: HTMLElement;
 

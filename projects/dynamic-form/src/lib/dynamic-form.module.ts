@@ -2,11 +2,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ControlWrapperComponent, DynamicFormComponent, TemplateWrapperComponent } from './components';
+import {
+  DynamicControlOutletComponent,
+  DynamicFormOutletComponent,
+  DynamicTemplateOutletComponent
+} from './components';
 
 @NgModule({
-  declarations: [ControlWrapperComponent, DynamicFormComponent, ControlWrapperComponent, TemplateWrapperComponent],
+  declarations: [DynamicControlOutletComponent, DynamicFormOutletComponent, DynamicTemplateOutletComponent],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  exports: [ReactiveFormsModule, DynamicFormComponent, FormsModule]
+  exports: [ReactiveFormsModule, DynamicFormOutletComponent, FormsModule]
 })
 export class DynamicFormModule {}
