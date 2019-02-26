@@ -6,7 +6,7 @@ import { isString } from 'util';
 import { dynamicControlAttrName } from '../../constants';
 import { IControlConfiguration } from '../../types';
 import { ComponentController } from './component-controller';
-import { ComponentRef } from '@angular/core/src/render3';
+import { ComponentRef } from '@angular/core';
 
 export class BaseControlModel<TControlComponent, TInterface = any, TValue = any> extends FormControl {
   private _name: string;
@@ -32,7 +32,7 @@ export class BaseControlModel<TControlComponent, TInterface = any, TValue = any>
     );
 
     this._componentController.componentRendered.subscribe(componentRef => {
-      this.componentRef = <any>componentRef;
+      this.componentRef = componentRef;
       const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
 
       if (isString(this.name)) {
