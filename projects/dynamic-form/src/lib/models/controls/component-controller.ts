@@ -4,16 +4,17 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { dynamicComponentAttrName, dynamicComponentHiddenAttrName } from '../../constants';
 import { IComponentMetadata } from '../../types';
 
-export abstract class ComponentController<TComponentType, TInputsInterface, TOutputsInterfase> {
-  protected metadataObj: IComponentMetadata<TComponentType, TInputsInterface> = {
+export class ComponentController<TComponentType, TInputsInterface = any, TOutputsInterfase = any> {
+  /** @internal */
+  public metadataObj: IComponentMetadata<TComponentType, TInputsInterface> = {
     inputs: <any>{},
     componentRef: null
   };
 
   private readonly _componentTypeChangedSbj = new ReplaySubject<any>();
-  private readonly _componentRendered = new Subject<
-    ComponentController<TComponentType, TInputsInterface, TOutputsInterfase>
-  >();
+  private readonly _componentRendered = new Subject<ComponentRef<TComponentType>>();
+
+  private readonly _componentRegisteredSbj = new Subject();
 
   private _isDisplayed = true;
   private _componentType: Type<TComponentType>;
@@ -82,7 +83,7 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
     this.bindInputsProperties(inputsProperties);
     this.bindOutputsProperties(outputsProperties);
     this.componentRegistered(componentRef, inputsProperties, outputsProperties);
-    this._componentRendered.next(this);
+    this._componentRendered.next(componentRef);
   }
 
   protected componentRegistered(

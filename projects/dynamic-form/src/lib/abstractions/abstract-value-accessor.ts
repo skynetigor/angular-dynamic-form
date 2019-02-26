@@ -1,4 +1,4 @@
-import { forwardRef, Input, OnInit, Injector, Injectable, AfterViewInit } from '@angular/core';
+import { forwardRef, Input, OnInit, Injector, Injectable, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl, NgControl } from '@angular/forms';
 
 @Injectable()

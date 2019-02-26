@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 import { ControlOrTemplate } from '../types';
 import { isControl, isTemplate } from '../utils/utils';
-import { BaseControlModel, ComponentController, TemplateModel } from './controls';
+import { BaseControlModel, TemplateModel } from './controls';
 
 export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
   private formBuilder: FormBuilder;
@@ -45,15 +45,14 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
     Object.keys(this.controls).forEach((key: any) => {
       const control = this.controls[key];
 
-      if (control instanceof ComponentController || control instanceof TemplateModel) {
+      if (control instanceof BaseControlModel || control instanceof TemplateModel) {
         control['_name'] = key;
       }
 
       if (control instanceof BaseControlModel) {
-        controlsForFormGroup[key] = control.formControl;
+        controlsForFormGroup[key] = control;
       }
     });
-
     this.formGroup = this.formBuilder.group(controlsForFormGroup);
 
     const controlsArray = <any>Object.values(this.controls).filter(value => isControl(value) || isTemplate(value));

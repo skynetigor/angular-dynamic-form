@@ -49,7 +49,9 @@ export class DynamicControlOutletComponent implements ControlValueAccessor, OnDe
   ngOnChanges() {
     this.unsubscribe();
     this.subscriptions.push(
-      this.control.componentTypeChanged$.subscribe(componentType => this.resolveComponent(componentType))
+      this.control.componetController.componentTypeChanged$.subscribe(componentType =>
+        this.resolveComponent(componentType)
+      )
     );
   }
 
@@ -60,7 +62,7 @@ export class DynamicControlOutletComponent implements ControlValueAccessor, OnDe
     const componentRef = this.viewContainerRef.createComponent<any>(componentFactory);
     this.componentInstance = <any>componentRef.instance;
 
-    this.control.registerComponent(
+    this.control.componetController.registerComponent(
       componentRef,
       componentFactory.inputs.map(t => t.propName),
       componentFactory.outputs.map(t => t.propName)

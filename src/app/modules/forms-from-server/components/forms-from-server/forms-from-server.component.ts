@@ -33,7 +33,7 @@ export class FormsFromServerComponent implements OnInit, AfterViewInit {
   constructor(private formsApiService: FormsApiService, private formModelBuilderService: FormModelBuilderService) {}
 
   ngOnInit() {
-    this.selectFormValueChanges = this.selectorFormModel.controls.selectForm.formControl.valueChanges.pipe(
+    this.selectFormValueChanges = this.selectorFormModel.controls.selectForm.valueChanges.pipe(
       switchMap((t: any) => {
         if (t) {
           return t.value.pipe(
@@ -50,7 +50,7 @@ export class FormsFromServerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.selectorFormModel.controls.selectForm.inputs.options = [
+    this.selectorFormModel.controls.selectForm.componetController.inputs.options = [
       { name: 'Login form', value: this.formsApiService.getLoginForm() },
       { name: 'Registration form', value: this.formsApiService.getRegistrationForm() },
       { name: 'All available controls', value: this.formsApiService.getAllAvailableControls() }

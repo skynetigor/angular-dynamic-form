@@ -9,8 +9,9 @@ export declare interface IComponentMetadata<TComponent, TInput> {
   componentRef: ComponentRef<TComponent>;
 }
 
-export declare interface IControlConfiguration<TInputs> {
+export declare interface IControlConfiguration<TInputs, TValue> {
   initialInputs?: TInputs;
-  validators?: ValidatorFn[];
-  asyncValidators?: AsyncValidatorFn[];
+  validators?: ValidatorFn | ValidatorFn[];
+  asyncValidators?: AsyncValidatorFn[] | AsyncValidatorFn;
+  initialValue?: TValue;
 }

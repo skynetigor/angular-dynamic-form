@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
@@ -7,7 +7,7 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
   templateUrl: './simple-form.component.html',
   styleUrls: ['./simple-form.component.scss']
 })
-export class SimpleFormComponent implements OnInit {
+export class SimpleFormComponent implements OnInit, AfterViewInit {
   formModel = new FormModel({
     name: new BootstrapTextFieldModel({
       initialInputs: {
@@ -43,4 +43,10 @@ export class SimpleFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.formModel.controls.message.setValue('HELLLLLLOOOOO');
+    }, 4000);
+  }
 }

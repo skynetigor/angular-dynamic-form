@@ -2,7 +2,7 @@
   <ng-container *ngFor="let item of (formModel.controlsStateChanged$ | async)">
     <lib-dynamic-control-outlet
       *ngIf="isControl(item)"
-      [formControl]="item.formControl"
+      [formControl]="item"
       [control]="item"
     ></lib-dynamic-control-outlet>
     <lib-dynamic-template-outlet *ngIf="isTemplate(item)" [template]="item"></lib-dynamic-template-outlet>
