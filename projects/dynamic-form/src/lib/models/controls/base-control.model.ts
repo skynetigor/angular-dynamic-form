@@ -1,43 +1,47 @@
 import { ComponentRef, Type } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, ValidatorFn, ControlValueAccessor } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormBuilder } from '@angular/forms';
+import { isString } from 'util';
 
-import { dynamicControlAttrName, dynamicComponentHiddenAttrName } from '../../constants';
-import { ComponentController } from './component-controller';
+import { dynamicControlAttrName } from '../../constants';
 import { IControlConfiguration } from '../../types';
+import { ComponentController } from './component-controller';
+import { Observable } from 'rxjs';
 
 export class BaseControlModel<
   TControlComponent extends ControlValueAccessor,
-  TInterface = any
+  TInterface = any,
+  TValue = any
 > extends ComponentController<TControlComponent, TInterface, any> {
-  private _isDisplayed = true;
+  private _name: string;
+  private readonly _formControl: AbstractControl;
+  private readonly _valueChanges: Observable<TValue>;
 
-  formControl: AbstractControl;
-  validators: ValidatorFn | ValidatorFn[];
-  asyncValidators: AsyncValidatorFn | AsyncValidatorFn[];
-
-  get isDisplayed(): boolean {
-    return this._isDisplayed;
-  }
-  set isDisplayed(v: boolean) {
-    if (v !== this._isDisplayed) {
-      const componentNativeElement = this.metadataObj.componentRef.location.nativeElement as HTMLElement;
-
-      if (v) {
-        componentNativeElement.attributes.removeNamedItem(dynamicComponentHiddenAttrName);
-      } else {
-        const dynamicControlHiddenAttr = document.createAttribute(dynamicComponentHiddenAttrName);
-        componentNativeElement.attributes.setNamedItem(dynamicControlHiddenAttr);
-      }
-
-      this._isDisplayed = v;
-    }
+  public get formControl(): AbstractControl {
+    return this._formControl;
   }
 
-  constructor(config: IControlConfiguration<TInterface>, componentType: Type<TControlComponent>) {
+  public get name() {
+    return this._name;
+  }
+
+  public get valueChanges(): Observable<TValue> {
+    return this._valueChanges;
+  }
+
+  public get value(): TValue {
+    return this.formControl.value;
+  }
+
+  public set value(v: TValue) {
+    this.formControl.setValue(v);
+  }
+
+  constructor(config: IControlConfiguration<TInterface>, componentType: Type<TControlComponent>, initialValue = null) {
     super(componentType, config.initialInputs);
 
-    this.validators = config.validators;
-    this.asyncValidators = config.asyncValidators;
+    const formBuilder = new FormBuilder();
+    this._formControl = formBuilder.control(initialValue, config.validators, config.asyncValidators);
+    this._valueChanges = this._formControl.valueChanges;
   }
 
   protected componentRegistered(
@@ -45,8 +49,13 @@ export class BaseControlModel<
     inputsProperties: string[],
     outputsProperties: string[]
   ) {
-    super.componentRegistered(componentRef, inputsProperties, outputsProperties);
     const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
+
+    if (isString(this.name)) {
+      componentNativeElement.id = this.name;
+    }
+
+    super.componentRegistered(componentRef, inputsProperties, outputsProperties);
     const dynamicControlAttr = document.createAttribute(dynamicControlAttrName);
 
     componentNativeElement.attributes.setNamedItem(dynamicControlAttr);

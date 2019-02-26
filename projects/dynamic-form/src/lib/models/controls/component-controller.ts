@@ -1,7 +1,7 @@
-import { ReplaySubject, Subject } from 'rxjs';
 import { ComponentRef, Type } from '@angular/core';
-import { dynamicComponentAttrName } from '../../constants';
-import { isString } from 'util';
+import { ReplaySubject, Subject } from 'rxjs';
+
+import { dynamicComponentAttrName, dynamicComponentHiddenAttrName } from '../../constants';
 import { IComponentMetadata } from '../../types';
 
 export abstract class ComponentController<TComponentType, TInputsInterface, TOutputsInterfase> {
@@ -15,8 +15,8 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
     ComponentController<TComponentType, TInputsInterface, TOutputsInterfase>
   >();
 
+  private _isDisplayed = true;
   private _componentType: Type<TComponentType>;
-  private _name: string;
   private _dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
 
   public get componentTypeChanged$() {
@@ -38,8 +38,22 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
     }
   }
 
-  public get name() {
-    return this._name;
+  get isDisplayed(): boolean {
+    return this._isDisplayed;
+  }
+  set isDisplayed(v: boolean) {
+    if (v !== this._isDisplayed) {
+      const componentNativeElement = this.metadataObj.componentRef.location.nativeElement as HTMLElement;
+
+      if (v) {
+        componentNativeElement.attributes.removeNamedItem(dynamicComponentHiddenAttrName);
+      } else {
+        const dynamicControlHiddenAttr = document.createAttribute(dynamicComponentHiddenAttrName);
+        componentNativeElement.attributes.setNamedItem(dynamicControlHiddenAttr);
+      }
+
+      this._isDisplayed = v;
+    }
   }
 
   get componentNativeElement(): HTMLElement {
@@ -78,10 +92,6 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
   ) {
     const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
     componentNativeElement.attributes.setNamedItem(this._dynamicComponentAttr);
-
-    if (isString(this.name)) {
-      componentNativeElement.id = this.name;
-    }
   }
 
   private bindInputsProperties(inputs: string[]) {

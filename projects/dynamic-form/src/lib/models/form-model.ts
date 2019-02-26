@@ -1,11 +1,10 @@
 import { TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { isArray } from 'util';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { ControlOrTemplate } from '../types';
-import { TemplateModel, BaseControlModel, ComponentController } from './controls';
 import { isControl, isTemplate } from '../utils/utils';
+import { BaseControlModel, ComponentController, TemplateModel } from './controls';
 
 export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
   private formBuilder: FormBuilder;
@@ -41,7 +40,7 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
   }
 
   private initialize() {
-    const controlsForFormGroup = [];
+    const controlsForFormGroup = {};
 
     Object.keys(this.controls).forEach((key: any) => {
       const control = this.controls[key];
@@ -51,17 +50,11 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
       }
 
       if (control instanceof BaseControlModel) {
-        if (!control.formControl) {
-          control.formControl = this.createReactiveFormControl(key, control);
-        }
-
-        controlsForFormGroup.push({ name: key, formControl: control.formControl });
+        controlsForFormGroup[key] = control.formControl;
       }
     });
 
-    this.formGroup = this.formBuilder.group({});
-
-    controlsForFormGroup.forEach(v => this.formGroup.addControl(v.name, v.formControl));
+    this.formGroup = this.formBuilder.group(controlsForFormGroup);
 
     const controlsArray = <any>Object.values(this.controls).filter(value => isControl(value) || isTemplate(value));
 
@@ -93,11 +86,5 @@ export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
 
   private buildControlsArray() {
     return <any>Object.values(this.controls).filter(value => isControl(value) || isTemplate(value));
-  }
-
-  private createReactiveFormControl(name: string, control: BaseControlModel<any, any>) {
-    const validators = isArray(control.validators) ? control.validators : [];
-    const asyncValidators = isArray(control.asyncValidators) ? control.asyncValidators : [];
-    return this.formBuilder.control('', validators, asyncValidators);
   }
 }
