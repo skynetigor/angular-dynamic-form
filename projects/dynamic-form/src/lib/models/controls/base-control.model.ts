@@ -6,9 +6,11 @@ import { isString } from 'util';
 import { dynamicControlAttrName } from '../../constants';
 import { IControlConfiguration } from '../../types';
 import { ComponentController } from './component-controller';
+import { ComponentRef } from '@angular/core/src/render3';
 
 export class BaseControlModel<TControlComponent, TInterface = any, TValue = any> extends FormControl {
   private _name: string;
+  private componentRef: ComponentRef<TControlComponent>;
 
   private readonly _componentController: ComponentController<TControlComponent, TInterface>;
 
@@ -22,18 +24,15 @@ export class BaseControlModel<TControlComponent, TInterface = any, TValue = any>
     return this._componentController;
   }
 
-  constructor(
-    config: IControlConfiguration<TInterface, TValue>,
-    componentType: Type<TControlComponent>,
-    initialValue = null
-  ) {
-    super(config.validators, config.asyncValidators); // TODO: implement validators
+  constructor(config: IControlConfiguration<TInterface, TValue>, componentType: Type<TControlComponent>) {
+    super(config.validators, config.asyncValidators);
     this._componentController = new ComponentController<TControlComponent, TInterface>(
       componentType,
       config.initialInputs
     );
 
     this._componentController.componentRendered.subscribe(componentRef => {
+      this.componentRef = <any>componentRef;
       const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
 
       if (isString(this.name)) {
@@ -55,7 +54,7 @@ export class BaseControlModel<TControlComponent, TInterface = any, TValue = any>
     } = {}
   ): void {
     super.setValue(value, options);
-    this._componentController.metadataObj.componentRef.changeDetectorRef.detectChanges();
+    this.detectChanges();
   }
 
   patchValue(
@@ -72,5 +71,11 @@ export class BaseControlModel<TControlComponent, TInterface = any, TValue = any>
 
   reset(value?: TValue, options?: Object): void {
     super.reset(value, options);
+  }
+
+  private detectChanges() {
+    if (this._componentController.metadataObj.componentRef) {
+      this.componentRef.changeDetectorRef.detectChanges();
+    }
   }
 }
