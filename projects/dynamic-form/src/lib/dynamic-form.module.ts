@@ -7,10 +7,16 @@ import {
   DynamicFormOutletComponent,
   DynamicTemplateOutletComponent
 } from './components';
+import { DynamicFormControlDirective } from './directives';
 
 @NgModule({
-  declarations: [DynamicControlOutletComponent, DynamicFormOutletComponent, DynamicTemplateOutletComponent],
+  declarations: [
+    DynamicControlOutletComponent,
+    DynamicFormOutletComponent,
+    DynamicTemplateOutletComponent,
+    DynamicFormControlDirective
+  ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  exports: [ReactiveFormsModule, DynamicFormOutletComponent, FormsModule]
+  exports: [ReactiveFormsModule, DynamicFormOutletComponent, FormsModule, DynamicFormControlDirective]
 })
 export class DynamicFormModule {}

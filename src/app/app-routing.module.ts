@@ -7,6 +7,11 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'simple-form-without-renderer', pathMatch: 'prefix' },
       {
+        path: 'simple-form-native-approach',
+        loadChildren:
+          './modules/simple-form-native-approach/simple-form-native-approach.module#SimpleFormNativeApproachModule'
+      },
+      {
         path: 'simple-form-without-renderer',
         loadChildren:
           './modules/simple-form-without-renderer/simple-form-without-renderer.module#SimpleFormWithoutRendererModule'

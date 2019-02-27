@@ -1,27 +1,9 @@
 <div class="card form-container">
   <form [formGroup]="formGroup">
-    <lib-bootstrap-textfield
-      [formControlName]="config.name.controlName"
-      [label]="config.name.label"
-      [placeholder]="config.name.placeholder"
-    ></lib-bootstrap-textfield>
-    <lib-bootstrap-textfield
-      [formControlName]="config.email.controlName"
-      [label]="config.email.label"
-      [placeholder]="config.email.placeholder"
-    ></lib-bootstrap-textfield>
-    <lib-bootstrap-dropdown
-      [formControlName]="config.subject.controlName"
-      [label]="config.subject.label"
-      [placeholder]="config.subject.placeholder"
-      [options]="config.subject.options"
-    ></lib-bootstrap-dropdown>
-    <lib-bootstrap-textfield
-      [formControlName]="config.message.controlName"
-      [label]="config.message.label"
-      [placeholder]="config.message.placeholder"
-      [multiline]="config.message.multiline"
-    ></lib-bootstrap-textfield>
+    <lib-bootstrap-textfield [dynamicFormControl]="formModel.controls.name"></lib-bootstrap-textfield>
+    <lib-bootstrap-textfield [dynamicFormControl]="formModel.controls.email"></lib-bootstrap-textfield>
+    <lib-bootstrap-dropdown [dynamicFormControl]="formModel.controls.subject"></lib-bootstrap-dropdown>
+    <lib-bootstrap-textfield [dynamicFormControl]="formModel.controls.message"></lib-bootstrap-textfield>
   </form>
   <div class="dropdown-divider"></div>
   <button [disabled]="!formGroup.valid" type="button" class="btn btn-primary">Send</button>

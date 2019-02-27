@@ -10,6 +10,7 @@ import { isPrimitive } from 'util';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private forms = {
+    'Simple form native approach': 'simple-form-native-approach',
     'Simple form without renderer': 'simple-form-without-renderer',
     'Simple form': 'simple-form',
     'Simple form with <ng-teplate></ng-template>': 'simple-form-ng-temlate',
