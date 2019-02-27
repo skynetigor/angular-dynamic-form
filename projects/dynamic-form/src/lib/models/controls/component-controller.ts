@@ -106,7 +106,9 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
           set: function(value) {
             _this.metadataObj.inputs[propName] = value;
             _this.metadataObj.componentRef.instance[propName] = value;
-            _this.metadataObj.componentRef.changeDetectorRef.detectChanges();
+            if (_this.metadataObj.componentRef.changeDetectorRef['destroyed'] !== true) {
+              _this.metadataObj.componentRef.changeDetectorRef.detectChanges();
+            }
           }
         });
       }

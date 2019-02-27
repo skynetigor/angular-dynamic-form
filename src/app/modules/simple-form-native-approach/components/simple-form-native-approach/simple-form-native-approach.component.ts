@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./simple-form-native-approach.component.scss']
 })
 export class SimpleFormNativeApproachComponent implements OnInit {
-  subjectOptions: ['Incorrect work', 'Unexpected behaviour'];
+  subjectOptions = ['Incorrect work', 'Unexpected behaviour'];
 
   formGroup: FormGroup;
 
