@@ -11,6 +11,7 @@ import { ComponentRef } from '@angular/core';
 export class BaseControlModel<TControlComponent, TInterface = any, TValue = any> extends FormControl {
   private _name: string;
   private componentRef: ComponentRef<TControlComponent>;
+  private destroyed = false;
 
   private readonly _componentController: ComponentController<TControlComponent, TInterface>;
 
@@ -75,7 +76,9 @@ export class BaseControlModel<TControlComponent, TInterface = any, TValue = any>
 
   private detectChanges() {
     if (this._componentController.metadataObj.componentRef) {
-      this.componentRef.changeDetectorRef.detectChanges();
+      if (this.componentRef.changeDetectorRef['destroyed'] !== true) {
+        this.componentRef.changeDetectorRef.detectChanges();
+      }
     }
   }
 }

@@ -1,26 +1,26 @@
 <div class="card form-container">
   <form [formGroup]="formGroup">
     <lib-bootstrap-textfield
-      [formControlName]="config.name.controlName"
-      [label]="config.name.label"
-      [placeholder]="config.name.placeholder"
+      formControlName="name"
+      label="Your name"
+      placeholder="Please enter your name here"
     ></lib-bootstrap-textfield>
     <lib-bootstrap-textfield
-      [formControlName]="config.email.controlName"
-      [label]="config.email.label"
-      [placeholder]="config.email.placeholder"
+      formControlName="email"
+      label="Email"
+      placeholder="Please enter youre email here"
     ></lib-bootstrap-textfield>
     <lib-bootstrap-dropdown
-      [formControlName]="config.subject.controlName"
-      [label]="config.subject.label"
-      [placeholder]="config.subject.placeholder"
-      [options]="config.subject.options"
+      formControlName="subject"
+      label="Subject"
+      placeholder="Please pick subject"
+      [options]="subjectOptions"
     ></lib-bootstrap-dropdown>
     <lib-bootstrap-textfield
-      [formControlName]="config.message.controlName"
-      [label]="config.message.label"
-      [placeholder]="config.message.placeholder"
-      [multiline]="config.message.multiline"
+      formControlName="message"
+      label="Your message"
+      placeholder="Message"
+      [multiline]="true"
     ></lib-bootstrap-textfield>
   </form>
   <div class="dropdown-divider"></div>

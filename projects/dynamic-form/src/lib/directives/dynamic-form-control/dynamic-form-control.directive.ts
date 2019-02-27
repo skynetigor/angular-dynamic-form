@@ -39,6 +39,10 @@ export class DynamicFormControlDirective extends NgControl implements OnChanges 
   }
 
   ngOnChanges() {
+    if (!(this.dynamicFormControl instanceof BaseControlModel)) {
+      throw new Error('dynamicFormControl should be an inheritor of BaseControlModel');
+    }
+
     const valueAccessor = this.valueAccessor;
     if (valueAccessor.registerOnChange) {
       this.dynamicFormControl.registerOnChange(v => valueAccessor.writeValue(v));
@@ -51,21 +55,22 @@ export class DynamicFormControlDirective extends NgControl implements OnChanges 
     if (valueAccessor.setDisabledState) {
       this.dynamicFormControl.registerOnDisabledChange(v => valueAccessor.setDisabledState(v));
     }
-    const vv: any = valueAccessor;
+    const componentType = (valueAccessor as any).__proto__.constructor;
 
     const changeDetector = this.viewContainerRef.injector.get(ChangeDetectorRef);
 
-    const compRef: any = {
+    const componentRef: any = {
       instance: valueAccessor,
       injector: this.viewContainerRef.injector,
       location: this.viewContainerRef.element,
-      componentType: vv.__proto__.constructor,
+      componentType: componentType,
       changeDetectorRef: changeDetector
     };
 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(vv.__proto__.constructor);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+
     this.dynamicFormControl.componetController.registerComponent(
-      compRef,
+      componentRef,
       componentFactory.inputs.map(t => t.propName),
       componentFactory.outputs.map(t => t.propName)
     );
