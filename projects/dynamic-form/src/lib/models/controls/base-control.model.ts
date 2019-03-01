@@ -4,19 +4,33 @@ import { Observable } from 'rxjs';
 import { isString } from 'util';
 
 import { dynamicControlAttrName } from '../../constants';
-import { IControlConfiguration } from '../../types';
+import { IControlConfiguration, IDynamicComponentRef } from '../../types';
 import { ComponentController } from './component-controller';
-import { ComponentRef } from '@angular/core';
 
-export class BaseControlModel<TControlComponent, TInterface = any, TValue = any> extends FormControl {
+export class BaseControlModel<TControlComponent, TInputs = any, TOutputs = any, TValue = any> extends FormControl {
   private _name: string;
-  private componentRef: ComponentRef<TControlComponent>;
-  private destroyed = false;
+  private componentRef: IDynamicComponentRef<TControlComponent>;
 
-  private readonly _componentController: ComponentController<TControlComponent, TInterface>;
+  private readonly _componentController: ComponentController<TControlComponent, TInputs>;
 
   public get name() {
     return this._name;
+  }
+
+  public get inputs(): TInputs {
+    return this._componentController.inputs;
+  }
+
+  public get outputs(): TOutputs {
+    return this._componentController.outputs;
+  }
+
+  public get isDisplayed() {
+    return this._componentController.isDisplayed;
+  }
+
+  public set isDisplayed(value: boolean) {
+    this._componentController.isDisplayed = value;
   }
 
   public readonly valueChanges: Observable<TValue>;
@@ -25,9 +39,9 @@ export class BaseControlModel<TControlComponent, TInterface = any, TValue = any>
     return this._componentController;
   }
 
-  constructor(config: IControlConfiguration<TInterface, TValue>, componentType: Type<TControlComponent>) {
+  constructor(config: IControlConfiguration<TInputs, TValue>, componentType: Type<TControlComponent>) {
     super(config.validators, config.asyncValidators);
-    this._componentController = new ComponentController<TControlComponent, TInterface>(
+    this._componentController = new ComponentController<TControlComponent, TInputs>(
       componentType,
       config.initialInputs
     );

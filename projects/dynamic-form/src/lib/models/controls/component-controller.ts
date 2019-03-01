@@ -1,20 +1,17 @@
-import { ComponentRef, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 
 import { dynamicComponentAttrName, dynamicComponentHiddenAttrName } from '../../constants';
-import { IComponentMetadata } from '../../types';
+import { IComponentMetadata, IDynamicComponentRef } from '../../types';
 
 export class ComponentController<TComponentType, TInputsInterface = any, TOutputsInterfase = any> {
-  /** @internal */
   public metadataObj: IComponentMetadata<TComponentType, TInputsInterface> = {
     inputs: <any>{},
     componentRef: null
   };
 
   private readonly _componentTypeChangedSbj = new ReplaySubject<any>();
-  private readonly _componentRendered = new Subject<ComponentRef<TComponentType>>();
-
-  private readonly _componentRegisteredSbj = new Subject();
+  private readonly _componentRendered = new Subject<IDynamicComponentRef<TComponentType>>();
 
   private _isDisplayed = true;
   private _componentType: Type<TComponentType>;
@@ -57,14 +54,8 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
     }
   }
 
-  get componentNativeElement(): HTMLElement {
-    if (this.metadataObj.componentRef) {
-      return this.metadataObj.componentRef.location.nativeElement;
-    }
-  }
-
-  public inputs: TInputsInterface = <any>{};
-  public outputs: TOutputsInterfase = <any>{};
+  public readonly inputs: TInputsInterface = <any>{};
+  public readonly outputs: TOutputsInterfase = <any>{};
 
   constructor(componentType: Type<TComponentType>, inputs?: TInputsInterface) {
     this.componentType = componentType;
@@ -75,7 +66,7 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
   }
 
   public registerComponent(
-    componentRef: ComponentRef<TComponentType>,
+    componentRef: IDynamicComponentRef<TComponentType>,
     inputsProperties: string[],
     outputsProperties: string[]
   ) {
@@ -87,7 +78,7 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
   }
 
   protected componentRegistered(
-    componentRef: ComponentRef<TComponentType>,
+    componentRef: IDynamicComponentRef<TComponentType>,
     inputsProperties: string[],
     outputsProperties: string[]
   ) {

@@ -13,6 +13,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 
 import { BaseControlModel } from '../../models';
+import { IDynamicComponentRef } from '../../types';
 
 export const formControlBinding: any = {
   provide: NgControl,
@@ -59,7 +60,7 @@ export class DynamicFormControlDirective extends NgControl implements OnChanges 
 
     const changeDetector = this.viewContainerRef.injector.get(ChangeDetectorRef);
 
-    const componentRef: any = {
+    const componentRef: IDynamicComponentRef = {
       instance: valueAccessor,
       injector: this.viewContainerRef.injector,
       location: this.viewContainerRef.element,

@@ -13,7 +13,6 @@ import { FormModelBuilderService, FormsApiService } from '../../services';
   styleUrls: ['./forms-from-server.component.scss']
 })
 export class FormsFromServerComponent implements OnInit, AfterViewInit {
-  formModelFromServer$: Observable<FormModel<any>>;
   formGroup: FormGroup;
 
   selectorFormModel = new FormModel({
