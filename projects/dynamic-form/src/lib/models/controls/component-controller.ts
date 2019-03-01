@@ -17,6 +17,9 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
   private _componentType: Type<TComponentType>;
   private _dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
 
+  public readonly inputs: TInputsInterface = <any>{};
+  public readonly outputs: TOutputsInterfase = <any>{};
+
   public get componentTypeChanged$() {
     return this._componentTypeChangedSbj.asObservable();
   }
@@ -53,9 +56,6 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
       this._isDisplayed = v;
     }
   }
-
-  public readonly inputs: TInputsInterface = <any>{};
-  public readonly outputs: TOutputsInterfase = <any>{};
 
   constructor(componentType: Type<TComponentType>, inputs?: TInputsInterface) {
     this.componentType = componentType;

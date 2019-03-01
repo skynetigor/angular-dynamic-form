@@ -1,6 +1,6 @@
 import { Injectable, Type } from '@angular/core';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
-import { BaseControlModel, FormModel } from 'dynamic-form';
+import { BaseControlModel, DynamicFormGroup } from 'dynamic-form';
 
 @Injectable()
 export class FormModelBuilderService {
@@ -11,7 +11,7 @@ export class FormModelBuilderService {
 
   constructor() {}
 
-  buildFormModel(form: any): FormModel<any> {
+  buildFormModel(form: any): DynamicFormGroup<any> {
     const formKeys = Object.keys(form);
     const result = {};
 
@@ -24,6 +24,6 @@ export class FormModelBuilderService {
       }
     });
 
-    return new FormModel(result);
+    return new DynamicFormGroup(result);
   }
 }

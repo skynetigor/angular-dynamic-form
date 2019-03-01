@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormModel } from 'dynamic-form';
+import { DynamicFormGroup } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
 @Component({
@@ -8,7 +8,7 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
   styleUrls: ['./simple-form.component.scss']
 })
 export class SimpleFormComponent implements OnInit, AfterViewInit {
-  formModel = new FormModel({
+  formModel = new DynamicFormGroup({
     name: new BootstrapTextFieldModel({
       initialInputs: {
         label: 'Your name',
@@ -37,7 +37,7 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
   });
 
   get formGroup() {
-    return this.formModel.formGroup;
+    return this.formModel;
   }
 
   constructor() {}
@@ -46,7 +46,7 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.formModel.controls.message.setValue('HELLLLLLOOOOO');
+      this.formModel.items.message.setValue('HELLLLLLOOOOO');
     }, 4000);
   }
 }

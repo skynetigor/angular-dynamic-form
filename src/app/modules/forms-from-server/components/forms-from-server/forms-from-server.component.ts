@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BootstrapDropdownControlModel } from 'bootstrap-controls';
-import { FormModel } from 'dynamic-form';
+import { DynamicFormGroup } from 'dynamic-form';
 import { never, Observable } from 'rxjs';
 import { map, switchMap, tap, filter } from 'rxjs/operators';
 
@@ -15,7 +15,7 @@ import { FormModelBuilderService, FormsApiService } from '../../services';
 export class FormsFromServerComponent implements OnInit, AfterViewInit {
   formGroup: FormGroup;
 
-  selectorFormModel = new FormModel({
+  selectorFormModel = new DynamicFormGroup({
     selectForm: new BootstrapDropdownControlModel({
       initialInputs: {
         label: 'Select form from server',
@@ -32,7 +32,7 @@ export class FormsFromServerComponent implements OnInit, AfterViewInit {
   constructor(private formsApiService: FormsApiService, private formModelBuilderService: FormModelBuilderService) {}
 
   ngOnInit() {
-    this.selectFormValueChanges = this.selectorFormModel.controls.selectForm.valueChanges.pipe(
+    this.selectFormValueChanges = this.selectorFormModel.items.selectForm.valueChanges.pipe(
       switchMap((t: any) => {
         if (t) {
           return t.value.pipe(
@@ -49,7 +49,7 @@ export class FormsFromServerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.selectorFormModel.controls.selectForm.componetController.inputs.options = [
+    this.selectorFormModel.items.selectForm.componetController.inputs.options = [
       { name: 'Login form', value: this.formsApiService.getLoginForm() },
       { name: 'Registration form', value: this.formsApiService.getRegistrationForm() },
       { name: 'All available controls', value: this.formsApiService.getAllAvailableControls() }

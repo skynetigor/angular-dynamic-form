@@ -1,7 +1,7 @@
 <div class="card form-container">
   <lib-dynamic-form-outlet [formModel]="formModel"></lib-dynamic-form-outlet>
   <div class="dropdown-divider"></div>
-  <button [disabled]="!formModel.formGroup.valid" type="button" class="btn btn-primary">Send</button>
+  <button [disabled]="!formModel.valid" type="button" class="btn btn-primary">Send</button>
 </div>
 
 <ng-template let-text="text" let-alertClass="alertClass" #tmpl>

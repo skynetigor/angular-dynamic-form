@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormModel, TemplateModel } from 'dynamic-form';
+import { DynamicFormGroup, TemplateModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
 @Component({
@@ -10,7 +10,7 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
 export class SimpleFormWithControlsStylingComponent implements OnInit {
   @ViewChild('infoTmpl') infoTmpl;
 
-  formModel = new FormModel({
+  formModel = new DynamicFormGroup({
     info: new TemplateModel(),
     name: new BootstrapTextFieldModel({
       initialInputs: {
@@ -40,12 +40,12 @@ export class SimpleFormWithControlsStylingComponent implements OnInit {
   });
 
   get formGroup() {
-    return this.formModel.formGroup;
+    return this.formModel;
   }
 
   constructor() {}
 
   ngOnInit() {
-    this.formModel.controls.info.templateRef = this.infoTmpl;
+    this.formModel.items.info.templateRef = this.infoTmpl;
   }
 }

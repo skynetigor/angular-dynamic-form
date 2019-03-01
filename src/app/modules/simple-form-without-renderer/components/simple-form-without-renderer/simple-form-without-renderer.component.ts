@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
-import { FormModel } from 'dynamic-form';
+import { DynamicFormGroup } from 'dynamic-form';
 
 @Component({
   selector: 'app-simple-form-without-renderer',
@@ -8,7 +8,7 @@ import { FormModel } from 'dynamic-form';
   styleUrls: ['./simple-form-without-renderer.component.scss']
 })
 export class SimpleFormWithoutRendererComponent implements OnInit, AfterViewInit {
-  formModel = new FormModel({
+  formModel = new DynamicFormGroup({
     name: new BootstrapTextFieldModel({
       initialInputs: {
         label: 'Your name',
@@ -37,7 +37,7 @@ export class SimpleFormWithoutRendererComponent implements OnInit, AfterViewInit
   });
 
   get formGroup() {
-    return this.formModel.formGroup;
+    return this.formModel;
   }
 
   constructor() {}
@@ -46,8 +46,8 @@ export class SimpleFormWithoutRendererComponent implements OnInit, AfterViewInit
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.formModel.controls.message.setValue('It is changed value through form control!');
-      this.formModel.controls.name.componetController.inputs.label = 'It is changed label from code!';
+      this.formModel.items.message.setValue('It is changed value through form control!');
+      this.formModel.items.name.componetController.inputs.label = 'It is changed label from code!';
     }, 4000);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { FormModel, TemplateModel } from 'dynamic-form';
+import { DynamicFormGroup, TemplateModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
 @Component({
@@ -10,7 +10,7 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
 export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   @ViewChild('tmpl') tmpl;
 
-  formModel = new FormModel({
+  formModel = new DynamicFormGroup({
     greenBox: new TemplateModel({
       alertClass: 'alert-success',
       text:
@@ -45,7 +45,7 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   });
 
   get formGroup() {
-    return this.formModel.formGroup;
+    return this.formModel;
   }
 
   constructor() {}
@@ -62,7 +62,7 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.formModel.controls.greenBox.templateRef = this.tmpl;
+    this.formModel.items.greenBox.templateRef = this.tmpl;
   }
 
   ngAfterViewInit() {}
