@@ -9,12 +9,17 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
 })
 export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   @ViewChild('tmpl') tmpl;
+  @ViewChild('before') before;
+  @ViewChild('after') after;
+
+  toShowBefore;
+  toShowAfter;
 
   formModel = new DynamicFormGroup({
     greenBox: new TemplateModel({
       alertClass: 'alert-success',
       text:
-        'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
+        'This is template applied in FormModel as first element. Click here to add elements before and after form control and click again to hide them'
     }),
     name: new BootstrapTextFieldModel({
       initialInputs: {
@@ -51,13 +56,12 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   click() {
-    if (this.formModel.tmplBetweenAll) {
-      this.formModel.tmplBetweenAll = null;
+    if (this.toShowBefore && this.after) {
+      this.toShowBefore = null;
+      this.toShowAfter = null;
     } else {
-      this.formModel.tmplBetweenAll = new TemplateModel(
-        { text: 'This is template between elements in FormModel', alertClass: 'alert-primary' },
-        this.tmpl
-      );
+      this.toShowBefore = this.before;
+      this.toShowAfter = this.after;
     }
   }
 

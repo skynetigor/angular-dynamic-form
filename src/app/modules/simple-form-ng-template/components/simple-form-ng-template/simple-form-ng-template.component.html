@@ -1,5 +1,9 @@
 <div class="card form-container">
-  <lib-dynamic-form-outlet [formModel]="formModel"></lib-dynamic-form-outlet>
+  <lib-dynamic-form-outlet
+    [formModel]="formModel"
+    [beforeControl]="toShowBefore"
+    [afterControl]="toShowAfter"
+  ></lib-dynamic-form-outlet>
   <div class="dropdown-divider"></div>
   <button [disabled]="!formModel.valid" type="button" class="btn btn-primary">Send</button>
 </div>
@@ -7,4 +11,14 @@
 <ng-template let-text="text" let-alertClass="alertClass" #tmpl>
   <div class="beep"></div>
   <div (click)="click()" class="alert {{ alertClass }}">{{ text }}</div>
+</ng-template>
+
+<ng-template #before>
+  <div class="beep"></div>
+  <div class="alert alert-primary">This is template that is being displayed before each control</div>
+</ng-template>
+
+<ng-template #after>
+  <div class="beep"></div>
+  <div class="alert alert-danger">This is template that is being displayed after each control</div>
 </ng-template>
