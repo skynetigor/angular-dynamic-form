@@ -1,6 +1,5 @@
 import { TemplateRef } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { dynamicTemplateHostAttrName, dynamicTemplateHiddenAttrName } from '../../constants';
 
 export class TemplateModel<TContext = any> {
   private readonly _templateRefChangedSubject = new BehaviorSubject<TemplateRef<any>>(undefined);

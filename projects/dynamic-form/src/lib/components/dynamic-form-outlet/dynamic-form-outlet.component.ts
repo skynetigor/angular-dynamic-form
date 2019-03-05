@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, TemplateRef } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 
 import { DynamicFormGroup } from '../../models';
