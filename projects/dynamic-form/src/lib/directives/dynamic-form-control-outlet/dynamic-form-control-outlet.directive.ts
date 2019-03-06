@@ -3,17 +3,18 @@ import {
   ComponentRef,
   Directive,
   forwardRef,
+  Injector,
   Input,
   OnChanges,
-  ViewContainerRef,
   OnDestroy,
-  Injector
+  ViewContainerRef
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { BaseControlModel } from '../../models';
 import { IDynamicComponentRef } from '../../types';
+import { isNullOrUndefined } from 'util';
 
 export const formControlBinding: any = {
   provide: NgControl,
@@ -41,8 +42,14 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   }
 
   ngOnChanges() {
-    if (!(this.dynamicFormControlOutlet instanceof BaseControlModel)) {
-      throw new Error('dynamicFormControl should be an inheritor of BaseControlModel');
+    if (isNullOrUndefined(this.dynamicFormControlOutlet)) {
+      this.viewContainerRef.clear();
+    } else if (this.dynamicFormControlOutlet && !(this.dynamicFormControlOutlet instanceof BaseControlModel)) {
+      throw new Error(
+        `DynamicFormControlOutlet requires an inheritor of BaseControlModel, but it was "${
+          (this.dynamicFormControlOutlet as any).__proto__.constructor.name
+        }"`
+      );
     }
 
     const subscriptions = this.dynamicFormControlOutlet.componetController.componentTypeChanged$.subscribe(
