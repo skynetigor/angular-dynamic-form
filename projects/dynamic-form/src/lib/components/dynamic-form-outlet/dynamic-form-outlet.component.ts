@@ -14,9 +14,7 @@ export class DynamicFormOutletComponent implements OnChanges {
   @Input()
   formModel: DynamicFormGroup<any>;
   @Input()
-  beforeControl: TemplateRef<any>;
-  @Input()
-  afterControl: TemplateRef<any>;
+  controlWrapper: TemplateRef<any>;
 
   constructor() {}
 

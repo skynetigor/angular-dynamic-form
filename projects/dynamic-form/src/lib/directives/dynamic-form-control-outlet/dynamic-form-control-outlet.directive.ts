@@ -74,6 +74,8 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
           componentFactory.inputs.map(t => t.propName),
           componentFactory.outputs.map(t => t.propName)
         );
+
+        componentRef.instance.writeValue(this.dynamicFormControlOutlet.value);
       }
     );
 

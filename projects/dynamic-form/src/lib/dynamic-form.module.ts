@@ -17,6 +17,13 @@ import {
     DdynamicTemplateOutletDirective
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  exports: [ReactiveFormsModule, DynamicFormOutletComponent, FormsModule, DynamicFormControlDirective]
+  exports: [
+    ReactiveFormsModule,
+    DynamicFormOutletComponent,
+    FormsModule,
+    DynamicFormControlDirective,
+    DdynamicTemplateOutletDirective,
+    DynamicFormControlOutletDirective
+  ]
 })
 export class DynamicFormModule {}

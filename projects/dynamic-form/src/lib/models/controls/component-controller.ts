@@ -15,7 +15,6 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
 
   private _isDisplayed = true;
   private _componentType: Type<TComponentType>;
-  private _dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
 
   public readonly inputs: TInputsInterface = <any>{};
   public readonly outputs: TOutputsInterfase = <any>{};
@@ -83,7 +82,9 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
     outputsProperties: string[]
   ) {
     const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
-    componentNativeElement.attributes.setNamedItem(this._dynamicComponentAttr);
+
+    const dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
+    componentNativeElement.attributes.setNamedItem(dynamicComponentAttr);
   }
 
   private bindInputsProperties(inputs: string[]) {

@@ -9,11 +9,8 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
 })
 export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   @ViewChild('tmpl') tmpl;
-  @ViewChild('before') before;
-  @ViewChild('after') after;
 
-  toShowBefore;
-  toShowAfter;
+  showTeplatesInWrapper = false;
 
   formModel = new DynamicFormGroup({
     greenBox: new TemplateModel({
@@ -38,7 +35,7 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     subject: new BootstrapDropdownControlModel({
       initialInputs: {
         label: 'Subject',
-        options: [{ name: 'Incorrect work', obj: { empty: 'isEmty' } }],
+        options: [{ name: 'Incorrect work' }, { name: 'One more value' }],
         required: true,
         displayedProperty: 'name',
         placeholder: 'Please pick subject'
@@ -56,12 +53,10 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   click() {
-    if (this.toShowBefore && this.after) {
-      this.toShowBefore = null;
-      this.toShowAfter = null;
+    if (this.showTeplatesInWrapper) {
+      this.showTeplatesInWrapper = false;
     } else {
-      this.toShowBefore = this.before;
-      this.toShowAfter = this.after;
+      this.showTeplatesInWrapper = true;
     }
   }
 
