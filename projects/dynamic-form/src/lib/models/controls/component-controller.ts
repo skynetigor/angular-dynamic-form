@@ -1,23 +1,23 @@
+import { Type } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
-import { ComponentRef, Type } from '@angular/core';
-import { dynamicComponentAttrName } from '../../constants';
-import { isString } from 'util';
-import { IComponentMetadata } from '../../types';
 
-export abstract class ComponentController<TComponentType, TInputsInterface, TOutputsInterfase> {
-  protected metadataObj: IComponentMetadata<TComponentType, TInputsInterface> = {
+import { dynamicComponentAttrName, dynamicComponentHiddenAttrName } from '../../constants';
+import { IComponentMetadata, IDynamicComponentRef } from '../../types';
+
+export class ComponentController<TComponentType, TInputsInterface = any, TOutputsInterfase = any> {
+  public metadataObj: IComponentMetadata<TComponentType, TInputsInterface> = {
     inputs: <any>{},
     componentRef: null
   };
 
   private readonly _componentTypeChangedSbj = new ReplaySubject<any>();
-  private readonly _componentRendered = new Subject<
-    ComponentController<TComponentType, TInputsInterface, TOutputsInterfase>
-  >();
+  private readonly _componentRendered = new Subject<IDynamicComponentRef<TComponentType>>();
 
+  private _isDisplayed = true;
   private _componentType: Type<TComponentType>;
-  private _name: string;
-  private _dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
+
+  public readonly inputs: TInputsInterface = <any>{};
+  public readonly outputs: TOutputsInterfase = <any>{};
 
   public get componentTypeChanged$() {
     return this._componentTypeChangedSbj.asObservable();
@@ -38,18 +38,23 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
     }
   }
 
-  public get name() {
-    return this._name;
+  get isDisplayed(): boolean {
+    return this._isDisplayed;
   }
+  set isDisplayed(v: boolean) {
+    if (v !== this._isDisplayed) {
+      const componentNativeElement = this.metadataObj.componentRef.location.nativeElement as HTMLElement;
 
-  get componentNativeElement(): HTMLElement {
-    if (this.metadataObj.componentRef) {
-      return this.metadataObj.componentRef.location.nativeElement;
+      if (v) {
+        componentNativeElement.attributes.removeNamedItem(dynamicComponentHiddenAttrName);
+      } else {
+        const dynamicControlHiddenAttr = document.createAttribute(dynamicComponentHiddenAttrName);
+        componentNativeElement.attributes.setNamedItem(dynamicControlHiddenAttr);
+      }
+
+      this._isDisplayed = v;
     }
   }
-
-  public inputs: TInputsInterface = <any>{};
-  public outputs: TOutputsInterfase = <any>{};
 
   constructor(componentType: Type<TComponentType>, inputs?: TInputsInterface) {
     this.componentType = componentType;
@@ -60,7 +65,7 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
   }
 
   public registerComponent(
-    componentRef: ComponentRef<TComponentType>,
+    componentRef: IDynamicComponentRef<TComponentType>,
     inputsProperties: string[],
     outputsProperties: string[]
   ) {
@@ -68,20 +73,18 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
     this.bindInputsProperties(inputsProperties);
     this.bindOutputsProperties(outputsProperties);
     this.componentRegistered(componentRef, inputsProperties, outputsProperties);
-    this._componentRendered.next(this);
+    this._componentRendered.next(componentRef);
   }
 
   protected componentRegistered(
-    componentRef: ComponentRef<TComponentType>,
+    componentRef: IDynamicComponentRef<TComponentType>,
     inputsProperties: string[],
     outputsProperties: string[]
   ) {
     const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
-    componentNativeElement.attributes.setNamedItem(this._dynamicComponentAttr);
 
-    if (isString(this.name)) {
-      componentNativeElement.id = this.name;
-    }
+    const dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
+    componentNativeElement.attributes.setNamedItem(dynamicComponentAttr);
   }
 
   private bindInputsProperties(inputs: string[]) {
@@ -95,7 +98,9 @@ export abstract class ComponentController<TComponentType, TInputsInterface, TOut
           set: function(value) {
             _this.metadataObj.inputs[propName] = value;
             _this.metadataObj.componentRef.instance[propName] = value;
-            _this.metadataObj.componentRef.changeDetectorRef.detectChanges();
+            if (_this.metadataObj.componentRef.changeDetectorRef['destroyed'] !== true) {
+              _this.metadataObj.componentRef.changeDetectorRef.detectChanges();
+            }
           }
         });
       }

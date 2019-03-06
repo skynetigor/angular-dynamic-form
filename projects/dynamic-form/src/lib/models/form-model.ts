@@ -1,103 +1,74 @@
-import { TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { isArray } from 'util';
+import { AbstractControlOptions, AsyncValidatorFn, FormGroup, ValidatorFn } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 import { ControlOrTemplate } from '../types';
-import { TemplateModel, BaseControlModel, ComponentController } from './controls';
 import { isControl, isTemplate } from '../utils/utils';
+import { BaseControlModel } from './controls';
 
-export class FormModel<T extends { [key: string]: ControlOrTemplate }> {
-  private formBuilder: FormBuilder;
+function extractControls(items: { [key: string]: ControlOrTemplate }): { [key: string]: BaseControlModel<any> } {
+  const result = {};
+  Object.keys(items)
+    .filter(key => items[key] instanceof BaseControlModel)
+    .forEach(key => {
+      result[key] = items[key];
+      items[key]['_name'] = key;
+    });
+  return result;
+}
 
-  private __tmplBetweenAll: TemplateRef<any> | TemplateModel<any>;
-  private __tmplBetweenAllChangedSbj = new Subject<TemplateRef<any> | TemplateModel<any>>();
+export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> extends FormGroup {
   private __controlsStateChangedSbj = new BehaviorSubject<ControlOrTemplate[]>([]);
-
-  formGroup: FormGroup;
-
-  public get tmplBetweenAllChanged$() {
-    return this.__tmplBetweenAllChangedSbj.asObservable();
-  }
 
   public get controlsStateChanged$() {
     return this.__controlsStateChangedSbj.asObservable();
   }
 
-  public get tmplBetweenAll() {
-    return this.__tmplBetweenAll;
-  }
-  public set tmplBetweenAll(t: TemplateRef<any> | TemplateModel<any>) {
-    if (this.__tmplBetweenAll !== t) {
-      this.__tmplBetweenAll = t;
-      this.changeTmplBetweenAll(t);
-    }
-  }
+  controls: { [key: string]: BaseControlModel<any> };
 
-  constructor(public controls: T) {
-    this.formBuilder = new FormBuilder();
+  constructor(
+    public readonly items: T,
+    validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
+    asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
+  ) {
+    super(extractControls(items), validatorOrOpts, asyncValidator);
 
-    this.initialize();
-  }
-
-  private initialize() {
-    const controlsForFormGroup = [];
-
-    Object.keys(this.controls).forEach((key: any) => {
-      const control = this.controls[key];
-
-      if (control instanceof ComponentController || control instanceof TemplateModel) {
-        control['_name'] = key;
-      }
-
-      if (control instanceof BaseControlModel) {
-        if (!control.formControl) {
-          control.formControl = this.createReactiveFormControl(key, control);
-        }
-
-        controlsForFormGroup.push({ name: key, formControl: control.formControl });
-      }
-    });
-
-    this.formGroup = this.formBuilder.group({});
-
-    controlsForFormGroup.forEach(v => this.formGroup.addControl(v.name, v.formControl));
-
-    const controlsArray = <any>Object.values(this.controls).filter(value => isControl(value) || isTemplate(value));
+    const controlsArray = <any>Object.values(this.items).filter(value => isControl(value) || isTemplate(value));
 
     this.__controlsStateChangedSbj.next(controlsArray);
   }
 
-  changeTmplBetweenAll(tmpl: TemplateRef<any> | TemplateModel<any>) {
-    if (tmpl) {
-      if (!(tmpl instanceof TemplateModel)) {
-        tmpl = new TemplateModel<any>(null, tmpl);
-      }
-      tmpl['_name'] = 'dynamic-template-between-controls';
-      const temp = [];
-      const controlsArray = this.buildControlsArray();
-      const configLength = controlsArray.length;
+  public get<TComponent, TInputs, TOutputs, TValue>(
+    name: string
+  ): BaseControlModel<TComponent, TInputs, TOutputs, TValue> {
+    return super.get(name) as BaseControlModel<TComponent, TInputs, TOutputs, TValue>;
+  }
 
-      controlsArray.forEach((el, index) => {
-        temp.push(el);
-        if (index < configLength) {
-          temp.push(tmpl);
-        }
-      });
+  public registerControl<TComponent, TInputs, TOutputs, TValue>(
+    name: string,
+    control: BaseControlModel<TComponent, TInputs, TOutputs, TValue>
+  ): BaseControlModel<TComponent, TInputs, TOutputs, TValue> {
+    throw new Error('Registering controls is not supported.');
+  }
 
-      this.__controlsStateChangedSbj.next(temp);
-    } else {
-      this.__controlsStateChangedSbj.next(this.buildControlsArray());
-    }
+  public addControl<TComponent, TInputs, TOutputs, TValue>(
+    name: string,
+    control: BaseControlModel<TComponent, TInputs, TOutputs, TValue>
+  ): BaseControlModel<TComponent, TInputs, TOutputs, TValue> {
+    throw new Error('Adding controls is not supported.');
+  }
+
+  public removeControl(name: string): void {
+    throw new Error('Removing controls is not supported.');
+  }
+
+  public setControl<TComponent, TInputs, TOutputs, TValue>(
+    name: string,
+    control: BaseControlModel<TComponent, TInputs, TOutputs, TValue>
+  ): BaseControlModel<TComponent, TInputs, TOutputs, TValue> {
+    throw new Error('Setting up control is not supported');
   }
 
   private buildControlsArray() {
-    return <any>Object.values(this.controls).filter(value => isControl(value) || isTemplate(value));
-  }
-
-  private createReactiveFormControl(name: string, control: BaseControlModel<any, any>) {
-    const validators = isArray(control.validators) ? control.validators : [];
-    const asyncValidators = isArray(control.asyncValidators) ? control.asyncValidators : [];
-    return this.formBuilder.control('', validators, asyncValidators);
+    return <any>Object.values(this.items).filter(value => isControl(value) || isTemplate(value));
   }
 }

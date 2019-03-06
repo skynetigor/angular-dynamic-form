@@ -1,5 +1,5 @@
-import { forwardRef, Input, OnInit, Injector, Injectable, AfterViewInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl, NgControl } from '@angular/forms';
+import { AfterViewInit, forwardRef, Injectable, Injector, Input, OnInit } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 
 @Injectable()
 export abstract class AbstractValueAccessor implements ControlValueAccessor, OnInit, AfterViewInit {

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, TemplateRef } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 
-import { FormModel } from '../../models';
+import { DynamicFormGroup } from '../../models';
 import { isControl, isTemplate } from '../../utils/utils';
 
 @Component({
@@ -12,13 +12,15 @@ import { isControl, isTemplate } from '../../utils/utils';
 })
 export class DynamicFormOutletComponent implements OnChanges {
   @Input()
-  formModel: FormModel<any>;
+  formModel: DynamicFormGroup<any>;
+  @Input()
+  controlWrapper: TemplateRef<any>;
 
   constructor() {}
 
   ngOnChanges() {
     if (!isNullOrUndefined(this.formModel)) {
-      if (!(this.formModel instanceof FormModel)) {
+      if (!(this.formModel instanceof DynamicFormGroup)) {
         throw Error('formModel value should inherit FormModel');
       }
     }

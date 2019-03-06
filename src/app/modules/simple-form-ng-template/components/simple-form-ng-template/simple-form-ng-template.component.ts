@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { FormModel, TemplateModel } from 'dynamic-form';
+import { DynamicFormGroup, TemplateModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
 @Component({
@@ -10,11 +10,13 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
 export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   @ViewChild('tmpl') tmpl;
 
-  formModel = new FormModel({
+  showTeplatesInWrapper = false;
+
+  formModel = new DynamicFormGroup({
     greenBox: new TemplateModel({
       alertClass: 'alert-success',
       text:
-        'This is template applied in FormModel as first element. Click here to add redbox template between elements in FormModel and click again to hide them'
+        'This is template applied in FormModel as first element. Click here to add elements before and after form control and click again to hide them'
     }),
     name: new BootstrapTextFieldModel({
       initialInputs: {
@@ -33,7 +35,7 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     subject: new BootstrapDropdownControlModel({
       initialInputs: {
         label: 'Subject',
-        options: [{ name: 'Incorrect work', obj: { empty: 'isEmty' } }],
+        options: [{ name: 'Incorrect work' }, { name: 'One more value' }],
         required: true,
         displayedProperty: 'name',
         placeholder: 'Please pick subject'
@@ -45,24 +47,21 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
   });
 
   get formGroup() {
-    return this.formModel.formGroup;
+    return this.formModel;
   }
 
   constructor() {}
 
   click() {
-    if (this.formModel.tmplBetweenAll) {
-      this.formModel.tmplBetweenAll = null;
+    if (this.showTeplatesInWrapper) {
+      this.showTeplatesInWrapper = false;
     } else {
-      this.formModel.tmplBetweenAll = new TemplateModel(
-        { text: 'This is template between elements in FormModel', alertClass: 'alert-primary' },
-        this.tmpl
-      );
+      this.showTeplatesInWrapper = true;
     }
   }
 
   ngOnInit() {
-    this.formModel.controls.greenBox.templateRef = this.tmpl;
+    this.formModel.items.greenBox.templateRef = this.tmpl;
   }
 
   ngAfterViewInit() {}
