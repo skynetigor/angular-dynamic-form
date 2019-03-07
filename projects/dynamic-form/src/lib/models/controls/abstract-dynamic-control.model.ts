@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ControlValueAccessor } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { isString } from 'util';
 
@@ -7,9 +7,39 @@ import { dynamicControlAttrName } from '../../constants';
 import { IControlConfiguration, IDynamicComponentRef } from '../../types';
 import { ComponentController } from './component-controller';
 
-export class BaseControlModel<TControlComponent, TInputs = any, TOutputs = any, TValue = any> extends FormControl {
+function componentRegisteredCallback(this: AbstractDynamicControl<any>, dynamicComponentRef: IDynamicComponentRef) {
+  const componentNativeElement = dynamicComponentRef.location.nativeElement as HTMLElement;
+
+  if (isString(this.name)) {
+    componentNativeElement.id = this.name;
+  }
+
+  const dynamicControlAttr = document.createAttribute(dynamicControlAttrName);
+  componentNativeElement.attributes.setNamedItem(dynamicControlAttr);
+
+  const valueAccessor = <ControlValueAccessor>dynamicComponentRef.instance;
+
+  if (valueAccessor.registerOnChange) {
+    this.registerOnChange(v => valueAccessor.writeValue(v));
+    valueAccessor.registerOnChange(v => {
+      this.setValue(v);
+    });
+  }
+  if (valueAccessor.registerOnTouched) {
+  }
+  if (valueAccessor.setDisabledState) {
+    this.registerOnDisabledChange(v => valueAccessor.setDisabledState(v));
+  }
+}
+
+export abstract class AbstractDynamicControl<
+  TControlComponent,
+  TInputs = any,
+  TOutputs = any,
+  TValue = any
+> extends FormControl {
   private _name: string;
-  private componentRef: IDynamicComponentRef<TControlComponent>;
+  private dynamicComponentRef: IDynamicComponentRef<TControlComponent>;
 
   private readonly _componentController: ComponentController<TControlComponent, TInputs>;
 
@@ -46,16 +76,9 @@ export class BaseControlModel<TControlComponent, TInputs = any, TOutputs = any, 
       config.initialInputs
     );
 
-    this._componentController.componentRendered.subscribe(componentRef => {
-      this.componentRef = componentRef;
-      const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
-
-      if (isString(this.name)) {
-        componentNativeElement.id = this.name;
-      }
-
-      const dynamicControlAttr = document.createAttribute(dynamicControlAttrName);
-      componentNativeElement.attributes.setNamedItem(dynamicControlAttr);
+    this._componentController.componentRegistered$.subscribe(dynamicComponentRef => {
+      componentRegisteredCallback.bind(this)(dynamicComponentRef);
+      this.dynamicComponentRef = dynamicComponentRef;
     });
   }
 
@@ -90,8 +113,8 @@ export class BaseControlModel<TControlComponent, TInputs = any, TOutputs = any, 
 
   private detectChanges() {
     if (this._componentController.metadataObj.componentRef) {
-      if (this.componentRef.changeDetectorRef['destroyed'] !== true) {
-        this.componentRef.changeDetectorRef.detectChanges();
+      if (this.dynamicComponentRef.changeDetectorRef['destroyed'] !== true) {
+        this.dynamicComponentRef.changeDetectorRef.detectChanges();
       }
     }
   }

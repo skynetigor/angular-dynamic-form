@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 import { dynamicComponentAttrName, dynamicComponentHiddenAttrName } from '../../constants';
 import { IComponentMetadata, IDynamicComponentRef } from '../../types';
@@ -11,7 +11,7 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
   };
 
   private readonly _componentTypeChangedSbj = new ReplaySubject<any>();
-  private readonly _componentRendered = new Subject<IDynamicComponentRef<TComponentType>>();
+  private readonly _componentRegistered = new Subject<IDynamicComponentRef<TComponentType>>();
 
   private _isDisplayed = true;
   private _componentType: Type<TComponentType>;
@@ -19,19 +19,19 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
   public readonly inputs: TInputsInterface = <any>{};
   public readonly outputs: TOutputsInterfase = <any>{};
 
-  public get componentTypeChanged$() {
+  public get componentTypeChanged$(): Observable<any> {
     return this._componentTypeChangedSbj.asObservable();
   }
 
-  public get componentType() {
+  public get componentType(): Type<TComponentType> {
     return this._componentType;
   }
 
-  public get componentRendered() {
-    return this._componentRendered.asObservable();
+  public get componentRegistered$(): Observable<IDynamicComponentRef<TComponentType>> {
+    return this._componentRegistered.asObservable();
   }
 
-  public set componentType(v) {
+  public set componentType(v: Type<TComponentType>) {
     if (this._componentType !== v) {
       this._componentType = v;
       this._componentTypeChangedSbj.next(v);
@@ -73,7 +73,7 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
     this.bindInputsProperties(inputsProperties);
     this.bindOutputsProperties(outputsProperties);
     this.componentRegistered(componentRef, inputsProperties, outputsProperties);
-    this._componentRendered.next(componentRef);
+    this._componentRegistered.next(componentRef);
   }
 
   protected componentRegistered(
@@ -88,18 +88,18 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
   }
 
   private bindInputsProperties(inputs: string[]) {
-    const _this = this;
+    const __this = this;
     inputs.forEach(propName => {
       if (typeof this[propName] === 'undefined') {
         Object.defineProperty(this.inputs, propName, {
           get: function() {
-            return _this.metadataObj.inputs[propName];
+            return __this.metadataObj.inputs[propName];
           },
           set: function(value) {
-            _this.metadataObj.inputs[propName] = value;
-            _this.metadataObj.componentRef.instance[propName] = value;
-            if (_this.metadataObj.componentRef.changeDetectorRef['destroyed'] !== true) {
-              _this.metadataObj.componentRef.changeDetectorRef.detectChanges();
+            __this.metadataObj.inputs[propName] = value;
+            __this.metadataObj.componentRef.instance[propName] = value;
+            if (__this.metadataObj.componentRef.changeDetectorRef['destroyed'] !== true) {
+              __this.metadataObj.componentRef.changeDetectorRef.detectChanges();
             }
           }
         });

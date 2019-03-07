@@ -2,8 +2,8 @@
   <form [formGroup]="formGroup">
     <lib-bootstrap-textfield [dynamicFormControl]="formModel.controls.name"></lib-bootstrap-textfield>
     <lib-bootstrap-textfield [dynamicFormControl]="formModel.controls.email"></lib-bootstrap-textfield>
-    <lib-bootstrap-dropdown [dynamicFormControl]="formModel.controls.subject"></lib-bootstrap-dropdown>
-    <lib-bootstrap-textfield [dynamicFormControl]="formModel.controls.message"></lib-bootstrap-textfield>
+    <lib-bootstrap-dropdown dynamicFormControlName="subject"></lib-bootstrap-dropdown>
+    <lib-bootstrap-textfield dynamicFormControlName="message"></lib-bootstrap-textfield>
   </form>
   <div class="dropdown-divider"></div>
   <button [disabled]="!formGroup.valid" type="button" class="btn btn-primary">Send</button>

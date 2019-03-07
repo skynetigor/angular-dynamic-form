@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
-import { AbstractValueAccessor, MakeProvider } from 'dynamic-form';
 import { IBootstrapDropdownInputs } from '../../interfaces';
+import { MakeProvider, AbstractValueAccessor } from '../../abstractions';
 
 @Component({
   selector: 'lib-bootstrap-dropdown',

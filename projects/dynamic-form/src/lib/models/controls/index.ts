@@ -1,3 +1,4 @@
-export * from './base-control.model';
-export * from './component-controller';
-export * from './template.model';
+export { AbstractDynamicControl } from './abstract-dynamic-control.model';
+export { GenericDynamicControl } from './generic-dynamic-control.model';
+export { ComponentController } from './component-controller';
+export { TemplateModel } from './template.model';

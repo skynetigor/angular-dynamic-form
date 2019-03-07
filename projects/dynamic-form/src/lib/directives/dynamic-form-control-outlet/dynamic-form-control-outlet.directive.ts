@@ -11,10 +11,10 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-
-import { BaseControlModel } from '../../models';
-import { IDynamicComponentRef } from '../../types';
 import { isNullOrUndefined } from 'util';
+
+import { AbstractDynamicControl } from '../../models';
+import { IDynamicComponentRef } from '../../types';
 
 export const formControlBinding: any = {
   provide: NgControl,
@@ -31,7 +31,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   }
 
   @Input()
-  dynamicFormControlOutlet: BaseControlModel<any, any, any>;
+  dynamicFormControlOutlet: AbstractDynamicControl<any, any, any>;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -44,7 +44,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   ngOnChanges() {
     if (isNullOrUndefined(this.dynamicFormControlOutlet)) {
       this.viewContainerRef.clear();
-    } else if (this.dynamicFormControlOutlet && !(this.dynamicFormControlOutlet instanceof BaseControlModel)) {
+    } else if (this.dynamicFormControlOutlet && !(this.dynamicFormControlOutlet instanceof AbstractDynamicControl)) {
       throw new Error(
         `DynamicFormControlOutlet requires an inheritor of BaseControlModel, but it was "${
           (this.dynamicFormControlOutlet as any).__proto__.constructor.name
@@ -76,7 +76,13 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
           changeDetectorRef: componentRef.changeDetectorRef
         };
 
-        this.registerValueAccessor(
+        // this.registerValueAccessor(
+        //   dynamicComponentRef,
+        //   componentFactory.inputs.map(t => t.propName),
+        //   componentFactory.outputs.map(t => t.propName)
+        // );
+
+        this.dynamicFormControlOutlet.componetController.registerComponent(
           dynamicComponentRef,
           componentFactory.inputs.map(t => t.propName),
           componentFactory.outputs.map(t => t.propName)

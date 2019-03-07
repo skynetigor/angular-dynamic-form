@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   ComponentFactoryResolver,
   Directive,
   forwardRef,
@@ -7,12 +8,11 @@ import {
   OnChanges,
   Optional,
   Self,
-  ViewContainerRef,
-  ChangeDetectorRef
+  ViewContainerRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 
-import { BaseControlModel } from '../../models';
+import { AbstractDynamicControl } from '../../models';
 import { IDynamicComponentRef } from '../../types';
 
 export const formControlBinding: any = {
@@ -28,7 +28,7 @@ export class DynamicFormControlDirective extends NgControl implements OnChanges 
   }
 
   @Input()
-  dynamicFormControl: BaseControlModel<any, any, any>;
+  dynamicFormControl: AbstractDynamicControl<any, any, any>;
 
   constructor(
     @Optional() @Self() @Inject(NG_VALUE_ACCESSOR) valueAccessor: ControlValueAccessor[],
@@ -40,22 +40,12 @@ export class DynamicFormControlDirective extends NgControl implements OnChanges 
   }
 
   ngOnChanges() {
-    if (!(this.dynamicFormControl instanceof BaseControlModel)) {
+    if (!(this.dynamicFormControl instanceof AbstractDynamicControl)) {
       throw new Error('dynamicFormControl should be an inheritor of BaseControlModel');
     }
 
     const valueAccessor = this.valueAccessor;
-    if (valueAccessor.registerOnChange) {
-      this.dynamicFormControl.registerOnChange(v => valueAccessor.writeValue(v));
-      valueAccessor.registerOnChange(v => {
-        this.dynamicFormControl.setValue(v);
-      });
-    }
-    if (valueAccessor.registerOnTouched) {
-    }
-    if (valueAccessor.setDisabledState) {
-      this.dynamicFormControl.registerOnDisabledChange(v => valueAccessor.setDisabledState(v));
-    }
+
     const componentType = (valueAccessor as any).__proto__.constructor;
 
     const changeDetector = this.viewContainerRef.injector.get(ChangeDetectorRef);

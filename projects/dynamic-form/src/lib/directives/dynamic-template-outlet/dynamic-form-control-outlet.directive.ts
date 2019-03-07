@@ -1,29 +1,17 @@
-import {
-  ComponentFactoryResolver,
-  ComponentRef,
-  Directive,
-  forwardRef,
-  Input,
-  OnChanges,
-  ViewContainerRef,
-  OnDestroy,
-  Injector,
-  TemplateRef
-} from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Directive, forwardRef, Input, OnChanges, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
+import { NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { BaseControlModel, TemplateModel } from '../../models';
-import { IDynamicComponentRef } from '../../types';
+import { TemplateModel } from '../../models';
 
 export const formControlBinding: any = {
   provide: NgControl,
-  useExisting: forwardRef(() => DdynamicTemplateOutletDirective)
+  useExisting: forwardRef(() => DynamicTemplateOutletDirective)
 };
 
 // tslint:disable-next-line:directive-selector
 @Directive({ selector: '[dynamicTemplateOutlet]', providers: [formControlBinding] })
-export class DdynamicTemplateOutletDirective implements OnChanges, OnDestroy {
+export class DynamicTemplateOutletDirective implements OnChanges, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   get control() {

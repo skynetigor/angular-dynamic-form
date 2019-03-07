@@ -1,10 +1,10 @@
 import { Injectable, Type } from '@angular/core';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
-import { BaseControlModel, DynamicFormGroup } from 'dynamic-form';
+import { AbstractDynamicControl, DynamicFormGroup } from 'dynamic-form';
 
 @Injectable()
 export class FormModelBuilderService {
-  static dictionary: { [key: string]: Type<BaseControlModel<any>> } = {
+  static dictionary: { [key: string]: Type<AbstractDynamicControl<any>> } = {
     BootstrapDropdown: BootstrapDropdownControlModel,
     BootstrapTextfield: BootstrapTextFieldModel
   };

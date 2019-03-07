@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { MakeProvider, AbstractValueAccessor } from 'dynamic-form';
 import { IBootstrapTextfieldInputs } from '../../interfaces';
+import { MakeProvider, AbstractValueAccessor } from '../../abstractions';
 
 @Component({
   selector: 'lib-bootstrap-textfield',

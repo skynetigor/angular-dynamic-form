@@ -1,10 +1,10 @@
-import { BaseControlModel, IControlConfiguration } from 'dynamic-form';
+import { AbstractDynamicControl, IControlConfiguration } from 'dynamic-form';
 
 import { BootstrapDropdownComponent } from '../components';
 import { IBootstrapDropdownInputs } from '../interfaces';
 import { isArray } from 'util';
 
-export class BootstrapDropdownControlModel<T, TValue = any> extends BaseControlModel<
+export class BootstrapDropdownControlModel<T, TValue = any> extends AbstractDynamicControl<
   BootstrapDropdownComponent,
   IBootstrapDropdownInputs<T>,
   TValue[]

@@ -1,5 +1,4 @@
 export * from './lib/dynamic-form.module';
-export * from './lib/abstractions';
 export { DynamicFormOutletComponent } from './lib/components';
 export * from './lib/models';
 export { DynamicFormControlDirective, DynamicFormControlOutletDirective } from './lib/directives';

@@ -4,9 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DynamicFormOutletComponent } from './components';
 import {
-  DdynamicTemplateOutletDirective,
+  DynamicTemplateOutletDirective,
   DynamicFormControlDirective,
-  DynamicFormControlOutletDirective
+  DynamicFormControlOutletDirective,
+  DynamicFormControlNameDirective
 } from './directives';
 
 @NgModule({
@@ -14,7 +15,8 @@ import {
     DynamicFormOutletComponent,
     DynamicFormControlDirective,
     DynamicFormControlOutletDirective,
-    DdynamicTemplateOutletDirective
+    DynamicTemplateOutletDirective,
+    DynamicFormControlNameDirective
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   exports: [
@@ -22,8 +24,9 @@ import {
     DynamicFormOutletComponent,
     FormsModule,
     DynamicFormControlDirective,
-    DdynamicTemplateOutletDirective,
-    DynamicFormControlOutletDirective
+    DynamicTemplateOutletDirective,
+    DynamicFormControlOutletDirective,
+    DynamicFormControlNameDirective
   ]
 })
 export class DynamicFormModule {}
