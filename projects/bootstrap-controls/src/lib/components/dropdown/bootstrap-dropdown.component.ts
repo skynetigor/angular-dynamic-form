@@ -27,7 +27,6 @@ export class BootstrapDropdownComponent extends AbstractValueAccessor implements
   }
 
   @Output() dropdownOpened = new EventEmitter<boolean>();
-  @Output() dropdown2Opened = new EventEmitter<boolean>();
 
   get options() {
     return this._options;
@@ -46,7 +45,6 @@ export class BootstrapDropdownComponent extends AbstractValueAccessor implements
     if (!this.isDisabled) {
       this.isDropdownOpened = !this.isDropdownOpened;
       this.dropdownOpened.emit(this.isDropdownOpened);
-      this.dropdown2Opened.emit(this.isDropdownOpened);
     }
   }
 

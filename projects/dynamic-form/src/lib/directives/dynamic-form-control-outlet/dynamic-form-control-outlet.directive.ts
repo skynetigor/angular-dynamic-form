@@ -76,11 +76,6 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
           changeDetectorRef: componentRef.changeDetectorRef
         };
 
-        // this.registerValueAccessor(
-        //   dynamicComponentRef,
-        //   componentFactory.inputs.map(t => t.propName),
-        //   componentFactory.outputs.map(t => t.propName)
-        // );
         this.dynamicFormControlOutlet.componetController.setComponentFactory(componentFactory);
         this.dynamicFormControlOutlet.componetController.registerComponent(dynamicComponentRef);
 
@@ -96,22 +91,4 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   }
 
   viewToModelUpdate(newValue: any): void {}
-
-  // private registerValueAccessor(dynamicComponentRef: IDynamicComponentRef, inputs: string[], outputs: string[]) {
-  //   this.dynamicFormControlOutlet.componetController.registerComponent(dynamicComponentRef);
-
-  //   const valueAccessor = <ControlValueAccessor>dynamicComponentRef.instance;
-
-  //   if (valueAccessor.registerOnChange) {
-  //     this.dynamicFormControlOutlet.registerOnChange(v => valueAccessor.writeValue(v));
-  //     valueAccessor.registerOnChange(v => {
-  //       this.dynamicFormControlOutlet.setValue(v);
-  //     });
-  //   }
-  //   if (valueAccessor.registerOnTouched) {
-  //   }
-  //   if (valueAccessor.setDisabledState) {
-  //     this.dynamicFormControlOutlet.registerOnDisabledChange(v => valueAccessor.setDisabledState(v));
-  //   }
-  // }
 }
