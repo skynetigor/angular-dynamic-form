@@ -7,6 +7,7 @@ import { isArray } from 'util';
 export class BootstrapDropdownControlModel<T, TValue = any> extends AbstractDynamicControl<
   BootstrapDropdownComponent,
   IBootstrapDropdownInputs<T>,
+  any,
   TValue[]
 > {
   constructor(config: IControlConfiguration<IBootstrapDropdownInputs<T>, TValue[]>) {

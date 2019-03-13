@@ -50,7 +50,7 @@ export class DynamicFormControlDirective extends NgControl implements OnChanges 
 
     const changeDetector = this.viewContainerRef.injector.get(ChangeDetectorRef);
 
-    const componentRef: IDynamicComponentRef = {
+    const dynamicComponentRef: IDynamicComponentRef = {
       instance: valueAccessor,
       injector: this.viewContainerRef.injector,
       location: this.viewContainerRef.element,
@@ -58,13 +58,9 @@ export class DynamicFormControlDirective extends NgControl implements OnChanges 
       changeDetectorRef: changeDetector
     };
 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-
-    this.dynamicFormControl.componetController.registerComponent(
-      componentRef,
-      componentFactory.inputs.map(t => t.propName),
-      componentFactory.outputs.map(t => t.propName)
-    );
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<any>(componentType);
+    this.dynamicFormControl.componetController.setComponentFactory(componentFactory);
+    this.dynamicFormControl.componetController.registerComponent(dynamicComponentRef);
   }
 
   viewToModelUpdate(newValue: any): void {}

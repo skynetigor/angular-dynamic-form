@@ -64,5 +64,7 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     this.formModel.items.greenBox.templateRef = this.tmpl;
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    this.formModel.items.subject.outputs.dropdownOpened.subscribe(t => console.log(`AHHAAHH ${t}`));
+  }
 }

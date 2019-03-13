@@ -76,12 +76,8 @@ export class DynamicFormControlNameDirective extends NgControl implements OnChan
     };
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-
-    this.control.componetController.registerComponent(
-      componentRef,
-      componentFactory.inputs.map(t => t.propName),
-      componentFactory.outputs.map(t => t.propName)
-    );
+    this.control.componetController.setComponentFactory(componentFactory);
+    this.control.componetController.registerComponent(componentRef);
   }
 
   viewToModelUpdate(newValue: any): void {}

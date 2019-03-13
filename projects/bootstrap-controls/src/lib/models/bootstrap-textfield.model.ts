@@ -5,6 +5,7 @@ import { BootstrapTextfieldComponent } from '../components';
 export class BootstrapTextFieldModel extends AbstractDynamicControl<
   BootstrapTextfieldComponent,
   IBootstrapTextfieldInputs,
+  any,
   string
 > {
   constructor(config: IControlConfiguration<IBootstrapTextfieldInputs, string>) {

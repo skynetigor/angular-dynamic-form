@@ -1,4 +1,4 @@
-import { AsyncValidatorFn, FormGroup, ValidatorFn } from '@angular/forms';
+import { AsyncValidatorFn, FormGroup, ValidatorFn, ControlValueAccessor } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ControlOrTemplate } from '../types';
@@ -39,20 +39,20 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> ex
     this.__controlsStateChangedSbj.next(controlsArray);
   }
 
-  public get<TComponent, TInputs, TOutputs, TValue>(
+  public get<TComponent extends ControlValueAccessor, TInputs, TOutputs, TValue>(
     name: string
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
     return super.get(name) as AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>;
   }
 
-  public registerControl<TComponent, TInputs, TOutputs, TValue>(
+  public registerControl<TComponent extends ControlValueAccessor, TInputs, TOutputs, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
     throw new Error('Registering controls is not supported.');
   }
 
-  public addControl<TComponent, TInputs, TOutputs, TValue>(
+  public addControl<TComponent extends ControlValueAccessor, TInputs, TOutputs, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
@@ -63,7 +63,7 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> ex
     throw new Error('Removing controls is not supported.');
   }
 
-  public setControl<TComponent, TInputs, TOutputs, TValue>(
+  public setControl<TComponent extends ControlValueAccessor, TInputs, TOutputs, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {

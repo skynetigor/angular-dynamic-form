@@ -1,8 +1,9 @@
 import { Type } from '@angular/core';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject as EventEmitter, Subscription, isObservable } from 'rxjs';
 
 import { dynamicComponentAttrName, dynamicComponentHiddenAttrName } from '../../constants';
 import { IComponentMetadata, IDynamicComponentRef } from '../../types';
+import { ComponentFactory } from '@angular/core';
 
 export class ComponentController<TComponentType, TInputsInterface = any, TOutputsInterfase = any> {
   public metadataObj: IComponentMetadata<TComponentType, TInputsInterface> = {
@@ -11,10 +12,15 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
   };
 
   private readonly _componentTypeChangedSbj = new ReplaySubject<any>();
-  private readonly _componentRegistered = new Subject<IDynamicComponentRef<TComponentType>>();
+  private readonly _componentRegistered = new EventEmitter<IDynamicComponentRef<TComponentType>>();
+  private _componentFactory: ComponentFactory<TComponentType>;
+  private _inputProps: string[];
+  private _outputProps: string[];
+  private _outputsSubscriptions: Subscription[] = [];
 
   private _isDisplayed = true;
   private _componentType: Type<TComponentType>;
+  private _outputSubjects: { [key: string]: EventEmitter<any> } = {};
 
   public readonly inputs: TInputsInterface = <any>{};
   public readonly outputs: TOutputsInterfase = <any>{};
@@ -64,27 +70,51 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
     }
   }
 
-  public registerComponent(
-    componentRef: IDynamicComponentRef<TComponentType>,
-    inputsProperties: string[],
-    outputsProperties: string[]
-  ) {
-    this.metadataObj.componentRef = componentRef;
-    this.bindInputsProperties(inputsProperties);
-    this.bindOutputsProperties(outputsProperties);
-    this.componentRegistered(componentRef, inputsProperties, outputsProperties);
-    this._componentRegistered.next(componentRef);
+  public setComponentFactory(componentFactory: ComponentFactory<TComponentType>) {
+    if (!this._componentFactory) {
+      this._inputProps = componentFactory.inputs.map(t => t.propName);
+      this._outputProps = componentFactory.outputs.map(t => t.propName);
+
+      this.bindInputsProperties(this._inputProps);
+      this.bind();
+      this._componentFactory = componentFactory;
+    }
   }
 
-  protected componentRegistered(
-    componentRef: IDynamicComponentRef<TComponentType>,
-    inputsProperties: string[],
-    outputsProperties: string[]
-  ) {
+  public registerComponent(componentRef: IDynamicComponentRef<TComponentType>) {
+    if (!(componentRef.instance instanceof this._componentFactory.componentType)) {
+      throw new Error(
+        `A component instance should be of type ${this._componentFactory.componentType.name} but was ${
+          componentRef.componentType.name
+        }`
+      );
+    }
+
+    this.bindOutputsProperties(componentRef.instance);
+    this.metadataObj.componentRef = componentRef;
+    this.componentRegistered(componentRef);
+    this._componentRegistered.next(componentRef);
+
+    this._inputProps.forEach(propName => {
+      this.metadataObj.componentRef.instance[propName] = this.metadataObj.inputs[propName];
+    });
+
+    this.detectChanges();
+  }
+
+  protected componentRegistered(componentRef: IDynamicComponentRef<TComponentType>) {
     const componentNativeElement = componentRef.location.nativeElement as HTMLElement;
 
     const dynamicComponentAttr = document.createAttribute(dynamicComponentAttrName);
     componentNativeElement.attributes.setNamedItem(dynamicComponentAttr);
+  }
+
+  public detectChanges() {
+    if (this.metadataObj.componentRef) {
+      if (this.metadataObj.componentRef.changeDetectorRef['destroyed'] !== true) {
+        this.metadataObj.componentRef.changeDetectorRef.detectChanges();
+      }
+    }
   }
 
   private bindInputsProperties(inputs: string[]) {
@@ -98,19 +128,37 @@ export class ComponentController<TComponentType, TInputsInterface = any, TOutput
           set: function(value) {
             __this.metadataObj.inputs[propName] = value;
             __this.metadataObj.componentRef.instance[propName] = value;
-            if (__this.metadataObj.componentRef.changeDetectorRef['destroyed'] !== true) {
-              __this.metadataObj.componentRef.changeDetectorRef.detectChanges();
-            }
+            __this.detectChanges();
           }
         });
       }
-      this.metadataObj.componentRef.instance[propName] = this.metadataObj.inputs[propName];
     });
   }
 
-  private bindOutputsProperties(outputs: string[]) {
-    outputs.forEach(outpt => {
-      this.outputs[outpt] = this.metadataObj.componentRef.instance[outpt].asObservable();
+  private bindOutputsProperties(componentInstance: TComponentType) {
+    this._outputsSubscriptions.forEach(subscription => subscription.unsubscribe());
+
+    this._outputProps.forEach(outpt => {
+      if (isObservable(componentInstance[outpt])) {
+        this._outputsSubscriptions.push(
+          componentInstance[outpt].subscribe(v => {
+            this._outputSubjects[outpt].next(v);
+          })
+        );
+      }
+    });
+  }
+
+  private bind() {
+    this._outputProps.forEach(outpt => {
+      const subject = new EventEmitter<any>();
+      this._outputSubjects[outpt] = subject;
+
+      Object.defineProperty(this.outputs, outpt, {
+        get: function() {
+          return subject.asObservable();
+        }
+      });
     });
   }
 }

@@ -33,7 +33,7 @@ function componentRegisteredCallback(this: AbstractDynamicControl<any>, dynamicC
 }
 
 export abstract class AbstractDynamicControl<
-  TControlComponent,
+  TControlComponent extends ControlValueAccessor,
   TInputs = any,
   TOutputs = any,
   TValue = any
@@ -43,29 +43,29 @@ export abstract class AbstractDynamicControl<
 
   private readonly _componentController: ComponentController<TControlComponent, TInputs>;
 
-  public get name() {
+  get name() {
     return this._name;
   }
 
-  public get inputs(): TInputs {
+  get inputs(): TInputs {
     return this._componentController.inputs;
   }
 
-  public get outputs(): TOutputs {
+  get outputs(): TOutputs {
     return this._componentController.outputs;
   }
 
-  public get isDisplayed() {
+  get isDisplayed() {
     return this._componentController.isDisplayed;
   }
 
-  public set isDisplayed(value: boolean) {
+  set isDisplayed(value: boolean) {
     this._componentController.isDisplayed = value;
   }
 
-  public readonly valueChanges: Observable<TValue>;
+  readonly valueChanges: Observable<TValue>;
 
-  public get componetController() {
+  get componetController() {
     return this._componentController;
   }
 
@@ -82,6 +82,8 @@ export abstract class AbstractDynamicControl<
     });
   }
 
+  registerComponent(componentInstance: TControlComponent) {}
+
   setValue(
     value: TValue,
     options: {
@@ -92,7 +94,7 @@ export abstract class AbstractDynamicControl<
     } = {}
   ): void {
     super.setValue(value, options);
-    this.detectChanges();
+    this.componetController.detectChanges();
   }
 
   patchValue(
@@ -109,13 +111,5 @@ export abstract class AbstractDynamicControl<
 
   reset(value?: TValue, options?: Object): void {
     super.reset(value, options);
-  }
-
-  private detectChanges() {
-    if (this._componentController.metadataObj.componentRef) {
-      if (this.dynamicComponentRef.changeDetectorRef['destroyed'] !== true) {
-        this.dynamicComponentRef.changeDetectorRef.detectChanges();
-      }
-    }
   }
 }

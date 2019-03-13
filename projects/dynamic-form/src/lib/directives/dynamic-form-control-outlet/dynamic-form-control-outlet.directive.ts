@@ -81,12 +81,8 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
         //   componentFactory.inputs.map(t => t.propName),
         //   componentFactory.outputs.map(t => t.propName)
         // );
-
-        this.dynamicFormControlOutlet.componetController.registerComponent(
-          dynamicComponentRef,
-          componentFactory.inputs.map(t => t.propName),
-          componentFactory.outputs.map(t => t.propName)
-        );
+        this.dynamicFormControlOutlet.componetController.setComponentFactory(componentFactory);
+        this.dynamicFormControlOutlet.componetController.registerComponent(dynamicComponentRef);
 
         componentRef.instance.writeValue(this.dynamicFormControlOutlet.value);
       }
@@ -101,21 +97,21 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
 
   viewToModelUpdate(newValue: any): void {}
 
-  private registerValueAccessor(dynamicComponentRef: IDynamicComponentRef, inputs: string[], outputs: string[]) {
-    this.dynamicFormControlOutlet.componetController.registerComponent(dynamicComponentRef, inputs, outputs);
+  // private registerValueAccessor(dynamicComponentRef: IDynamicComponentRef, inputs: string[], outputs: string[]) {
+  //   this.dynamicFormControlOutlet.componetController.registerComponent(dynamicComponentRef);
 
-    const valueAccessor = <ControlValueAccessor>dynamicComponentRef.instance;
+  //   const valueAccessor = <ControlValueAccessor>dynamicComponentRef.instance;
 
-    if (valueAccessor.registerOnChange) {
-      this.dynamicFormControlOutlet.registerOnChange(v => valueAccessor.writeValue(v));
-      valueAccessor.registerOnChange(v => {
-        this.dynamicFormControlOutlet.setValue(v);
-      });
-    }
-    if (valueAccessor.registerOnTouched) {
-    }
-    if (valueAccessor.setDisabledState) {
-      this.dynamicFormControlOutlet.registerOnDisabledChange(v => valueAccessor.setDisabledState(v));
-    }
-  }
+  //   if (valueAccessor.registerOnChange) {
+  //     this.dynamicFormControlOutlet.registerOnChange(v => valueAccessor.writeValue(v));
+  //     valueAccessor.registerOnChange(v => {
+  //       this.dynamicFormControlOutlet.setValue(v);
+  //     });
+  //   }
+  //   if (valueAccessor.registerOnTouched) {
+  //   }
+  //   if (valueAccessor.setDisabledState) {
+  //     this.dynamicFormControlOutlet.registerOnDisabledChange(v => valueAccessor.setDisabledState(v));
+  //   }
+  // }
 }
