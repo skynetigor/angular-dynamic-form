@@ -1,8 +1,6 @@
-import { AsyncValidatorFn, FormGroup, ValidatorFn, ControlValueAccessor } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { AsyncValidatorFn, ControlValueAccessor, FormGroup, ValidatorFn } from '@angular/forms';
 
-import { ControlOrTemplate } from '../types';
-import { isControl, isTemplate } from '../utils/utils';
+import { ControlOrTemplate, OutputsObject } from '../types';
 import { AbstractDynamicControl } from './controls';
 
 function extractControls(items: { [key: string]: ControlOrTemplate }): { [key: string]: AbstractDynamicControl<any> } {
@@ -17,12 +15,6 @@ function extractControls(items: { [key: string]: ControlOrTemplate }): { [key: s
 }
 
 export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> extends FormGroup {
-  private __controlsStateChangedSbj = new BehaviorSubject<ControlOrTemplate[]>([]);
-
-  public get controlsStateChanged$(): Observable<ControlOrTemplate[]> {
-    return this.__controlsStateChangedSbj.asObservable();
-  }
-
   controls: { [key: string]: AbstractDynamicControl<any> };
 
   constructor(
@@ -31,39 +23,38 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> ex
     asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
   ) {
     super(extractControls(items), validatorOrOpts, asyncValidator);
-
-    const controlsArray = <any>Object.keys(this.items)
-      .map(key => this.items[key])
-      .filter(value => isControl(value) || isTemplate(value));
-
-    this.__controlsStateChangedSbj.next(controlsArray);
   }
 
-  public get<TComponent extends ControlValueAccessor, TInputs, TOutputs, TValue>(
+  public get<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
     name: string
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
     return super.get(name) as AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>;
   }
 
-  public registerControl<TComponent extends ControlValueAccessor, TInputs, TOutputs, TValue>(
+  public registerControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
-    throw new Error('Registering controls is not supported.');
+    // throw new Error('Registering controls is not supported.');
+    super.registerControl('name', control);
+    return control;
   }
 
-  public addControl<TComponent extends ControlValueAccessor, TInputs, TOutputs, TValue>(
+  public addControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
-    throw new Error('Adding controls is not supported.');
+    this.items[name] = control;
+    super.addControl('name', control);
+    return control;
+    // throw new Error('Adding controls is not supported.');
   }
 
   public removeControl(name: string): void {
     throw new Error('Removing controls is not supported.');
   }
 
-  public setControl<TComponent extends ControlValueAccessor, TInputs, TOutputs, TValue>(
+  public setControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {

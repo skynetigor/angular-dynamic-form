@@ -9,7 +9,7 @@ export class BootstrapDropdownControlModel<T, TValue = any> extends AbstractDyna
   any,
   TValue[]
 > {
-  constructor(config: IControlConfiguration<IBootstrapDropdownInputs<T>, TValue[]>) {
+  constructor(config: IControlConfiguration<IBootstrapDropdownInputs<T>, any, TValue[]>) {
     super(config, BootstrapDropdownComponent);
     this.setValue(config.initialValue, { emitEvent: false });
   }

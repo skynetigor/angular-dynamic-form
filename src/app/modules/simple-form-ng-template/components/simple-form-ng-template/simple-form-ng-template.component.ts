@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { DynamicFormGroup, TemplateModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 
@@ -50,7 +50,7 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     return this.formModel;
   }
 
-  constructor() {}
+  constructor(private d: ChangeDetectorRef) {}
 
   click() {
     if (this.showTeplatesInWrapper) {
@@ -64,7 +64,5 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     this.formModel.items.greenBox.templateRef = this.tmpl;
   }
 
-  ngAfterViewInit() {
-    this.formModel.items.subject.outputs.dropdownOpened.subscribe(t => console.log(`AHHAAHH ${t}`));
-  }
+  ngAfterViewInit() {}
 }

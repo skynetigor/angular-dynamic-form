@@ -26,11 +26,11 @@ export class BootstrapDropdownComponent extends AbstractValueAccessor implements
     }
   }
 
-  @Output() dropdownOpened = new EventEmitter<boolean>();
-
   get options() {
     return this._options;
   }
+
+  @Output() dropdownOpened = new EventEmitter<boolean>();
 
   @Input()
   displayedProperty = null;

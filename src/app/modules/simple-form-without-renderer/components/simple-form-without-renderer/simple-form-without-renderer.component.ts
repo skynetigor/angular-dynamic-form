@@ -47,7 +47,11 @@ export class SimpleFormWithoutRendererComponent implements OnInit, AfterViewInit
   ngAfterViewInit() {
     setTimeout(() => {
       this.formModel.items.message.setValue('It is changed value through form control!');
-      this.formModel.items.name.componetController.inputs.label = 'It is changed label from code!';
+      this.formModel.items.name.inputs.label = 'It is changed label from code!';
     }, 4000);
+  }
+
+  click() {
+    this.formModel.items.subject.isDisplayed = !this.formModel.items.subject.isDisplayed;
   }
 }

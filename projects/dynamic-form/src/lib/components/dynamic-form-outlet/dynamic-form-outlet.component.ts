@@ -1,36 +1,70 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, TemplateRef } from '@angular/core';
-import { isNullOrUndefined } from 'util';
+import {
+  Component,
+  DoCheck,
+  Input,
+  KeyValueDiffers,
+  OnChanges,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 
 import { DynamicFormGroup } from '../../models';
 import { isControl, isTemplate } from '../../utils/utils';
 
 @Component({
   selector: 'lib-dynamic-form-outlet',
-  templateUrl: './dynamic-form-outlet.component.html',
-  styleUrls: ['./dynamic-form-outlet.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './dynamic-form-outlet.component.html'
 })
-export class DynamicFormOutletComponent implements OnChanges {
+export class DynamicFormOutletComponent implements OnChanges, DoCheck {
+  @ViewChild('defaultControlWrapper') private defaultControlWrapper: TemplateRef<any>;
+  @ViewChild('defaultTemplateWrapper') private defaultTemplateWrapper: TemplateRef<any>;
+
+  private _differ = this.differs.find({}).create();
+
   @Input()
   formModel: DynamicFormGroup<any>;
   @Input()
   controlWrapper: TemplateRef<any>;
 
-  constructor() {}
+  formBody = [];
 
-  ngOnChanges() {
-    if (!isNullOrUndefined(this.formModel)) {
-      if (!(this.formModel instanceof DynamicFormGroup)) {
-        throw Error('formModel value should inherit FormModel');
-      }
+  constructor(private differs: KeyValueDiffers) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('controlWrapper' in changes) {
+      this.buildFormBody();
     }
   }
 
-  isControl(c) {
-    return isControl(c);
+  private buildFormBody() {
+    const parsed = [];
+
+    Object.values(this.formModel.items).forEach(t => {
+      if (isControl(t)) {
+        const template = this.controlWrapper ? this.controlWrapper : this.defaultControlWrapper;
+        parsed.push({ instance: t, template: template, context: { control: t } });
+      } else if (isTemplate(t)) {
+        parsed.push({ instance: t, template: this.defaultTemplateWrapper, context: { templateModel: t } });
+      }
+    });
+
+    this.formBody = parsed;
   }
 
-  isTemplate(t) {
-    return isTemplate(t);
+  trackByFn(_, obj) {
+    return obj.instance;
+  }
+
+  ngDoCheck() {
+    if (this.formModel instanceof DynamicFormGroup) {
+      const diff = this._differ.diff(this.formModel.items);
+
+      if (diff) {
+        this.buildFormBody();
+      }
+    } else {
+      this.formBody = [];
+    }
   }
 }

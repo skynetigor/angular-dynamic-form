@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DynamicFormOutletComponent } from './components';
 import {
-  DynamicTemplateOutletDirective,
   DynamicFormControlDirective,
   DynamicFormControlOutletDirective,
   DynamicFormControlNameDirective
@@ -15,7 +14,6 @@ import {
     DynamicFormOutletComponent,
     DynamicFormControlDirective,
     DynamicFormControlOutletDirective,
-    DynamicTemplateOutletDirective,
     DynamicFormControlNameDirective
   ],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
@@ -24,7 +22,6 @@ import {
     DynamicFormOutletComponent,
     FormsModule,
     DynamicFormControlDirective,
-    DynamicTemplateOutletDirective,
     DynamicFormControlOutletDirective,
     DynamicFormControlNameDirective
   ]

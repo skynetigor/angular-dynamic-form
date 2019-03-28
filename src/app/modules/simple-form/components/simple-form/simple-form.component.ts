@@ -29,6 +29,9 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
         options: ['Incorrect work', 'Unexpected behaviour'],
         required: true,
         placeholder: 'Please pick subject'
+      },
+      outputs: {
+        dropdownOpened: this.subjectToggled
       }
     }),
     message: new BootstrapTextFieldModel({
@@ -42,11 +45,21 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const c = this;
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.formModel.items.message.setValue('HELLLLLLOOOOO');
+      this.formModel.items.name.setValue('HELLLLLLOOOOO');
+      this.formModel.items.subject.inputs.label = 'hello1111';
+      this.formModel.items.message = null;
     }, 4000);
+  }
+
+  subjectToggled(v) {
+    console.log(v);
+    console.log(this);
   }
 }

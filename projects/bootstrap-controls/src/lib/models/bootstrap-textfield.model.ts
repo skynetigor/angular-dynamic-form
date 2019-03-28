@@ -8,7 +8,7 @@ export class BootstrapTextFieldModel extends AbstractDynamicControl<
   any,
   string
 > {
-  constructor(config: IControlConfiguration<IBootstrapTextfieldInputs, string>) {
+  constructor(config: IControlConfiguration<IBootstrapTextfieldInputs, any, string>) {
     super(config, BootstrapTextfieldComponent);
   }
 }

@@ -13,14 +13,14 @@ export declare interface IDynamicComponentRef<T = any> {
 
 export declare type ControlOrTemplate = AbstractDynamicControl<any> | TemplateModel<any>;
 
-export declare interface IComponentMetadata<TComponent, TInput> {
-  inputs: TInput;
-  componentRef: IDynamicComponentRef;
-}
-
-export declare interface IControlConfiguration<TInputs, TValue> {
+export declare interface IControlConfiguration<TInputs, TOutputs extends OutputsObject, TValue> {
   initialInputs?: TInputs;
+  outputs?: TOutputs;
   validators?: ValidatorFn | ValidatorFn[];
   asyncValidators?: AsyncValidatorFn[] | AsyncValidatorFn;
   initialValue?: TValue;
+}
+
+export declare interface OutputsObject {
+  [key: string]: Function;
 }
