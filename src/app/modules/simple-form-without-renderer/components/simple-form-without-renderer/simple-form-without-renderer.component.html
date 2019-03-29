@@ -1,9 +1,9 @@
 <div class="card form-container">
   <form [formGroup]="formGroup">
-    <lib-bootstrap-textfield [dynamicFormControl]="formModel.controls.name"></lib-bootstrap-textfield>
-    <lib-bootstrap-textfield [dynamicFormControl]="formModel.controls.email"></lib-bootstrap-textfield>
-    <lib-bootstrap-dropdown dynamicFormControlName="subject"></lib-bootstrap-dropdown>
-    <lib-bootstrap-textfield dynamicFormControlName="message"></lib-bootstrap-textfield>
+    <ng-container [dynamicFormControlOutlet]="formModel.controls.name"></ng-container>
+    <ng-container [dynamicFormControlOutlet]="formModel.controls.email"></ng-container>
+    <ng-container dynamicFormControlOutlet="subject"></ng-container>
+    <ng-container dynamicFormControlOutlet="message"></ng-container>
   </form>
   <div class="dropdown-divider"></div>
   <button (click)="click()" [disabled]="!formGroup.valid" type="button" class="btn btn-primary">Send</button>

@@ -3,27 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DynamicFormOutletComponent } from './components';
-import {
-  DynamicFormControlDirective,
-  DynamicFormControlOutletDirective,
-  DynamicFormControlNameDirective
-} from './directives';
+import { DynamicFormControlOutletDirective } from './directives';
+import { DynamicControlHandlerFactoryService } from './services';
 
 @NgModule({
-  declarations: [
-    DynamicFormOutletComponent,
-    DynamicFormControlDirective,
-    DynamicFormControlOutletDirective,
-    DynamicFormControlNameDirective
-  ],
+  declarations: [DynamicFormOutletComponent, DynamicFormControlOutletDirective],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  exports: [
-    ReactiveFormsModule,
-    DynamicFormOutletComponent,
-    FormsModule,
-    DynamicFormControlDirective,
-    DynamicFormControlOutletDirective,
-    DynamicFormControlNameDirective
-  ]
+  exports: [ReactiveFormsModule, DynamicFormOutletComponent, FormsModule, DynamicFormControlOutletDirective],
+  providers: [DynamicControlHandlerFactoryService]
 })
 export class DynamicFormModule {}

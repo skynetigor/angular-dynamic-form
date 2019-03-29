@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { DynamicFormGroup, TemplateModel } from 'dynamic-form';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-simple-form-ng-template',
@@ -12,6 +13,10 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
 
   showTeplatesInWrapper = false;
 
+  private errorTexts = {
+    required: 'This field is required'
+  };
+
   formModel = new DynamicFormGroup({
     greenBox: new TemplateModel({
       alertClass: 'alert-success',
@@ -22,24 +27,29 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
       initialInputs: {
         label: 'Your name',
         placeholder: 'Please enter your name here',
-        required: true
-      }
+        required: true,
+        errorTexts: this.errorTexts
+      },
+      validators: Validators.required
     }),
     email: new BootstrapTextFieldModel({
       initialInputs: {
         label: 'Email',
         placeholder: 'Please enter youre email here',
-        required: true
-      }
+        required: true,
+        errorTexts: this.errorTexts
+      },
+      validators: Validators.required
     }),
     subject: new BootstrapDropdownControlModel({
       initialInputs: {
         label: 'Subject',
-        options: [{ name: 'Incorrect work' }, { name: 'One more value' }],
+        options: ['Incorrect work', 'Unexpected behaviour'],
         required: true,
-        displayedProperty: 'name',
-        placeholder: 'Please pick subject'
-      }
+        placeholder: 'Please pick subject',
+        errorTexts: this.errorTexts
+      },
+      validators: Validators.required
     }),
     message: new BootstrapTextFieldModel({
       initialInputs: { label: 'Your message', placeholder: 'Message', multiline: true }
@@ -50,7 +60,7 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     return this.formModel;
   }
 
-  constructor(private d: ChangeDetectorRef) {}
+  constructor() {}
 
   click() {
     if (this.showTeplatesInWrapper) {

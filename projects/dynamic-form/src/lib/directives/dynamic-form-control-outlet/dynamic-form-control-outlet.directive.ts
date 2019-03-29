@@ -2,20 +2,25 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   Directive,
+  DoCheck,
   forwardRef,
   Injector,
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
+  SimpleChanges,
   ViewContainerRef,
-  OnInit
+  Optional
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { isNullOrUndefined } from 'util';
+import { ControlValueAccessor, NgControl, FormGroupDirective } from '@angular/forms';
 
 import { AbstractDynamicControl } from '../../models';
+import { DynamicControlHandlerFactoryService, DynamicControlHandlerService } from '../../services';
 import { IDynamicComponentRef } from '../../types';
-import { AbstractDynamicFormControlDirective } from '../abstract-dynamic-form-control/abstract-dynamic-form-control.directive';
+import { isString } from 'util';
+
+const dynamicFormControlOutletProp = 'dynamicFormControlOutlet';
 
 export const formControlBinding: any = {
   provide: NgControl,
@@ -24,68 +29,126 @@ export const formControlBinding: any = {
 
 // tslint:disable-next-line:directive-selector
 @Directive({ selector: '[dynamicFormControlOutlet]', providers: [formControlBinding] })
-export class DynamicFormControlOutletDirective extends AbstractDynamicFormControlDirective
-  implements OnChanges, OnDestroy, OnInit {
+export class DynamicFormControlOutletDirective extends NgControl implements OnChanges, OnDestroy, OnInit, DoCheck {
+  private _control: AbstractDynamicControl<any>;
+
+  private dynamicComponentRef: IDynamicComponentRef;
+
   get control() {
-    return this.dynamicFormControlOutlet;
+    return this._control;
   }
 
+  private dynamicControlHandlerService: DynamicControlHandlerService;
+
   @Input()
-  dynamicFormControlOutlet: AbstractDynamicControl<any, any, any>;
+  dynamicFormControlOutlet: AbstractDynamicControl<any> | string;
 
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private viewContainerRef: ViewContainerRef,
     private injector: Injector,
-    componentFactoryResolver: ComponentFactoryResolver
+    private dynamicControlHandlerFactory: DynamicControlHandlerFactoryService,
+    @Optional() private formGroup: FormGroupDirective
   ) {
-    super(componentFactoryResolver);
+    super();
   }
 
-  ngOnInit() {
-    this.ngOnChanges();
-  }
+  ngOnInit() {}
 
-  ngOnChanges() {
-    if (isNullOrUndefined(this.dynamicFormControlOutlet)) {
-      this.viewContainerRef.clear();
-    } else if (this.dynamicFormControlOutlet && !(this.dynamicFormControlOutlet instanceof AbstractDynamicControl)) {
-      throw new Error(
-        `DynamicFormControlOutlet requires an inheritor of BaseControlModel, but it was "${
-          (this.dynamicFormControlOutlet as any).__proto__.constructor.name
-        }"`
-      );
+  ngOnChanges(simpleChanges: SimpleChanges) {
+    if (dynamicFormControlOutletProp in simpleChanges) {
+      if (simpleChanges[dynamicFormControlOutletProp].currentValue) {
+        if (isString(this.dynamicFormControlOutlet)) {
+          this._control = <AbstractDynamicControl<any>>(
+            this.formGroup.control.get(this.dynamicFormControlOutlet as string)
+          );
+        } else {
+          this._control = this.dynamicFormControlOutlet as AbstractDynamicControl<any>;
+        }
+
+        this.viewContainerRef.clear();
+
+        if (this._control instanceof AbstractDynamicControl) {
+          const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.control.componentType);
+
+          const componentRef: ComponentRef<ControlValueAccessor> = <ComponentRef<ControlValueAccessor>>(
+            this.viewContainerRef.createComponent(
+              componentFactory,
+              undefined,
+              Injector.create({
+                providers: [{ provide: NgControl, useValue: this }],
+                parent: this.injector
+              })
+            )
+          );
+
+          const dynamicComponentRef: IDynamicComponentRef = {
+            instance: componentRef.instance,
+            injector: componentRef.injector,
+            location: componentRef.location,
+            componentType: componentRef.componentType,
+            changeDetectorRef: componentRef.changeDetectorRef
+          };
+
+          this.dynamicComponentRef = dynamicComponentRef;
+
+          this.dynamicControlHandlerService = this.dynamicControlHandlerFactory.create(
+            this.control,
+            dynamicComponentRef
+          );
+
+          this.dynamicControlHandlerService.initialize();
+        }
+      } else {
+        this.viewContainerRef.clear();
+      }
     }
+  }
 
+  private init() {
     this.viewContainerRef.clear();
 
-    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.control.componentType);
+    if (this._control instanceof AbstractDynamicControl) {
+      const componentFactory = this._componentFactoryResolver.resolveComponentFactory(this.control.componentType);
 
-    const componentRef: ComponentRef<ControlValueAccessor> = <ComponentRef<ControlValueAccessor>>(
-      this.viewContainerRef.createComponent(
-        componentFactory,
-        undefined,
-        Injector.create({
-          providers: [{ provide: NgControl, useValue: this }],
-          parent: this.injector
-        })
-      )
-    );
+      const componentRef: ComponentRef<ControlValueAccessor> = <ComponentRef<ControlValueAccessor>>(
+        this.viewContainerRef.createComponent(
+          componentFactory,
+          undefined,
+          Injector.create({
+            providers: [{ provide: NgControl, useValue: this }],
+            parent: this.injector
+          })
+        )
+      );
 
-    const dynamicComponentRef: IDynamicComponentRef = {
-      instance: componentRef.instance,
-      injector: componentRef.injector,
-      location: componentRef.location,
-      componentType: componentRef.componentType,
-      changeDetectorRef: componentRef.changeDetectorRef
-    };
+      const dynamicComponentRef: IDynamicComponentRef = {
+        instance: componentRef.instance,
+        injector: componentRef.injector,
+        location: componentRef.location,
+        componentType: componentRef.componentType,
+        changeDetectorRef: componentRef.changeDetectorRef
+      };
 
-    this.registerComponentControl(dynamicComponentRef, this.control);
+      this.dynamicComponentRef = dynamicComponentRef;
+
+      this.dynamicControlHandlerService = this.dynamicControlHandlerFactory.create(this.control, dynamicComponentRef);
+
+      this.dynamicControlHandlerService.initialize();
+    }
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
+  ngDoCheck() {
+    if (this.dynamicComponentRef && this.dynamicComponentRef.componentType !== this.control.componentType) {
+      this.init();
+    }
+
+    if (this.dynamicControlHandlerService) {
+      this.dynamicControlHandlerService.doCheck();
+    }
   }
+
+  ngOnDestroy() {}
 
   viewToModelUpdate(newValue: any): void {}
 }

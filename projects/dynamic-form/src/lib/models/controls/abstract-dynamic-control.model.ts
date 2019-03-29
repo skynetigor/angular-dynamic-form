@@ -27,7 +27,7 @@ export abstract class AbstractDynamicControl<
     config: IControlConfiguration<TInputs, TOutputs, TValue>,
     public readonly componentType: Type<TControlComponent>
   ) {
-    super(config.validators, config.asyncValidators);
+    super(config.initialValue, config.validators, config.asyncValidators);
     this.inputs = config.initialInputs;
     this.outputs = config.outputs;
   }

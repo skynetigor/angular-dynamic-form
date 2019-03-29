@@ -9,6 +9,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class SimpleFormNativeApproachComponent implements OnInit {
   subjectOptions = ['Incorrect work', 'Unexpected behaviour'];
 
+  private errorTexts = {
+    required: 'This field is required'
+  };
+
   formGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {

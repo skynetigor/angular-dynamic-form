@@ -53,7 +53,7 @@ export class DynamicFormOutletComponent implements OnChanges, DoCheck {
   }
 
   trackByFn(_, obj) {
-    return obj.instance;
+    return obj.template;
   }
 
   ngDoCheck() {

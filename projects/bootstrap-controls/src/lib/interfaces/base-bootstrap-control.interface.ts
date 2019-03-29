@@ -7,4 +7,5 @@ export interface IBaseBootstrapInputs {
   validationMessages?: { [key: string]: string } | {};
   validators?: ValidatorFn | ValidatorFn[];
   disabled?: boolean;
+  errorTexts?: any;
 }
