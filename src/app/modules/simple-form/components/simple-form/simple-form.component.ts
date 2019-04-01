@@ -40,6 +40,7 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
         placeholder: 'Please pick subject',
         errorTexts: this.errorTexts
       },
+      outputs: { dropdownOpened: this.subjectToggled },
       validators: Validators.required
     }),
     message: new BootstrapTextFieldModel({
@@ -62,13 +63,14 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
       this.formModel.items.message.setValue('HELLLLLLOOOOO');
       this.formModel.items.name.setValue('HELLLLLLOOOOO');
       this.formModel.items.subject.inputs.label = 'hello1111';
-      this.formModel.items.message = null;
-      (this.formModel.items.name as any).componentType = BootstrapDropdownComponent;
     }, 2000);
   }
 
   subjectToggled(v) {
     console.log(v);
-    console.log(this);
+  }
+
+  click() {
+    this.formModel.items.name.isDisplayed = !this.formModel.items.name.isDisplayed;
   }
 }

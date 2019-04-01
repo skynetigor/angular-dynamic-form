@@ -9,16 +9,15 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  Optional,
   SimpleChanges,
-  ViewContainerRef,
-  Optional
+  ViewContainerRef
 } from '@angular/core';
-import { ControlValueAccessor, NgControl, FormGroupDirective } from '@angular/forms';
+import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { isString } from 'util';
 
 import { AbstractDynamicControl } from '../../models';
 import { DynamicControlHandlerFactoryService, DynamicControlHandlerService } from '../../services';
-import { IDynamicComponentRef } from '../../types';
-import { isString } from 'util';
 
 const dynamicFormControlOutletProp = 'dynamicFormControlOutlet';
 
@@ -31,8 +30,9 @@ export const formControlBinding: any = {
 @Directive({ selector: '[dynamicFormControlOutlet]', providers: [formControlBinding] })
 export class DynamicFormControlOutletDirective extends NgControl implements OnChanges, OnDestroy, OnInit, DoCheck {
   private _control: AbstractDynamicControl<any>;
-
-  private dynamicComponentRef: IDynamicComponentRef;
+  private isDisplayed = true;
+  private index: number;
+  private dynamicComponentRef: ComponentRef<any>;
 
   get control() {
     return this._control;
@@ -81,21 +81,11 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
               })
             )
           );
+          this.index = this.viewContainerRef.indexOf(componentRef.hostView);
 
-          const dynamicComponentRef: IDynamicComponentRef = {
-            instance: componentRef.instance,
-            injector: componentRef.injector,
-            location: componentRef.location,
-            componentType: componentRef.componentType,
-            changeDetectorRef: componentRef.changeDetectorRef
-          };
+          this.dynamicComponentRef = componentRef;
 
-          this.dynamicComponentRef = dynamicComponentRef;
-
-          this.dynamicControlHandlerService = this.dynamicControlHandlerFactory.create(
-            this.control,
-            dynamicComponentRef
-          );
+          this.dynamicControlHandlerService = this.dynamicControlHandlerFactory.create(this.control, componentRef);
 
           this.dynamicControlHandlerService.initialize();
         }
@@ -122,17 +112,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
         )
       );
 
-      const dynamicComponentRef: IDynamicComponentRef = {
-        instance: componentRef.instance,
-        injector: componentRef.injector,
-        location: componentRef.location,
-        componentType: componentRef.componentType,
-        changeDetectorRef: componentRef.changeDetectorRef
-      };
-
-      this.dynamicComponentRef = dynamicComponentRef;
-
-      this.dynamicControlHandlerService = this.dynamicControlHandlerFactory.create(this.control, dynamicComponentRef);
+      this.dynamicControlHandlerService = this.dynamicControlHandlerFactory.create(this.control, componentRef);
 
       this.dynamicControlHandlerService.initialize();
     }
@@ -145,6 +125,16 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
 
     if (this.dynamicControlHandlerService) {
       this.dynamicControlHandlerService.doCheck();
+    }
+
+    if (this.isDisplayed !== this.control.isDisplayed) {
+      if (this.control.isDisplayed && !this.dynamicComponentRef.hostView.destroyed) {
+        this.viewContainerRef.insert(this.dynamicComponentRef.hostView);
+      } else {
+        this.viewContainerRef.detach(this.index);
+      }
+
+      this.isDisplayed = this.control.isDisplayed;
     }
   }
 

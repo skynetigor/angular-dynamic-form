@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import { DynamicFormGroup } from '../../models';
-import { isControl, isTemplate } from '../../utils/utils';
+import { isControl, isTemplate } from '../../utils';
 
 @Component({
   selector: 'lib-dynamic-form-outlet',
