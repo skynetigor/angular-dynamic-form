@@ -1,7 +1,7 @@
 <div class="card form-container">
   <form [formGroup]="formGroup">
-    <ng-container [dynamicFormControlOutlet]="formModel.controls.name"></ng-container>
-    <ng-container [dynamicFormControlOutlet]="formModel.controls.email"></ng-container>
+    <ng-container *dynamicFormControlOutlet="formModel.controls.name"></ng-container>
+    <ng-container *dynamicFormControlOutlet="formModel.controls.email"></ng-container>
     <ng-container dynamicFormControlOutlet="subject"></ng-container>
     <ng-container dynamicFormControlOutlet="message"></ng-container>
   </form>

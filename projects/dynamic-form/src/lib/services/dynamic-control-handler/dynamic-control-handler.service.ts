@@ -1,4 +1,4 @@
-import { ComponentFactory, ComponentRef, Injectable, OnDestroy, KeyValueDiffers } from '@angular/core';
+import { ComponentFactory, ComponentRef, Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { isString } from 'util';
 
@@ -54,14 +54,6 @@ export class DynamicControlHandlerService implements OnDestroy {
         this.unsubscribeFromOutputsSubscription();
       }
     }
-
-    const compNativeElem: HTMLElement = this.componentRef.location.nativeElement;
-
-    // if (this.control.isDisplayed && compNativeElem.style.display === 'none') {
-    //   compNativeElem.style.removeProperty('display');
-    // } else if (!this.control.isDisplayed && compNativeElem.style.display !== 'none') {
-    //   compNativeElem.style.setProperty('display', 'none');
-    // }
   }
 
   private unsubscribeFromOutputsSubscription() {
