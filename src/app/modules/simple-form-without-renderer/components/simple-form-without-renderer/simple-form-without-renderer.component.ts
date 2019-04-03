@@ -63,6 +63,6 @@ export class SimpleFormWithoutRendererComponent implements OnInit, AfterViewInit
   }
 
   click() {
-    this.formModel.items.subject.isDisplayed = !this.formModel.items.subject.isDisplayed;
+    this.formModel.items.subject.displayed = !this.formModel.items.subject.displayed;
   }
 }

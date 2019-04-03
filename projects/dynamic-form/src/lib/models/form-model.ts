@@ -6,7 +6,7 @@ import { AbstractDynamicControl } from './controls';
 function extractControls(items: { [key: string]: ControlOrTemplate }): { [key: string]: AbstractDynamicControl<any> } {
   const result = {};
   Object.keys(items)
-    .filter(key => items[key] instanceof AbstractDynamicControl)
+    .filter(key => items[key] instanceof AbstractDynamicControl || items[key] instanceof DynamicFormGroup)
     .forEach(key => {
       result[key] = items[key];
       items[key]['_name'] = key;

@@ -4,7 +4,7 @@
 
 <ng-template #defaultTemplateWrapper let-templateModel="templateModel">
   <ng-container
-    *ngTemplateOutlet="templateModel.isDisplayed ? templateModel.templateRef : null; context: templateModel.context"
+    *ngTemplateOutlet="templateModel.displayed ? templateModel.templateRef : null; context: templateModel.context"
   ></ng-container>
 </ng-template>
 

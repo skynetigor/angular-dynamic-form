@@ -9,7 +9,7 @@ export class TemplateModel<TContext = any> {
 
   public templateRef: TemplateRef<any>;
 
-  public isDisplayed = true;
+  public displayed = true;
 
   constructor(public readonly context?: TContext, templateRef?: TemplateRef<any>) {
     this.context = context ? context : <TContext>{};

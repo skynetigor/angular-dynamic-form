@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, ComponentRef, Injectable, Injector, KeyValueDiffers } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Injectable } from '@angular/core';
 
 import { AbstractDynamicControl } from '../../models';
 import { DynamicControlHandlerService } from '../dynamic-control-handler/dynamic-control-handler.service';

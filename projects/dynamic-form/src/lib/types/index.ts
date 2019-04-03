@@ -9,6 +9,7 @@ export declare interface IControlConfiguration<TInputs, TOutputs extends Outputs
   outputs?: TOutputs;
   validators?: ValidatorFn | ValidatorFn[];
   asyncValidators?: AsyncValidatorFn[] | AsyncValidatorFn;
+  displayed?: boolean;
   initialValue?: TValue;
 }
 

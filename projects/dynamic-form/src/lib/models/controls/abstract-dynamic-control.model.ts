@@ -19,7 +19,7 @@ export abstract class AbstractDynamicControl<
   public inputs: TInputs;
   public outputs: TOutputs;
 
-  public isDisplayed = true;
+  public displayed = true;
 
   readonly valueChanges: Observable<TValue>;
 
@@ -30,6 +30,7 @@ export abstract class AbstractDynamicControl<
     super(config.initialValue, config.validators, config.asyncValidators);
     this.inputs = config.initialInputs;
     this.outputs = config.outputs;
+    this.displayed = config.hasOwnProperty('displayed') ? config.displayed : true;
   }
 
   setValue(

@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { DynamicFormGroup } from 'dynamic-form';
-import { BootstrapDropdownControlModel, BootstrapTextFieldModel, BootstrapDropdownComponent } from 'bootstrap-controls';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
+import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
+import { DynamicFormGroup } from 'dynamic-form';
 
 @Component({
   selector: 'app-simple-form',
@@ -21,6 +21,7 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
         required: true,
         errorTexts: this.errorTexts
       },
+      displayed: false,
       validators: Validators.required
     }),
     email: new BootstrapTextFieldModel({
@@ -63,6 +64,17 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
       this.formModel.items.message.setValue('HELLLLLLOOOOO');
       this.formModel.items.name.setValue('HELLLLLLOOOOO');
       this.formModel.items.subject.inputs.label = 'hello1111';
+      (this.formModel.items as any).dasdas = new BootstrapDropdownControlModel({
+        initialInputs: {
+          label: 'Subject',
+          options: ['Incorrect work', 'Unexpected behaviour'],
+          required: true,
+          placeholder: 'Please pick subjectghcjhvnnbmn',
+          errorTexts: this.errorTexts
+        },
+        outputs: { dropdownOpened: this.subjectToggled },
+        validators: Validators.required
+      });
     }, 2000);
   }
 
@@ -71,6 +83,6 @@ export class SimpleFormComponent implements OnInit, AfterViewInit {
   }
 
   click() {
-    this.formModel.items.name.isDisplayed = !this.formModel.items.name.isDisplayed;
+    this.formModel.items.name.displayed = !this.formModel.items.name.displayed;
   }
 }

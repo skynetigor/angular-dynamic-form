@@ -10,6 +10,7 @@ import { DynamicControlHandlerFactoryService } from './services';
   declarations: [DynamicFormOutletComponent, DynamicFormControlOutletDirective],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   exports: [ReactiveFormsModule, DynamicFormOutletComponent, FormsModule, DynamicFormControlOutletDirective],
-  providers: [DynamicControlHandlerFactoryService]
+  providers: [DynamicControlHandlerFactoryService],
+  entryComponents: [DynamicFormOutletComponent]
 })
 export class DynamicFormModule {}
