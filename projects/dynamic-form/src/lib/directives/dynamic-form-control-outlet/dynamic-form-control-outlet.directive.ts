@@ -13,7 +13,7 @@ import {
   SimpleChanges,
   ViewContainerRef
 } from '@angular/core';
-import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { FormGroupDirective, NgControl } from '@angular/forms';
 import { isString } from 'util';
 
 import { AbstractDynamicControl } from '../../models';
@@ -30,7 +30,7 @@ export const formControlBinding: any = {
 @Directive({ selector: '[dynamicFormControlOutlet]', providers: [formControlBinding] })
 export class DynamicFormControlOutletDirective extends NgControl implements OnChanges, OnDestroy, OnInit, DoCheck {
   private dynamicControl: AbstractDynamicControl<any>;
-  private displayed = true;
+  private displayed = false;
   private componentViewRefIndex: number;
   private componentRef: ComponentRef<any>;
 
@@ -66,31 +66,29 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
           this.dynamicControl = this.dynamicFormControlOutlet as AbstractDynamicControl<any>;
         }
 
-        this.init();
+        this.viewContainerRef.clear();
+
+        this.buildComponentInstance();
       } else {
         this.viewContainerRef.clear();
       }
     }
   }
 
-  private init() {
-    this.viewContainerRef.clear();
+  private buildComponentInstance() {
+    if (this.dynamicFormControlOutlet instanceof AbstractDynamicControl) {
+      if (!this.componentRef) {
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.control.componentType);
 
-    if (this.dynamicControl instanceof AbstractDynamicControl) {
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.control.componentType);
-
-      this.componentRef = <ComponentRef<ControlValueAccessor>>this.viewContainerRef.createComponent(
-        componentFactory,
-        undefined,
-        Injector.create({
-          providers: [{ provide: NgControl, useValue: this }],
-          parent: this.injector
-        })
-      );
+        this.componentRef = componentFactory.create(
+          Injector.create({
+            providers: [{ provide: NgControl, useValue: this }],
+            parent: this.injector
+          })
+        );
+      }
 
       this.dynamicControlHandlerService = this.dynamicControlHandlerFactory.create(this.control, this.componentRef);
-
-      this.dynamicControlHandlerService.initialize();
     }
   }
 
@@ -108,7 +106,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
 
   ngDoCheck() {
     if (this.componentRef && this.componentRef.componentType !== this.control.componentType) {
-      this.init();
+      this.buildComponentInstance();
     }
 
     if (this.dynamicControlHandlerService) {

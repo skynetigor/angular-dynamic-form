@@ -53,7 +53,6 @@ class TestComponent {
 export class TestModule {}
 
 fdescribe('DynamicFormControlOutletDirective', () => {
-  let directives: DebugElement[];
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
 
@@ -66,7 +65,6 @@ fdescribe('DynamicFormControlOutletDirective', () => {
   beforeEach(async () => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
-    directives = fixture.debugElement.queryAll(By.directive(DynamicFormControlOutletDirective));
   });
 
   it('should render controls components', () => {
@@ -76,12 +74,12 @@ fdescribe('DynamicFormControlOutletDirective', () => {
     // Act
     fixture.detectChanges();
 
-    const controlsComponents = fixture.debugElement.queryAll(By.directive(TestDynamicControlComponent));
+    const controlsComponentsDebugElements = fixture.debugElement.queryAll(By.directive(TestDynamicControlComponent));
 
     // Assert
-    expect(items.length).toBe(controlsComponents.length);
+    expect(items.length).toBe(controlsComponentsDebugElements.length);
 
-    controlsComponents.forEach((c, index) => {
+    controlsComponentsDebugElements.forEach((c, index) => {
       expect(c.componentInstance instanceof items[index].componentType).toBeTruthy();
     });
   });
@@ -217,16 +215,12 @@ fdescribe('DynamicFormControlOutletDirective', () => {
     // Act
 
     fixture.detectChanges();
-    await fixture.whenStable();
 
     // Assert
 
     componentFactory.inputs.forEach(p => {
       expect(controlComponentInstance[p.propName]).toBe(component.formGroup.items.firstControl.inputs[p.propName]);
     });
-
-    expect(controlComponentInstance.firstInput).toBe(component.formGroup.items.firstControl.inputs.firstInput);
-    expect(controlComponentInstance.secondInput).toBe(component.formGroup.items.firstControl.inputs.secondInput);
 
     // Act
     componentFactory.inputs.forEach(p => {
@@ -242,6 +236,25 @@ fdescribe('DynamicFormControlOutletDirective', () => {
     });
   });
 
+  it('should not set input if it is not defined in inputs property of form control', async () => {
+    fixture.detectChanges();
+
+    // Arrange
+    const controlComponentInstance: TestDynamicControlComponent = fixture.debugElement.query(
+      By.directive(TestDynamicControlComponent)
+    ).componentInstance;
+    const valueToCheck = 'someValue';
+    controlComponentInstance.firstInput = valueToCheck;
+
+    delete component.formGroup.items.firstControl.inputs.firstInput;
+    // Act
+
+    fixture.detectChanges();
+
+    // Assert
+    expect(controlComponentInstance.firstInput).toBe(valueToCheck);
+  });
+
   it('should call function that was declared in form control outputs', async () => {
     const someValueOfOutput = {};
 
@@ -253,12 +266,24 @@ fdescribe('DynamicFormControlOutletDirective', () => {
     ).componentInstance;
 
     const factoryResolver: ComponentFactoryResolver = fixture.debugElement.injector.get(ComponentFactoryResolver);
-    const ad = factoryResolver.resolveComponentFactory(component.formGroup.items.firstControl.componentType);
+    const componentFactory = factoryResolver.resolveComponentFactory(
+      component.formGroup.items.firstControl.componentType
+    );
+
+    componentFactory.outputs.forEach(prop => {
+      component.formGroup.items.firstControl.outputs[prop.propName] = jasmine.createSpy(prop.propName);
+    });
 
     // Act
-    controlComponentInstance.firstOutput.emit(someValueOfOutput);
+
+    fixture.detectChanges();
+
     // Assert
-    expect(component.formGroup.items.firstControl.outputs.firstOutput).toHaveBeenCalledWith(someValueOfOutput);
+
+    componentFactory.outputs.forEach(prop => {
+      controlComponentInstance[prop.propName].emit(someValueOfOutput);
+      expect(component.formGroup.items.firstControl.outputs[prop.propName]).toHaveBeenCalledWith(someValueOfOutput);
+    });
   });
 
   it('should not call function that was removed from form control outputs', async () => {
@@ -275,8 +300,10 @@ fdescribe('DynamicFormControlOutletDirective', () => {
     ).componentInstance;
 
     // Act
+
     controlComponentInstance.firstOutput.emit(someValueOfOutput);
     // Assert
+
     expect(firstOutputFuncCache).not.toHaveBeenCalled();
   });
 });

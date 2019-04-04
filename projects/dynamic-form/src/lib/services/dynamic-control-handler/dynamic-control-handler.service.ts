@@ -12,11 +12,7 @@ export class DynamicControlHandlerService implements OnDestroy {
     private componentFactory: ComponentFactory<any>,
     private componentRef: ComponentRef<any>,
     private control: AbstractDynamicControl<any>
-  ) {}
-
-  private outputsSubscriptions: Subscription[] = [];
-
-  initialize() {
+  ) {
     if (isString(this.control.name)) {
       this.componentRef.location.nativeElement.id = this.control.name;
     }
@@ -26,6 +22,8 @@ export class DynamicControlHandlerService implements OnDestroy {
 
     setupControl(this.control, this.componentRef.instance);
   }
+
+  private outputsSubscriptions: Subscription[] = [];
 
   doCheck() {
     if (this.control) {
