@@ -3,22 +3,29 @@ import { Component, ComponentFactoryResolver, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { DynamicFormControlOutletDirective } from 'dynamic-form';
 
 import { TestDynamicControlComponent, TestDynamicControlModel } from '../../mocks';
 import { DynamicFormGroup } from '../../models';
 import { DynamicControlHandlerFactoryService } from '../../services';
-import { DynamicFormControlOutletDirective } from './dynamic-form-control-outlet.directive';
+import { DynamicFormOutletComponent } from './dynamic-form-outlet.component';
 
 @Component({
   selector: 'lib-test-component',
   template: `
-    <form [formGroup]="formGroup">
-      <ng-container *dynamicFormControlOutlet="formGroup.items.firstControl"></ng-container>
-      <ng-container *dynamicFormControlOutlet="'secondControl'"></ng-container>
-    </form>
+    <lib-dynamic-form-outlet
+      [formModel]="formGroup"
+      [controlWrapper]="useControlWrapper ? controlWrapper : null"
+    ></lib-dynamic-form-outlet>
+
+    <ng-template #controlWrapper let-control="control">
+      <div id="{{ control.name }}Wrapper"><ng-container #some [dynamicFormControlOutlet]="control"></ng-container></div>
+    </ng-template>
   `
 })
 class TestComponent {
+  useControlWrapper = false;
+
   formGroup = new DynamicFormGroup({
     firstControl: new TestDynamicControlModel({
       initialInputs: {
@@ -37,21 +44,22 @@ class TestComponent {
       }
     })
   });
-
-  callBackOfFirstOutput() {}
-
-  callBackOfSecondOutput() {}
 }
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
-  declarations: [DynamicFormControlOutletDirective, TestDynamicControlComponent, TestComponent],
+  declarations: [
+    DynamicFormOutletComponent,
+    DynamicFormControlOutletDirective,
+    TestDynamicControlComponent,
+    TestComponent
+  ],
   providers: [DynamicControlHandlerFactoryService],
   entryComponents: [TestDynamicControlComponent]
 })
 export class TestModule {}
 
-describe('DynamicFormControlOutletDirective', () => {
+describe('DynamicFormOutlet', () => {
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
 
@@ -166,39 +174,6 @@ describe('DynamicFormControlOutletDirective', () => {
     expect(ngControl instanceof NgControl).toBeTruthy();
   });
 
-  it('should destroy component control if control is null or undefined', async () => {
-    fixture.detectChanges();
-
-    // Arrange
-    let controlComponentInstances = fixture.debugElement.queryAll(By.directive(TestDynamicControlComponent));
-
-    // Act
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    // Assert
-    expect(controlComponentInstances.length).toBe(Object.values(component.formGroup.items).filter(t => t).length);
-
-    // Arrange
-    const dynamicFormControlOutletDirective: DynamicFormControlOutletDirective = controlComponentInstances[0].injector.get(
-      DynamicFormControlOutletDirective
-    );
-
-    component.formGroup.items.firstControl = null;
-    dynamicFormControlOutletDirective.dynamicFormControlOutlet = null;
-
-    // Act
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    controlComponentInstances = fixture.debugElement.queryAll(By.directive(TestDynamicControlComponent));
-
-    // Assert
-    expect(controlComponentInstances.length).toBe(Object.values(component.formGroup.items).filter(t => t).length);
-  });
-
   it('should sync form controls inputs with component control', async () => {
     fixture.detectChanges();
 
@@ -304,5 +279,23 @@ describe('DynamicFormControlOutletDirective', () => {
     // Assert
 
     expect(firstOutputFuncCache).not.toHaveBeenCalled();
+  });
+
+  it('should use template that wraps control if it is specified', () => {
+    component.useControlWrapper = true;
+
+    fixture.detectChanges();
+
+    const formDebugElement = fixture.debugElement.queryAll(By.css('form > *'));
+
+    const controlsObjects = Object.values(component.formGroup.controls);
+
+    formDebugElement.forEach((div, index) => {
+      expect(div.nativeElement.id).toBe(`${controlsObjects[index].name}Wrapper`);
+      const controlDebugElement = div.query(By.directive(controlsObjects[index].componentType));
+      expect(controlDebugElement.componentInstance instanceof controlsObjects[index].componentType).toBeTruthy();
+    });
+
+    expect(controlsObjects.length).toBe(formDebugElement.length);
   });
 });

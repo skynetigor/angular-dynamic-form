@@ -15,7 +15,8 @@ export class AppComponent implements OnInit, OnDestroy {
     'Simple form': 'simple-form',
     'Simple form with <ng-teplate></ng-template>': 'simple-form-ng-temlate',
     'Simple form with controls styling': 'simple-form-with-controls-styling',
-    'Forms from server': 'forms-from-server'
+    'Forms from server': 'forms-from-server',
+    'Simple form with inputs binder directive': 'simple-form-with-inputs-binder-directive'
   };
 
   formState = {

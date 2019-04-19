@@ -29,6 +29,10 @@ const routes: Routes = [
       {
         path: 'forms-from-server',
         loadChildren: './modules/forms-from-server/forms-from-server.module#FormsFromServerModule'
+      },
+      {
+        path: 'simple-form-with-inputs-binder-directive',
+        loadChildren: './modules/simple-form-with-inputs-binder-directive/simple-form-with-inputs-binder-directive.module#SimpleFormWitInputsBinderModule'
       }
     ]
   },
@@ -39,4 +43,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

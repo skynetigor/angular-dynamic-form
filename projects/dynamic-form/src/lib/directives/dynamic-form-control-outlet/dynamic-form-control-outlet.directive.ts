@@ -76,7 +76,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   }
 
   private buildComponentInstance() {
-    if (this.dynamicFormControlOutlet instanceof AbstractDynamicControl) {
+    if (this.control instanceof AbstractDynamicControl) {
       if (!this.componentRef) {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.control.componentType);
 
@@ -93,7 +93,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   }
 
   private changeDisplayingState() {
-    if (this.displayed !== this.control.displayed) {
+    if (this.componentRef && this.displayed !== this.control.displayed) {
       if (this.control.displayed && !this.componentRef.hostView.destroyed) {
         this.viewContainerRef.insert(this.componentRef.hostView);
       } else {
@@ -117,7 +117,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   }
 
   ngOnDestroy() {
-    if (!this.componentRef.hostView.destroyed) {
+    if (this.componentRef && !this.componentRef.hostView.destroyed) {
       this.componentRef.destroy();
     }
   }

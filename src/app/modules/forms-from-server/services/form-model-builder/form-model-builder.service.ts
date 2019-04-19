@@ -23,7 +23,6 @@ export class FormModelBuilderService {
         result[key] = new modelClass({ initialInputs: f.inputs });
       }
     });
-
     return new DynamicFormGroup(result);
   }
 }

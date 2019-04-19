@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import { DynamicFormGroup } from '../../models';
-import { isControl, isTemplate } from '../../utils';
+import { isDynamicControl, isTemplateModel } from '../../utils';
 
 @Component({
   selector: 'lib-dynamic-form-outlet',
@@ -41,10 +41,10 @@ export class DynamicFormOutletComponent implements OnChanges, DoCheck {
     const parsed = [];
 
     Object.values(this.formModel.items).forEach(t => {
-      if (isControl(t)) {
+      if (isDynamicControl(t)) {
         const template = this.controlWrapper ? this.controlWrapper : this.defaultControlWrapper;
         parsed.push({ instance: t, template: template, context: { control: t } });
-      } else if (isTemplate(t)) {
+      } else if (isTemplateModel(t)) {
         parsed.push({ instance: t, template: this.defaultTemplateWrapper, context: { templateModel: t } });
       }
     });
@@ -53,7 +53,7 @@ export class DynamicFormOutletComponent implements OnChanges, DoCheck {
   }
 
   trackByFn(_, obj) {
-    return obj.template;
+    return obj.instance;
   }
 
   ngDoCheck() {
