@@ -3,6 +3,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { OutputsHandlerService } from '../../services';
 
+/**
+ * Directive that is used to bind form control outputs to functions that an object provided for bindControlOutputs input contains
+ */
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: '[bindControlOutputs]'

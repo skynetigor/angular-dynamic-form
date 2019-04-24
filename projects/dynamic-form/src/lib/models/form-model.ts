@@ -14,7 +14,9 @@ function extractControls(items: { [key: string]: ControlOrTemplate }): { [key: s
   return result;
 }
 
+/** Strong typed dynamic form group */
 export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> extends FormGroup {
+  /** @inheritdoc */
   controls: { [key: string]: AbstractDynamicControl<any> };
 
   constructor(
@@ -25,12 +27,14 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> ex
     super(extractControls(items), validatorOrOpts, asyncValidator);
   }
 
+  /** @inheritdoc */
   public get<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
     name: string
   ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
     return super.get(name) as AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>;
   }
 
+  /** @inheritdoc */
   public registerControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
@@ -40,6 +44,7 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> ex
     return control;
   }
 
+  /** @inheritdoc */
   public addControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
@@ -50,10 +55,12 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> ex
     // throw new Error('Adding controls is not supported.');
   }
 
+  /** @inheritdoc */
   public removeControl(name: string): void {
     throw new Error('Removing controls is not supported.');
   }
 
+  /** @inheritdoc */
   public setControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
     name: string,
     control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>

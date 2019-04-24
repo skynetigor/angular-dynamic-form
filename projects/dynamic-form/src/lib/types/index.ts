@@ -4,6 +4,9 @@ import { AbstractDynamicControl, TemplateModel } from '../models';
 
 export declare type ControlOrTemplate = AbstractDynamicControl<any> | TemplateModel<any>;
 
+/**
+ * The interface for configuring AbstractDynamicControl
+ */
 export declare interface IControlConfiguration<TInputs, TOutputs extends OutputsObject, TValue> {
   initialInputs?: TInputs;
   outputs?: TOutputs;
@@ -13,6 +16,9 @@ export declare interface IControlConfiguration<TInputs, TOutputs extends Outputs
   initialValue?: TValue;
 }
 
+/**
+ * The interface for outputs
+ */
 export declare interface OutputsObject {
   [key: string]: Function;
 }

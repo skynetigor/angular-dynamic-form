@@ -1,6 +1,6 @@
 {
   "login": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Login",
       "multiline": false,
@@ -13,7 +13,7 @@
     "validators": ["required"]
   },
   "password": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Password",
       "multiline": false,
@@ -27,7 +27,7 @@
     "validators": ["required"]
   },
   "numberField": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Number",
       "multiline": false,

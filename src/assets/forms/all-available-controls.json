@@ -1,13 +1,13 @@
 {
   "textField": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Login",
       "placeholder": "Enter something here"
     }
   },
   "multilineTextField": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Multiline text field",
       "multiline": true,

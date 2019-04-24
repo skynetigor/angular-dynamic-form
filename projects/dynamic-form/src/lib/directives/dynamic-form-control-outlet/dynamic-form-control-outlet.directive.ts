@@ -28,6 +28,9 @@ export const formControlBinding: any = {
   useExisting: forwardRef(() => DynamicFormControlOutletDirective)
 };
 
+/**
+ * Directive that is rendering control and binds its inputs/outputs
+ */
 // tslint:disable-next-line:directive-selector
 @Directive({ selector: '[dynamicFormControlOutlet]', providers: [formControlBinding] })
 export class DynamicFormControlOutletDirective extends NgControl implements OnChanges, OnDestroy, OnInit, DoCheck {
@@ -38,10 +41,16 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   private inputsHandler: InputsHandlerService;
   private outputsHandler: OutputsHandlerService;
 
+  /**
+   * @inheritdoc
+   */
   get control() {
     return this.dynamicControl;
   }
 
+  /**
+   * A Dynamic control or a name of the dynamic control that exists in parent dynamic form group
+   */
   @Input()
   dynamicFormControlOutlet: AbstractDynamicControl<any> | string;
 

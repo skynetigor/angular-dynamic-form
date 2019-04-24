@@ -1,6 +1,6 @@
 {
   "login": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Login",
       "multiline": false,
@@ -20,7 +20,7 @@
     ]
   },
   "password": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Password",
       "multiline": false,
@@ -41,7 +41,7 @@
     ]
   },
   "confirmPassword": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Confirm password",
       "multiline": false,
@@ -62,7 +62,7 @@
     ]
   },
   "email": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Email",
       "multiline": false,
@@ -77,7 +77,7 @@
     "validators": ["required", "email"]
   },
   "phone": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Phone",
       "multiline": false,
@@ -105,7 +105,7 @@
     "validators": ["required"]
   },
   "signature": {
-    "type": "BootstrapTextfield",
+    "type": "BootstrapTextField",
     "inputs": {
       "label": "Signature",
       "placeholder": "Enter your signature",

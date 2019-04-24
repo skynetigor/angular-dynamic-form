@@ -3,6 +3,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { InputsHandlerService } from '../../services';
 
+/**
+ * Directive that is used to bind form control inputs on changes of object provided to bindControlInputs input
+ */
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: '[bindControlInputs]'

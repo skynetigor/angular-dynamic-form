@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BootstrapDropdownControlModel } from 'bootstrap-controls';
-import { DynamicFormGroup } from 'dynamic-form';
+import { DynamicFormGroup, FormModelBuilderService } from 'dynamic-form';
 import { never, Observable } from 'rxjs';
 import { map, switchMap, tap, filter } from 'rxjs/operators';
 
-import { FormModelBuilderService, FormsApiService } from '../../services';
+import { FormsApiService } from '../../services';
 
 @Component({
   selector: 'app-forms-from-server',
@@ -31,19 +31,6 @@ export class FormsFromServerComponent implements OnInit, AfterViewInit {
   constructor(private formsApiService: FormsApiService, private formModelBuilderService: FormModelBuilderService) {}
 
   ngOnInit() {
-    // this.selectFormValueChanges = this.selectorFormModel.items.selectForm.valueChanges.pipe(
-    //   switchMap((t: any) => {
-    //     if (t) {
-    //       return t.value.pipe(
-    //         map(r => this.formModelBuilderService.buildFormModel(r)),
-    //         tap((r: any) => (this.formGroup = r))
-    //       );
-    //     }
-
-    //     return never();
-    //   })
-    // );
-
     this.selectorFormModel.items.selectForm.valueChanges
       .pipe(
         switchMap((t: any) => {

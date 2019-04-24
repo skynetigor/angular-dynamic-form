@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { IControlConfiguration, OutputsObject } from '../../types';
 
+/** Strong typed dynamic form control */
 export abstract class AbstractDynamicControl<
   TControlComponent extends ControlValueAccessor,
   TInputs = any,
@@ -23,6 +24,11 @@ export abstract class AbstractDynamicControl<
 
   readonly valueChanges: Observable<TValue>;
 
+  /**
+   * Constructs DynamicControl
+   * @param config Configuration for the control
+   * @param componentType Component type
+   */
   constructor(
     config: IControlConfiguration<TInputs, TOutputs, TValue>,
     public readonly componentType: Type<TControlComponent>
@@ -33,6 +39,7 @@ export abstract class AbstractDynamicControl<
     this.displayed = config.hasOwnProperty('displayed') ? config.displayed : true;
   }
 
+  /**@inheritdoc */
   setValue(
     value: TValue,
     options: {
@@ -45,6 +52,7 @@ export abstract class AbstractDynamicControl<
     super.setValue(value, options);
   }
 
+  /**@inheritdoc */
   patchValue(
     value: TValue,
     options: {
@@ -57,6 +65,7 @@ export abstract class AbstractDynamicControl<
     super.patchValue(value, options);
   }
 
+  /**@inheritdoc */
   reset(value?: TValue, options?: Object): void {
     super.reset(value, options);
   }
