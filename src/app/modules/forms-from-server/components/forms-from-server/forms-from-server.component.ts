@@ -37,7 +37,7 @@ export class FormsFromServerComponent implements OnInit, AfterViewInit {
         if (t) {
           return t.value.pipe(
             map(r => this.formModelBuilderService.buildFormModel(r)),
-            tap((r: any) => (this.formGroup = r.formGroup))
+            tap((r: any) => (this.formGroup = r))
           );
         }
 
