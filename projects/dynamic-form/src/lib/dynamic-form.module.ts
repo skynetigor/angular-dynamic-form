@@ -8,7 +8,6 @@ import {
   BindControlInputsDirective,
   BindControlOutputsDirective
 } from './directives';
-import { DynamicControlHandlerFactoryService } from './services';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,6 @@ import { DynamicControlHandlerFactoryService } from './services';
     BindControlInputsDirective,
     BindControlOutputsDirective
   ],
-  providers: [DynamicControlHandlerFactoryService],
   entryComponents: [DynamicFormOutletComponent]
 })
 export class DynamicFormModule {}

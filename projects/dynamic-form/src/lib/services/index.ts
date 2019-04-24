@@ -1,4 +1,2 @@
-export { DynamicControlHandlerService } from './dynamic-control-handler/dynamic-control-handler.service';
-export {
-  DynamicControlHandlerFactoryService
-} from './dynamic-control-handler-factory/dynamic-control-handler-factory.service';
+export { OutputsHandlerService } from './outputs-handler/outputs-handler.service';
+export { InputsHandlerService } from './inputs-handler/inputs-handler.service';

@@ -4,24 +4,59 @@
     "inputs": {
       "label": "Login",
       "multiline": false,
-      "placeholder": "Enter login"
-    }
+      "placeholder": "Enter login",
+      "errorTexts": {
+        "required": "This field is required",
+        "minlength": "Login length should be greater than {0}"
+      }
+    },
+    "validators": [
+      "required",
+      {
+        "name": "minLength",
+        "value": 5
+      }
+    ]
   },
   "password": {
     "type": "BootstrapTextfield",
     "inputs": {
       "label": "Password",
       "multiline": false,
-      "placeholder": "Enter password"
-    }
+      "placeholder": "Enter password",
+      "type": "password",
+      "errorTexts": {
+        "required": "This field is required",
+        "minlength": "Login length should be greater than {0}"
+      }
+    },
+    "validators": [
+      "required",
+      {
+        "name": "minLength",
+        "value": 5
+      }
+    ]
   },
   "confirmPassword": {
     "type": "BootstrapTextfield",
     "inputs": {
       "label": "Confirm password",
       "multiline": false,
-      "placeholder": "Enter password"
-    }
+      "placeholder": "Enter password",
+      "type": "password",
+      "errorTexts": {
+        "required": "This field is required",
+        "minlength": "Login length should be greater than {0}"
+      }
+    },
+    "validators": [
+      "required",
+      {
+        "name": "minLength",
+        "value": 5
+      }
+    ]
   },
   "email": {
     "type": "BootstrapTextfield",
@@ -29,8 +64,13 @@
       "label": "Email",
       "multiline": false,
       "placeholder": "Enter email",
-      "type": "email"
-    }
+      "type": "email",
+      "errorTexts": {
+        "required": "This field is required",
+        "email": "Please enter valid email address"
+      }
+    },
+    "validators": ["required", "email"]
   },
   "phone": {
     "type": "BootstrapTextfield",
@@ -38,8 +78,13 @@
       "label": "Phone",
       "multiline": false,
       "placeholder": "Enter your phone",
-      "type": "number"
-    }
+      "type": "text",
+      "errorTexts": {
+        "required": "This field is required",
+        "phone": "Please enter valid phone number in the format +XX-XXXX-XXXX"
+      }
+    },
+    "validators": ["required", "phone"]
   },
   "age": {
     "type": "BootstrapDropdown",
@@ -54,7 +99,11 @@
     "inputs": {
       "label": "Signature",
       "placeholder": "Enter your signature",
-      "multiline": true
-    }
+      "multiline": true,
+      "errorTexts": {
+        "maxlength": "Signature length should be less than {0} characters"
+      }
+    },
+    "validators": [{ "name": "maxLength", "value": 4000 }]
   }
 }

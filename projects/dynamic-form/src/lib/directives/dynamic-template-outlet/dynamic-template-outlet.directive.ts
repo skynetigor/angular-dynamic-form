@@ -1,4 +1,5 @@
-import { Directive, Input, OnChanges, SimpleChanges, DoCheck, EmbeddedViewRef, ViewContainerRef } from '@angular/core';
+import { Directive, DoCheck, Input, OnChanges, SimpleChanges, ViewContainerRef } from '@angular/core';
+
 import { TemplateModel } from '../../models';
 
 @Directive({

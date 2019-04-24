@@ -4,15 +4,52 @@
     "inputs": {
       "label": "Login",
       "multiline": false,
-      "placeholder": "Enter login"
-    }
+      "placeholder": "Enter login",
+      "required": true,
+      "errorTexts": {
+        "required": "This field is required"
+      }
+    },
+    "validators": ["required"]
   },
   "password": {
     "type": "BootstrapTextfield",
     "inputs": {
       "label": "Password",
       "multiline": false,
-      "placeholder": "Enter password"
-    }
+      "placeholder": "Enter password",
+      "required": true,
+      "type": "password",
+      "errorTexts": {
+        "required": "This field is required"
+      }
+    },
+    "validators": ["required"]
+  },
+  "numberField": {
+    "type": "BootstrapTextfield",
+    "inputs": {
+      "label": "Number",
+      "multiline": false,
+      "placeholder": "Enter number",
+      "required": true,
+      "type": "text",
+      "errorTexts": {
+        "required": "This field is required",
+        "maxlength": "Field value should be less than {0}.",
+        "minlength": "Field value should be greater than {0}."
+      }
+    },
+    "validators": [
+      "required",
+      {
+        "name": "maxLength",
+        "value": 10
+      },
+      {
+        "name": "minLength",
+        "value": 5
+      }
+    ]
   }
 }

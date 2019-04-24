@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 
 import { TestDynamicControlComponent, TestDynamicControlModel } from '../../mocks';
 import { DynamicFormGroup } from '../../models';
-import { DynamicControlHandlerFactoryService } from '../../services';
 import { DynamicFormControlOutletDirective } from './dynamic-form-control-outlet.directive';
 
 @Component({
@@ -46,7 +45,6 @@ class TestComponent {
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
   declarations: [DynamicFormControlOutletDirective, TestDynamicControlComponent, TestComponent],
-  providers: [DynamicControlHandlerFactoryService],
   entryComponents: [TestDynamicControlComponent]
 })
 export class TestModule {}

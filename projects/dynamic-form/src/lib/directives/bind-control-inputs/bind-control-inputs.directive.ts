@@ -1,18 +1,18 @@
 import { ComponentFactoryResolver, Directive, DoCheck, Inject, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { OutputsHandlerService } from '../../services';
+import { InputsHandlerService } from '../../services';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: '[bindControlOutputs]'
+  selector: '[bindControlInputs]'
 })
-export class BindControlOutputsDirective implements OnInit, DoCheck {
+export class BindControlInputsDirective implements OnInit, DoCheck {
   private valueAccessor: ControlValueAccessor;
-  private outputsHandler: OutputsHandlerService;
+  private inputsHandler: InputsHandlerService;
 
   @Input()
-  bindControlOutputs;
+  bindControlInputs;
 
   constructor(
     @Inject(NG_VALUE_ACCESSOR) valueAccessors: ControlValueAccessor[],
@@ -24,10 +24,10 @@ export class BindControlOutputsDirective implements OnInit, DoCheck {
   ngOnInit() {
     const componentType = (<any>this.valueAccessor).constructor;
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-    this.outputsHandler = new OutputsHandlerService(componentFactory);
+    this.inputsHandler = new InputsHandlerService(componentFactory);
   }
 
   ngDoCheck(): void {
-    this.outputsHandler.handle(this.bindControlOutputs, this.valueAccessor);
+    this.inputsHandler.handle(this.bindControlInputs, this.valueAccessor);
   }
 }

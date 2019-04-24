@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, Output, EventEmitter } from '@angular/cor
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
-  selector: 'lib-test-component',
+  selector: 'lib-test-control-component',
   template: `
     Control is working
   `,

@@ -16,8 +16,10 @@ import {
 import { FormGroupDirective, NgControl } from '@angular/forms';
 import { isString } from 'util';
 
+import { dynamicControlAttrName } from '../../constants';
 import { AbstractDynamicControl } from '../../models';
-import { DynamicControlHandlerFactoryService, DynamicControlHandlerService } from '../../services';
+import { InputsHandlerService, OutputsHandlerService } from '../../services';
+import { setupControl } from '../../utils';
 
 const dynamicFormControlOutletProp = 'dynamicFormControlOutlet';
 
@@ -33,12 +35,12 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
   private displayed = false;
   private componentViewRefIndex: number;
   private componentRef: ComponentRef<any>;
+  private inputsHandler: InputsHandlerService;
+  private outputsHandler: OutputsHandlerService;
 
   get control() {
     return this.dynamicControl;
   }
-
-  private dynamicControlHandlerService: DynamicControlHandlerService;
 
   @Input()
   dynamicFormControlOutlet: AbstractDynamicControl<any> | string;
@@ -47,7 +49,6 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
     private componentFactoryResolver: ComponentFactoryResolver,
     private viewContainerRef: ViewContainerRef,
     private injector: Injector,
-    private dynamicControlHandlerFactory: DynamicControlHandlerFactoryService,
     @Optional() private formGroup: FormGroupDirective
   ) {
     super();
@@ -86,10 +87,23 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
             parent: this.injector
           })
         );
-      }
 
-      this.dynamicControlHandlerService = this.dynamicControlHandlerFactory.create(this.control, this.componentRef);
+        this.inputsHandler = new InputsHandlerService(componentFactory);
+        this.outputsHandler = new OutputsHandlerService(componentFactory);
+        this.setupControl();
+      }
     }
+  }
+
+  private setupControl() {
+    if (isString(this.control.name)) {
+      this.componentRef.location.nativeElement.id = this.control.name;
+    }
+
+    const dynamicControlAttr = document.createAttribute(dynamicControlAttrName);
+    this.componentRef.location.nativeElement.attributes.setNamedItem(dynamicControlAttr);
+
+    setupControl(this.control, this.componentRef.instance);
   }
 
   private changeDisplayingState() {
@@ -109,8 +123,9 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
       this.buildComponentInstance();
     }
 
-    if (this.dynamicControlHandlerService) {
-      this.dynamicControlHandlerService.doCheck();
+    if (this.control instanceof AbstractDynamicControl) {
+      this.inputsHandler.handle(this.control.inputs, this.componentRef.instance);
+      this.outputsHandler.handle(this.control.outputs, this.componentRef.instance);
     }
 
     this.changeDisplayingState();

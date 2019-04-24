@@ -1,5 +1,6 @@
 import { AfterViewInit, forwardRef, Injectable, Injector, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { formatString } from '../utils';
 
 @Injectable()
 export abstract class AbstractValueAccessor implements ControlValueAccessor, OnInit, AfterViewInit {
@@ -38,10 +39,12 @@ export abstract class AbstractValueAccessor implements ControlValueAccessor, OnI
   }
 
   buildErrorText(): string {
-    if (this.errorTexts && this.formControl && this.formControl.errors) {
-      return Object.keys(this.formControl.errors)
-        .map(errorKey => this.errorTexts[errorKey])
+    if (this.errorTexts && this.formControl && this.formControl.errors && this.dirty) {
+      const c = Object.keys(this.formControl.errors)
+        .map(errorKey => formatString(this.errorTexts[errorKey], ...Object.values(this.formControl.errors[errorKey])))
         .join(' ');
+
+      return c;
     }
 
     return null;

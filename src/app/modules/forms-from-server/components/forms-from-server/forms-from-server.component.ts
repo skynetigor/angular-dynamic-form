@@ -46,12 +46,6 @@ export class FormsFromServerComponent implements OnInit, AfterViewInit {
     );
 
     this.showFormFromServer = this.selectFormValueChanges.pipe(filter(t => !!t));
-
-    // this.selectorFormModel.items.selectForm.inputs.options = [
-    //   { name: 'Login form', value: this.formsApiService.getLoginForm() },
-    //   { name: 'Registration form', value: this.formsApiService.getRegistrationForm() },
-    //   { name: 'All available controls', value: this.formsApiService.getAllAvailableControls() }
-    // ];
   }
 
   ngAfterViewInit() {

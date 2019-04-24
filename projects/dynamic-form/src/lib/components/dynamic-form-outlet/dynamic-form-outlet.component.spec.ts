@@ -7,7 +7,6 @@ import { DynamicFormControlOutletDirective } from 'dynamic-form';
 
 import { TestDynamicControlComponent, TestDynamicControlModel } from '../../mocks';
 import { DynamicFormGroup } from '../../models';
-import { DynamicControlHandlerFactoryService } from '../../services';
 import { DynamicFormOutletComponent } from './dynamic-form-outlet.component';
 
 @Component({
@@ -54,7 +53,6 @@ class TestComponent {
     TestDynamicControlComponent,
     TestComponent
   ],
-  providers: [DynamicControlHandlerFactoryService],
   entryComponents: [TestDynamicControlComponent]
 })
 export class TestModule {}
