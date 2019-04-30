@@ -1,9 +1,9 @@
 import { AbstractDynamicControl } from '../models';
+import { ControlConfiguration } from '../types';
 import { TestDynamicControlComponent } from './test-dynamic-control.component';
-import { IControlConfiguration } from '../types';
 
 export class TestDynamicControlModel<TInput> extends AbstractDynamicControl<TestDynamicControlComponent> {
-  constructor(config: IControlConfiguration<TInput, any, any>) {
-    super(config, TestDynamicControlComponent);
-  }
+    constructor(config: ControlConfiguration<TInput, any, any>) {
+        super(config, TestDynamicControlComponent);
+    }
 }

@@ -1,13 +1,13 @@
-import { Validators } from '@angular/forms';
-
-const phoneRegexp = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+import { phoneRegExp } from '../../constants/regular-expressions';
+import { patternValidator } from '../pattern/pattern.validator';
 
 /**
- * Phone validator for the FormModelBuilderService
+ * Phone validator for the {@link FormModelBuilderService}
  */
-export function phoneValidator(control) {
-  const phone = Validators.pattern(phoneRegexp)(control);
-  if (phone) {
-    return { phone: true };
-  }
+export function phoneValidator(validatorCfg?: { regExp: RegExp | string; requiredFormat?: string }) {
+    if (validatorCfg) {
+        return patternValidator({ regExp: validatorCfg.regExp, field: 'phone', requiredFormat: validatorCfg.requiredFormat });
+    } else {
+        return patternValidator({ regExp: phoneRegExp, field: 'phone', requiredFormat: '+XX-XXXX-XXXX' });
+    }
 }

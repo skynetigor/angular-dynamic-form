@@ -7,30 +7,30 @@ import { OutputsHandlerService } from '../../services';
  * Directive that is used to bind form control outputs to functions that an object provided for bindControlOutputs input contains
  */
 @Directive({
-  // tslint:disable-next-line:directive-selector
-  selector: '[bindControlOutputs]'
+    // tslint:disable-next-line:directive-selector
+    selector: '[bindControlOutputs]'
 })
 export class BindControlOutputsDirective implements OnInit, DoCheck {
-  private valueAccessor: ControlValueAccessor;
-  private outputsHandler: OutputsHandlerService;
+    private valueAccessor: ControlValueAccessor;
+    private outputsHandler: OutputsHandlerService;
 
-  @Input()
-  bindControlOutputs;
+    @Input()
+    bindControlOutputs;
 
-  constructor(
-    @Inject(NG_VALUE_ACCESSOR) valueAccessors: ControlValueAccessor[],
-    private componentFactoryResolver: ComponentFactoryResolver
-  ) {
-    this.valueAccessor = valueAccessors[0];
-  }
+    constructor(
+        @Inject(NG_VALUE_ACCESSOR) valueAccessors: ControlValueAccessor[],
+        private componentFactoryResolver: ComponentFactoryResolver
+    ) {
+        this.valueAccessor = valueAccessors[0];
+    }
 
-  ngOnInit() {
-    const componentType = (<any>this.valueAccessor).constructor;
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-    this.outputsHandler = new OutputsHandlerService(componentFactory);
-  }
+    ngOnInit() {
+        const componentType = (<any>this.valueAccessor).constructor;
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+        this.outputsHandler = new OutputsHandlerService(componentFactory);
+    }
 
-  ngDoCheck(): void {
-    this.outputsHandler.handle(this.bindControlOutputs, this.valueAccessor);
-  }
+    ngDoCheck(): void {
+        this.outputsHandler.handle(this.bindControlOutputs, this.valueAccessor);
+    }
 }

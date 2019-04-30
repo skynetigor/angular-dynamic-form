@@ -8,82 +8,78 @@ import { TestDynamicControlComponent } from '../../mocks';
 import { BindControlOutputsDirective } from './bind-control-outputs.directive';
 
 @Component({
-  selector: 'lib-test-component',
-  template: `
-    <form [formGroup]="formGroup">
-      <lib-test-control-component
-        formControlName="firstControl"
-        [bindControlOutputs]="controlOutputs.firstControl"
-      ></lib-test-control-component>
-    </form>
-  `
+    selector: 'lib-test-component',
+    template: `
+        <form [formGroup]="formGroup">
+            <lib-test-control-component formControlName="firstControl" [bindControlOutputs]="controlOutputs.firstControl">
+            </lib-test-control-component>
+        </form>
+    `
 })
 class TestComponent {
-  formGroup: FormGroup;
-  controlOutputs = {
-    firstControl: {}
-  };
+    formGroup: FormGroup;
+    controlOutputs = {
+        firstControl: {}
+    };
 
-  constructor(formBuilder: FormBuilder) {
-    this.formGroup = formBuilder.group({
-      firstControl: null
-    });
-  }
+    constructor(formBuilder: FormBuilder) {
+        this.formGroup = formBuilder.group({
+            firstControl: null
+        });
+    }
 }
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule],
-  declarations: [BindControlOutputsDirective, TestDynamicControlComponent, TestComponent],
-  entryComponents: [TestDynamicControlComponent]
+    imports: [CommonModule, ReactiveFormsModule],
+    declarations: [BindControlOutputsDirective, TestDynamicControlComponent, TestComponent],
+    entryComponents: [TestDynamicControlComponent]
 })
 export class TestModule {}
 
 describe('BindControlOutputsDirective', () => {
-  let component: TestComponent;
-  let fixture: ComponentFixture<TestComponent>;
+    let component: TestComponent;
+    let fixture: ComponentFixture<TestComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestModule]
-    }).compileComponents();
-  });
-
-  beforeEach(async () => {
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should bind function to outputs of the control', async () => {
-    fixture.detectChanges();
-
-    // Arrange
-    const componentFactoryResolver: ComponentFactoryResolver = fixture.debugElement.injector.get(
-      ComponentFactoryResolver
-    );
-    const componentFactory = componentFactoryResolver.resolveComponentFactory(TestDynamicControlComponent);
-    const controlComponent = fixture.debugElement.query(By.directive(TestDynamicControlComponent)).componentInstance;
-
-    componentFactory.outputs.forEach(prop => {
-      component.controlOutputs.firstControl[prop.propName] = jasmine.createSpy(prop.propName);
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestModule]
+        }).compileComponents();
     });
 
-    // Act
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    componentFactory.outputs.forEach((prop, index) => {
-      controlComponent[prop.propName].emit(index);
+    beforeEach(async () => {
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
     });
 
-    await fixture.whenStable();
-
-    // Assert
-    componentFactory.outputs.forEach((prop, index) => {
-      expect(component.controlOutputs.firstControl[prop.propName]).toHaveBeenCalledWith(index);
+    it('should be created', () => {
+        expect(component).toBeTruthy();
     });
-  });
+
+    it('should bind function to outputs of the control', async () => {
+        fixture.detectChanges();
+
+        // Arrange
+        const componentFactoryResolver: ComponentFactoryResolver = fixture.debugElement.injector.get(ComponentFactoryResolver);
+        const componentFactory = componentFactoryResolver.resolveComponentFactory(TestDynamicControlComponent);
+        const controlComponent = fixture.debugElement.query(By.directive(TestDynamicControlComponent)).componentInstance;
+
+        componentFactory.outputs.forEach(prop => {
+            component.controlOutputs.firstControl[prop.propName] = jasmine.createSpy(prop.propName);
+        });
+
+        // Act
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        componentFactory.outputs.forEach((prop, index) => {
+            controlComponent[prop.propName].emit(index);
+        });
+
+        await fixture.whenStable();
+
+        // Assert
+        componentFactory.outputs.forEach((prop, index) => {
+            expect(component.controlOutputs.firstControl[prop.propName]).toHaveBeenCalledWith(index);
+        });
+    });
 });

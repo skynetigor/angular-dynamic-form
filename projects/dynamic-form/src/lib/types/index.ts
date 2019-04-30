@@ -7,18 +7,18 @@ export declare type ControlOrTemplate = AbstractDynamicControl<any> | TemplateMo
 /**
  * The interface for configuring AbstractDynamicControl
  */
-export declare interface IControlConfiguration<TInputs, TOutputs extends OutputsObject, TValue> {
-  initialInputs?: TInputs;
-  outputs?: TOutputs;
-  validators?: ValidatorFn | ValidatorFn[];
-  asyncValidators?: AsyncValidatorFn[] | AsyncValidatorFn;
-  displayed?: boolean;
-  initialValue?: TValue;
+export declare interface ControlConfiguration<TInputs, TOutputs extends OutputsObject, TValue> {
+    initialInputs?: TInputs;
+    outputs?: TOutputs;
+    validators?: ValidatorFn | ValidatorFn[];
+    asyncValidators?: AsyncValidatorFn[] | AsyncValidatorFn;
+    displayed?: boolean;
+    initialValue?: TValue;
 }
 
 /**
  * The interface for outputs
  */
 export declare interface OutputsObject {
-  [key: string]: Function;
+    [key: string]: Function;
 }

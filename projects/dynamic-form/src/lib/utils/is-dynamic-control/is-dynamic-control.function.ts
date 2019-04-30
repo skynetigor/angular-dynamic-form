@@ -1,5 +1,5 @@
 import { AbstractDynamicControl } from '../../models';
 
-export function isDynamicControl(v: any) {
-  return v instanceof AbstractDynamicControl;
+export function isDynamicControl(obj: any) {
+    return obj instanceof AbstractDynamicControl;
 }
