@@ -1,16 +1,16 @@
-import { BaseControlModel, IControlConfiguration } from 'dynamic-form';
+import { AbstractDynamicControl, ControlConfiguration } from 'dynamic-form';
 
 import { BootstrapDropdownComponent } from '../components';
 import { IBootstrapDropdownInputs } from '../interfaces';
-import { isArray } from 'util';
 
-export class BootstrapDropdownControlModel<T, TValue = any> extends BaseControlModel<
+export class BootstrapDropdownControlModel<T, TValue = any> extends AbstractDynamicControl<
   BootstrapDropdownComponent,
   IBootstrapDropdownInputs<T>,
+  any,
   TValue[]
 > {
-  constructor(config: IControlConfiguration<IBootstrapDropdownInputs<T>, TValue[]>) {
+  constructor(config: ControlConfiguration<IBootstrapDropdownInputs<T>, any, TValue[]>) {
     super(config, BootstrapDropdownComponent);
-    this.setValue(isArray(config.initialValue) ? config.initialValue : [], { emitEvent: false });
+    this.setValue(config.initialValue, { emitEvent: false });
   }
 }

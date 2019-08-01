@@ -17,3 +17,6 @@
     </li>
   </ul>
 </div>
+<div class="errorText">
+  <span *ngIf="dirty && errorTexts">{{ buildErrorText() }}</span>
+</div>

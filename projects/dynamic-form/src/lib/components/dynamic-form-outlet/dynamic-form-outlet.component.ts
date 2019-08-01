@@ -1,36 +1,81 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, TemplateRef } from '@angular/core';
-import { isNullOrUndefined } from 'util';
+import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
 import { DynamicFormGroup } from '../../models';
-import { isControl, isTemplate } from '../../utils/utils';
+import { isDynamicControl, isTemplateModel } from '../../utils';
 
+/**
+ * A component for rendering form based on @class DynamicFormGroup
+ */
 @Component({
-  selector: 'lib-dynamic-form-outlet',
-  templateUrl: './dynamic-form-outlet.component.html',
-  styleUrls: ['./dynamic-form-outlet.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'lib-dynamic-form-outlet',
+    templateUrl: './dynamic-form-outlet.component.html'
 })
-export class DynamicFormOutletComponent implements OnChanges {
-  @Input()
-  formModel: DynamicFormGroup<any>;
-  @Input()
-  controlWrapper: TemplateRef<any>;
+export class DynamicFormOutletComponent implements OnChanges, DoCheck {
+    @ViewChild('defaultControlWrapper') private defaultControlWrapper: TemplateRef<any>;
+    @ViewChild('defaultTemplateWrapper') private defaultTemplateWrapper: TemplateRef<any>;
 
-  constructor() {}
+    private _differ = this.differs.find({}).create();
 
-  ngOnChanges() {
-    if (!isNullOrUndefined(this.formModel)) {
-      if (!(this.formModel instanceof DynamicFormGroup)) {
-        throw Error('formModel value should inherit FormModel');
-      }
+    /**
+     * A form model that is rendered @instance DynamicFormGroup
+     */
+    @Input()
+    formModel: DynamicFormGroup<any>;
+
+    /**
+     * A template that wraps each control
+     */
+    @Input()
+    controlWrapper: TemplateRef<any>;
+
+    /**
+     * Form body that is built based on FormModel
+     */
+    formBody = [];
+
+    constructor(private differs: KeyValueDiffers) {}
+
+    ngOnChanges(changes: SimpleChanges) {
+        if ('controlWrapper' in changes) {
+            this.buildFormBody();
+        }
     }
-  }
 
-  isControl(c) {
-    return isControl(c);
-  }
+    trackByFn(_, obj: { trackBy: any }) {
+        return obj.trackBy;
+    }
 
-  isTemplate(t) {
-    return isTemplate(t);
-  }
+    ngDoCheck() {
+        if (this.formModel instanceof DynamicFormGroup) {
+            const diff = this._differ.diff(this.formModel.items);
+
+            if (diff) {
+                this.buildFormBody();
+            }
+        } else {
+            this.formBody = [];
+        }
+    }
+
+    private buildFormBody() {
+        const parsed = [];
+
+        Object.keys(this.formModel.items)
+            .map(key => this.formModel.items[key])
+            .forEach(t => {
+                if (isDynamicControl(t)) {
+                    const template = this.controlWrapper ? this.controlWrapper : this.defaultControlWrapper;
+                    parsed.push({ instance: t, trackBy: t.componentType, template: template, context: { control: t } });
+                } else if (isTemplateModel(t)) {
+                    parsed.push({
+                        instance: t,
+                        trackBy: t.templateRef,
+                        template: this.defaultTemplateWrapper,
+                        context: { templateModel: t }
+                    });
+                }
+            });
+
+        this.formBody = parsed;
+    }
 }

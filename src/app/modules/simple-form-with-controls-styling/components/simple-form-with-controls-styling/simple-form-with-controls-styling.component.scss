@@ -37,6 +37,11 @@
     &:hover > * {
       animation: show-animations 1000ms;
     }
+
+    .errorText {
+      color: darkblue;
+      font-size: 20pt;
+    }
   }
 
   #message {

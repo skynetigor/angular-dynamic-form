@@ -1,25 +1,24 @@
-import { BaseControlModel, TemplateModel } from '../models';
-import { Injector, ElementRef, Type, ChangeDetectorRef } from '@angular/core';
-import { ValidatorFn, AsyncValidatorFn } from '@angular/forms';
+import { AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 
-export declare interface IDynamicComponentRef<T = any> {
-  instance: T;
-  injector: Injector;
-  location: ElementRef<HTMLElement>;
-  componentType: Type<T>;
-  changeDetectorRef: ChangeDetectorRef;
+import { AbstractDynamicControl, TemplateModel } from '../models';
+
+export declare type ControlOrTemplate = AbstractDynamicControl<any> | TemplateModel<any>;
+
+/**
+ * The interface for configuring AbstractDynamicControl
+ */
+export declare interface ControlConfiguration<TInputs, TOutputs extends OutputsObject, TValue> {
+    initialInputs?: TInputs;
+    outputs?: TOutputs;
+    validators?: ValidatorFn | ValidatorFn[];
+    asyncValidators?: AsyncValidatorFn[] | AsyncValidatorFn;
+    displayed?: boolean;
+    initialValue?: TValue;
 }
 
-export declare type ControlOrTemplate = BaseControlModel<any> | TemplateModel<any>;
-
-export declare interface IComponentMetadata<TComponent, TInput> {
-  inputs: TInput;
-  componentRef: IDynamicComponentRef;
-}
-
-export declare interface IControlConfiguration<TInputs, TValue> {
-  initialInputs?: TInputs;
-  validators?: ValidatorFn | ValidatorFn[];
-  asyncValidators?: AsyncValidatorFn[] | AsyncValidatorFn;
-  initialValue?: TValue;
+/**
+ * The interface for outputs
+ */
+export declare interface OutputsObject {
+    [key: string]: Function;
 }

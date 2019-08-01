@@ -1,9 +1,15 @@
+<ng-template #defaultControlWrapper let-control="control">
+  <ng-container [dynamicFormControlOutlet]="control"></ng-container>
+</ng-template>
+
+<ng-template #defaultTemplateWrapper let-templateModel="templateModel">
+  <ng-container
+    *ngTemplateOutlet="templateModel.displayed ? templateModel.templateRef : null; context: templateModel.context"
+  ></ng-container>
+</ng-template>
+
 <form *ngIf="formModel" [formGroup]="formModel">
-  <ng-container *ngFor="let item of (formModel.controlsStateChanged$ | async)">
-    <ng-container *ngIf="isControl(item)">
-      <ng-container *ngIf="!controlWrapper" [dynamicFormControlOutlet]="item"></ng-container>
-      <ng-container *ngTemplateOutlet="controlWrapper; context: { control: item }"></ng-container>
-    </ng-container>
-    <ng-container *ngIf="isTemplate(item)" [dynamicTemplateOutlet]="item"></ng-container>
+  <ng-container *ngFor="let item of formBody; trackBy: trackByFn">
+    <ng-container *ngTemplateOutlet="item.template; context: item.context"></ng-container>
   </ng-container>
 </form>

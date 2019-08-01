@@ -1,58 +1,72 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { BootstrapDropdownControlModel } from 'bootstrap-controls';
-import { DynamicFormGroup } from 'dynamic-form';
+import { DynamicFormGroup, FormModelBuilderService } from 'dynamic-form';
 import { never, Observable } from 'rxjs';
-import { map, switchMap, tap, filter } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
-import { FormModelBuilderService, FormsApiService } from '../../services';
+import { FormsApiService } from '../../services';
 
 @Component({
-  selector: 'app-forms-from-server',
-  templateUrl: './forms-from-server.component.html',
-  styleUrls: ['./forms-from-server.component.scss']
+    selector: 'app-forms-from-server',
+    templateUrl: './forms-from-server.component.html',
+    styleUrls: ['./forms-from-server.component.scss']
 })
 export class FormsFromServerComponent implements OnInit, AfterViewInit {
-  formGroup: FormGroup;
+    formGroup: DynamicFormGroup<any>;
 
-  selectorFormModel = new DynamicFormGroup({
-    selectForm: new BootstrapDropdownControlModel({
-      initialInputs: {
-        label: 'Select form from server',
-        placeholder: 'Select form',
-        displayedProperty: 'name',
-        options: []
-      }
-    })
-  });
+    selectorFormModel = new DynamicFormGroup({
+        selectForm: new BootstrapDropdownControlModel({
+            initialInputs: {
+                label: 'Select form from server',
+                placeholder: 'Select form',
+                displayedProperty: 'name',
+                options: []
+            }
+        })
+    });
 
-  selectFormValueChanges: Observable<any>;
-  showFormFromServer: Observable<boolean>;
+    selectFormValueChanges: Observable<any>;
 
-  constructor(private formsApiService: FormsApiService, private formModelBuilderService: FormModelBuilderService) {}
+    constructor(private formsApiService: FormsApiService, private formModelBuilderService: FormModelBuilderService) {}
 
-  ngOnInit() {
-    this.selectFormValueChanges = this.selectorFormModel.items.selectForm.valueChanges.pipe(
-      switchMap((t: any) => {
-        if (t) {
-          return t.value.pipe(
-            map(r => this.formModelBuilderService.buildFormModel(r)),
-            tap((r: any) => (this.formGroup = r.formGroup))
-          );
-        }
+    ngOnInit() {
+        this.selectorFormModel.items.selectForm.valueChanges
+            .pipe(
+                switchMap((t: any) => {
+                    if (t) {
+                        if (typeof t.value === 'string') {
+                            return this.formsApiService.getByName(t.value).pipe(map(r => this.formModelBuilderService.buildFormModel(r)));
+                        }
+                        return t.value.pipe(map(r => this.formModelBuilderService.buildFormModel(r)));
+                    }
 
-        return never();
-      })
-    );
+                    return never();
+                })
+            )
+            .subscribe((r: any) => {
+                this.formGroup = r.dynamicFormGroup;
+                if (r.script) {
+                    r.script.bind(this)();
+                }
 
-    this.showFormFromServer = this.selectFormValueChanges.pipe(filter(t => !!t));
-  }
+                Object.keys(this.formGroup.controls).forEach(itKey => {
+                    const control = this.formGroup.items[itKey];
+                    Object.keys(control.outputs).forEach(cKey => {
+                        const fn = control.outputs[cKey];
+                        if (typeof fn === 'function') {
+                            control.outputs[cKey] = fn.bind(this);
+                        }
+                    });
+                });
+            });
+    }
 
-  ngAfterViewInit() {
-    this.selectorFormModel.items.selectForm.componetController.inputs.options = [
-      { name: 'Login form', value: this.formsApiService.getLoginForm() },
-      { name: 'Registration form', value: this.formsApiService.getRegistrationForm() },
-      { name: 'All available controls', value: this.formsApiService.getAllAvailableControls() }
-    ];
-  }
+    ngAfterViewInit() {
+        this.selectorFormModel.items.selectForm.inputs.options = [
+            { name: 'Login form', value: this.formsApiService.getLoginForm() },
+            { name: 'Registration form', value: this.formsApiService.getRegistrationForm() },
+            { name: 'All available controls', value: this.formsApiService.getAllAvailableControls() },
+            { name: 'for test', value: 'for-test' }
+        ];
+    }
 }

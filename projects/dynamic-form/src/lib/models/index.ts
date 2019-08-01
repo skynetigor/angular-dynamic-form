@@ -1,2 +1,6 @@
-export * from './controls';
-export * from './form-model';
+export {
+    AbstractDynamicControl,
+    GenericDynamicControl,
+    TemplateModel
+} from './controls/index';
+export { DynamicFormGroup } from './form-model';

@@ -1,60 +1,130 @@
 {
-  "login": {
-    "type": "BootstrapTextfield",
-    "inputs": {
-      "label": "Login",
-      "multiline": false,
-      "placeholder": "Enter login"
+    "script": "this.formGroup.controls.password.valueChanges.subscribe(function (v) { this.formGroup.controls.email.inputs.placeholder = v; }.bind(this));",
+    "controls": {
+        "login": {
+            "type": "BootstrapTextField",
+            "inputs": {
+                "label": "Login",
+                "multiline": false,
+                "placeholder": "Enter login",
+                "required": true,
+                "errorTexts": {
+                    "required": "This field is required",
+                    "minlength": "Login length should be greater than {0}"
+                }
+            },
+            "validators": [
+                "required",
+                {
+                    "name": "minLength",
+                    "value": 5
+                }
+            ]
+        },
+        "password": {
+            "type": "BootstrapTextField",
+            "inputs": {
+                "label": "Password",
+                "multiline": false,
+                "placeholder": "Enter password",
+                "type": "password",
+                "required": true,
+                "errorTexts": {
+                    "required": "This field is required",
+                    "minlength": "Login length should be greater than {0}"
+                }
+            },
+            "validators": [
+                "required",
+                {
+                    "name": "minLength",
+                    "value": 5
+                }
+            ]
+        },
+        "confirmPassword": {
+            "type": "BootstrapTextField",
+            "inputs": {
+                "label": "Confirm password",
+                "multiline": false,
+                "placeholder": "Enter password",
+                "type": "password",
+                "required": true,
+                "errorTexts": {
+                    "required": "This field is required",
+                    "minlength": "Login length should be greater than {0}",
+                    "compare": "\"Password\" and \"Confirm password\" fields should be equal"
+                }
+            },
+            "validators": [
+                "required",
+                {
+                    "name": "minLength",
+                    "value": 5
+                },
+                {
+                    "name": "compare",
+                    "compareWith": "password"
+                }
+            ]
+        },
+        "email": {
+            "type": "BootstrapTextField",
+            "inputs": {
+                "label": "Email",
+                "multiline": false,
+                "placeholder": "Enter email",
+                "type": "email",
+                "required": true,
+                "errorTexts": {
+                    "required": "This field is required",
+                    "email": "Please enter valid email address"
+                }
+            },
+            "validators": ["required", "email"]
+        },
+        "phone": {
+            "type": "BootstrapTextField",
+            "inputs": {
+                "label": "Phone",
+                "multiline": false,
+                "placeholder": "Enter your phone",
+                "type": "text",
+                "required": true,
+                "errorTexts": {
+                    "required": "This field is required",
+                    "phone": "Please enter valid phone number in the format {2}"
+                }
+            },
+            "validators": ["required", "phone"]
+        },
+        "age": {
+            "type": "BootstrapDropdown",
+            "outputs": {
+                "dropdownOpened": "if (typeof this.counter === 'undefined') { this.counter = 0; } else { this.counter++; } this.formGroup.controls.login.inputs.label = this.counter.toString();"
+            },
+            "inputs": {
+                "label": "Age",
+                "placeholder": "Pick your age",
+                "options": ["Less then 20", 20, 21, 22, 23, 24, 25, "More then 25"],
+                "required": true,
+                "errorTexts": {
+                    "required": "This field is required"
+                }
+            },
+            "validators": ["required"]
+        },
+        "signature": {
+            "type": "BootstrapTextField",
+            "inputs": {
+                "label": "Signature",
+                "placeholder": "Enter your signature",
+                "multiline": true,
+                "errorTexts": {
+                    "maxlength": "Signature length should be less than {0} characters"
+                }
+            },
+            "validators": [{ "name": "maxLength", "value": 4000 }]
+        }
     }
-  },
-  "password": {
-    "type": "BootstrapTextfield",
-    "inputs": {
-      "label": "Password",
-      "multiline": false,
-      "placeholder": "Enter password"
-    }
-  },
-  "confirmPassword": {
-    "type": "BootstrapTextfield",
-    "inputs": {
-      "label": "Confirm password",
-      "multiline": false,
-      "placeholder": "Enter password"
-    }
-  },
-  "email": {
-    "type": "BootstrapTextfield",
-    "inputs": {
-      "label": "Email",
-      "multiline": false,
-      "placeholder": "Enter email",
-      "type": "email"
-    }
-  },
-  "phone": {
-    "type": "BootstrapTextfield",
-    "inputs": {
-      "label": "Phone",
-      "multiline": false,
-      "placeholder": "Enter your phone",
-      "type": "number"
-    }
-  },
-  "age": {
-    "type": "BootstrapDropdown",
-    "inputs": {
-      "label": "Age",
-      "placeholder": "Pick your age",
-      "options": ["Less then 10", 20, 21, 22, 23, 24, 25, "More then 25"]
-    }
-  },
-  "signature": {
-    "type": "BootstrapTextfield",
-    "inputs": {
-      "label": "Signature",
-      "placeholder": "Enter your signature",
-      "multiline": true
-    }
-  }
 }
