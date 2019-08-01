@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { BootstrapDropdownControlModel } from 'bootstrap-controls';
 import { DynamicFormGroup, FormModelBuilderService } from 'dynamic-form';
 import { never, Observable } from 'rxjs';
-import { map, switchMap, tap, filter } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { FormsApiService } from '../../services';
 
@@ -13,7 +12,7 @@ import { FormsApiService } from '../../services';
     styleUrls: ['./forms-from-server.component.scss']
 })
 export class FormsFromServerComponent implements OnInit, AfterViewInit {
-    formGroup: FormGroup;
+    formGroup: DynamicFormGroup<any>;
 
     selectorFormModel = new DynamicFormGroup({
         selectForm: new BootstrapDropdownControlModel({
@@ -44,7 +43,22 @@ export class FormsFromServerComponent implements OnInit, AfterViewInit {
                     return never();
                 })
             )
-            .subscribe((r: any) => (this.formGroup = r));
+            .subscribe((r: any) => {
+                this.formGroup = r.dynamicFormGroup;
+                if (r.script) {
+                    r.script.bind(this)();
+                }
+
+                Object.keys(this.formGroup.controls).forEach(itKey => {
+                    const control = this.formGroup.items[itKey];
+                    Object.keys(control.outputs).forEach(cKey => {
+                        const fn = control.outputs[cKey];
+                        if (typeof fn === 'function') {
+                            control.outputs[cKey] = fn.bind(this);
+                        }
+                    });
+                });
+            });
     }
 
     ngAfterViewInit() {

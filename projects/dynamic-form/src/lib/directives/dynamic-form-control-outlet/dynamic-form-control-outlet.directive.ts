@@ -8,7 +8,6 @@ import {
     Input,
     OnChanges,
     OnDestroy,
-    OnInit,
     Optional,
     SimpleChanges,
     ViewContainerRef

@@ -1,4 +1,4 @@
-import { AbstractDynamicControl, IControlConfiguration } from 'dynamic-form';
+import { AbstractDynamicControl, ControlConfiguration } from 'dynamic-form';
 
 import { BootstrapDropdownComponent } from '../components';
 import { IBootstrapDropdownInputs } from '../interfaces';
@@ -9,7 +9,7 @@ export class BootstrapDropdownControlModel<T, TValue = any> extends AbstractDyna
   any,
   TValue[]
 > {
-  constructor(config: IControlConfiguration<IBootstrapDropdownInputs<T>, any, TValue[]>) {
+  constructor(config: ControlConfiguration<IBootstrapDropdownInputs<T>, any, TValue[]>) {
     super(config, BootstrapDropdownComponent);
     this.setValue(config.initialValue, { emitEvent: false });
   }

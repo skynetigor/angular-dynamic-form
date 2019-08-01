@@ -18,7 +18,7 @@ export abstract class AbstractDynamicControl<
     }
 
     public inputs: TInputs;
-    public outputs: TOutputs;
+    public outputs: TOutputs = <TOutputs>{};
 
     public displayed = true;
 

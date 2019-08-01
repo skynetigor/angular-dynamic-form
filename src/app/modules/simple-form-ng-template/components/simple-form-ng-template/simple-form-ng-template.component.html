@@ -4,7 +4,7 @@
     [controlWrapper]="showTeplatesInWrapper ? wrapper : null"
   ></lib-dynamic-form-outlet>
   <div class="dropdown-divider"></div>
-  <button (click)="clicks()" [disabled]="!formModel.valid" type="button" class="btn btn-primary">Send</button>
+  <button (click)="click()" [disabled]="!formModel.valid" type="button" class="btn btn-primary">Send</button>
 </div>
 
 <ng-template #wrapper let-control="control">

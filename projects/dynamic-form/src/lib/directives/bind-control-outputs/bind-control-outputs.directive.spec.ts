@@ -3,6 +3,7 @@ import { Component, ComponentFactoryResolver, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { configureTestSuite } from 'ng-bullet';
 
 import { TestDynamicControlComponent } from '../../mocks';
 import { BindControlOutputsDirective } from './bind-control-outputs.directive';
@@ -37,10 +38,12 @@ class TestComponent {
 export class TestModule {}
 
 describe('BindControlOutputsDirective', () => {
+    configureTestSuite();
+
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         await TestBed.configureTestingModule({
             imports: [TestModule]
         }).compileComponents();

@@ -11,7 +11,7 @@ export class OutputsHandlerService {
      * @param objWithInputs Object with callbacks that listens to component events
      * @param componentInstance Component instance
      */
-    handle(outputsObj, componentInstance) {
+    handle(outputsObj: { [key: string]: Function }, componentInstance) {
         this.unsubscribeFromOutputsSubscription();
 
         if (outputsObj) {

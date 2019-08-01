@@ -1,25 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { BootstrapControlsModule, BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 import { DynamicFormModule } from 'dynamic-form';
 
-import { FormsFromServerComponent } from './components';
-import { FormsApiService } from './services';
+import { LiveJsonRendererComponent } from './components';
+import { JsonEditorComponent } from './components/json-editor/json-editor.component';
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild([{ path: '', component: FormsFromServerComponent }]),
+        RouterModule.forChild([{ path: '', component: LiveJsonRendererComponent }]),
+        ReactiveFormsModule,
+        BootstrapControlsModule,
         DynamicFormModule.withFormModelBuilderFromJson({
             BootstrapDropdown: BootstrapDropdownControlModel,
             BootstrapTextField: BootstrapTextFieldModel
         }),
-        BootstrapControlsModule,
-        HttpModule
+        NgJsonEditorModule
     ],
-    declarations: [FormsFromServerComponent],
-    providers: [FormsApiService]
+    declarations: [LiveJsonRendererComponent, JsonEditorComponent]
 })
-export class FormsFromServerModule {}
+export class LiveJsonRendererModule {}

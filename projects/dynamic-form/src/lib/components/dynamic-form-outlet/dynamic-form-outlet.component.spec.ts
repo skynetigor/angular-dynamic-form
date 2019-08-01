@@ -3,8 +3,9 @@ import { Component, ComponentFactoryResolver, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { DynamicFormControlOutletDirective } from '../../directives';
+import { configureTestSuite } from 'ng-bullet';
 
+import { DynamicFormControlOutletDirective } from '../../directives';
 import { TestDynamicControlComponent, TestDynamicControlModel } from '../../mocks';
 import { DynamicFormGroup } from '../../models';
 import { DynamicFormOutletComponent } from './dynamic-form-outlet.component';
@@ -53,10 +54,12 @@ class TestComponent {
 export class TestModule {}
 
 describe('DynamicFormOutlet', () => {
+    configureTestSuite();
+
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         await TestBed.configureTestingModule({
             imports: [TestModule]
         }).compileComponents();

@@ -41,8 +41,8 @@ export class DynamicFormOutletComponent implements OnChanges, DoCheck {
         }
     }
 
-    trackByFn(_, obj) {
-        return obj.instance;
+    trackByFn(_, obj: { trackBy: any }) {
+        return obj.trackBy;
     }
 
     ngDoCheck() {
@@ -65,9 +65,14 @@ export class DynamicFormOutletComponent implements OnChanges, DoCheck {
             .forEach(t => {
                 if (isDynamicControl(t)) {
                     const template = this.controlWrapper ? this.controlWrapper : this.defaultControlWrapper;
-                    parsed.push({ instance: t, template: template, context: { control: t } });
+                    parsed.push({ instance: t, trackBy: t.componentType, template: template, context: { control: t } });
                 } else if (isTemplateModel(t)) {
-                    parsed.push({ instance: t, template: this.defaultTemplateWrapper, context: { templateModel: t } });
+                    parsed.push({
+                        instance: t,
+                        trackBy: t.templateRef,
+                        template: this.defaultTemplateWrapper,
+                        context: { templateModel: t }
+                    });
                 }
             });
 

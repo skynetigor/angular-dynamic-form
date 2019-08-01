@@ -7,6 +7,7 @@ import { By } from '@angular/platform-browser';
 import { TestDynamicControlComponent, TestDynamicControlModel } from '../../mocks';
 import { DynamicFormGroup } from '../../models';
 import { DynamicFormControlOutletDirective } from './dynamic-form-control-outlet.directive';
+import { configureTestSuite } from 'ng-bullet';
 
 @Component({
     selector: 'lib-test-component',
@@ -50,10 +51,12 @@ class TestComponent {
 export class TestModule {}
 
 describe('DynamicFormControlOutletDirective', () => {
+    configureTestSuite();
+
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         await TestBed.configureTestingModule({
             imports: [TestModule]
         }).compileComponents();
