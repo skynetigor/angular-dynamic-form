@@ -1,10 +1,10 @@
-import { AbstractDynamicControl, IControlConfiguration } from 'dynamic-form';
+import { AbstractDynamicControl, ControlConfiguration } from 'dynamic-form';
 
 import { BootstrapTextfieldComponent } from '../components';
 import { IBootstrapTextfieldInputs } from '../interfaces';
 
 export class BootstrapTextFieldModel extends AbstractDynamicControl<BootstrapTextfieldComponent, IBootstrapTextfieldInputs, any, string> {
-    constructor(config: IControlConfiguration<IBootstrapTextfieldInputs, any, string>) {
+    constructor(config: ControlConfiguration<IBootstrapTextfieldInputs, any, string>) {
         super(config, BootstrapTextfieldComponent);
     }
 }

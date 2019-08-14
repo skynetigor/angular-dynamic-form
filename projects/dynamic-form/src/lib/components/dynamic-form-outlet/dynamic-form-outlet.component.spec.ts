@@ -5,7 +5,7 @@ import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 
-import { DynamicFormControlOutletDirective } from '../../directives';
+import { DynamicFormControlOutletDirective, NestedDynamicFormGroupOutletDirective } from '../../directives';
 import { TestDynamicControlComponent, TestDynamicControlModel } from '../../mocks';
 import { DynamicFormGroup } from '../../models';
 import { DynamicFormOutletComponent } from './dynamic-form-outlet.component';
@@ -48,7 +48,13 @@ class TestComponent {
 
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule],
-    declarations: [DynamicFormOutletComponent, DynamicFormControlOutletDirective, TestDynamicControlComponent, TestComponent],
+    declarations: [
+        DynamicFormOutletComponent,
+        DynamicFormControlOutletDirective,
+        TestDynamicControlComponent,
+        TestComponent,
+        NestedDynamicFormGroupOutletDirective
+    ],
     entryComponents: [TestDynamicControlComponent]
 })
 export class TestModule {}

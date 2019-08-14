@@ -1,7 +1,7 @@
-import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
 import { DynamicFormGroup } from '../../models';
-import { isDynamicControl, isTemplateModel } from '../../utils';
+import { isDynamicControl, isDynamicFormGroup, isTemplateModel } from '../../utils';
 
 /**
  * A component for rendering form based on @class DynamicFormGroup
@@ -10,12 +10,13 @@ import { isDynamicControl, isTemplateModel } from '../../utils';
     selector: 'lib-dynamic-form-outlet',
     templateUrl: './dynamic-form-outlet.component.html'
 })
-export class DynamicFormOutletComponent implements OnChanges, DoCheck {
+export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
     @ViewChild('defaultControlWrapper') private defaultControlWrapper: TemplateRef<any>;
     @ViewChild('defaultTemplateWrapper') private defaultTemplateWrapper: TemplateRef<any>;
+    @ViewChild('formGroupTemplate') private formGroupTemplate: TemplateRef<any>;
 
     private _differ = this.differs.find({}).create();
-
+    private _controlWrappers: any;
     /**
      * A form model that is rendered @instance DynamicFormGroup
      */
@@ -23,10 +24,10 @@ export class DynamicFormOutletComponent implements OnChanges, DoCheck {
     formModel: DynamicFormGroup<any>;
 
     /**
-     * A template that wraps each control
+     * An object that describes templates which control to be wrapped by custom template
      */
     @Input()
-    controlWrapper: TemplateRef<any>;
+    controlWrappers: any;
 
     /**
      * Form body that is built based on FormModel
@@ -35,8 +36,13 @@ export class DynamicFormOutletComponent implements OnChanges, DoCheck {
 
     constructor(private differs: KeyValueDiffers) {}
 
+    ngOnInit() {
+        this.refreshControlWrappers();
+    }
+
     ngOnChanges(changes: SimpleChanges) {
-        if ('controlWrapper' in changes) {
+        if ('controlWrappers' in changes) {
+            this.refreshControlWrappers();
             this.buildFormBody();
         }
     }
@@ -57,25 +63,41 @@ export class DynamicFormOutletComponent implements OnChanges, DoCheck {
         }
     }
 
+    private refreshControlWrappers() {
+        this._controlWrappers = this.controlWrappers ? this.controlWrappers : {};
+    }
+
     private buildFormBody() {
-        const parsed = [];
+        this.formBody = Object.keys(this.formModel.items)
+            .map(key => {
+                const item = this.formModel.items[key];
+                const wrapper = this._controlWrappers[key];
 
-        Object.keys(this.formModel.items)
-            .map(key => this.formModel.items[key])
-            .forEach(t => {
-                if (isDynamicControl(t)) {
-                    const template = this.controlWrapper ? this.controlWrapper : this.defaultControlWrapper;
-                    parsed.push({ instance: t, trackBy: t.componentType, template: template, context: { control: t } });
-                } else if (isTemplateModel(t)) {
-                    parsed.push({
-                        instance: t,
-                        trackBy: t.templateRef,
+                if (isDynamicControl(item)) {
+                    const template = wrapper ? wrapper : this.defaultControlWrapper;
+
+                    return {
+                        instance: item,
+                        trackBy: item,
+                        template: template,
+                        context: { control: item }
+                    };
+                } else if (isTemplateModel(item)) {
+                    return {
+                        instance: item,
+                        trackBy: item.templateRef,
                         template: this.defaultTemplateWrapper,
-                        context: { templateModel: t }
-                    });
+                        context: { templateModel: item }
+                    };
+                } else if (isDynamicFormGroup(item)) {
+                    return {
+                        instance: item,
+                        trackBy: item,
+                        template: wrapper ? wrapper : this.formGroupTemplate,
+                        context: { formGroup: item }
+                    };
                 }
-            });
-
-        this.formBody = parsed;
+            })
+            .filter(t => t);
     }
 }

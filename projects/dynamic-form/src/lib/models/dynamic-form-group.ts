@@ -1,9 +1,12 @@
 import { AsyncValidatorFn, ControlValueAccessor, FormGroup, ValidatorFn } from '@angular/forms';
+import { isNullOrUndefined } from 'util';
 
 import { ControlOrTemplate, OutputsObject } from '../types';
 import { AbstractDynamicControl } from './controls';
 
-function extractControls(items: { [key: string]: ControlOrTemplate }): { [key: string]: AbstractDynamicControl<any> } {
+function extractControls(items: {
+    [key: string]: ControlOrTemplate | DynamicFormGroup<any>;
+}): { [key: string]: AbstractDynamicControl<any> } {
     const result = {};
     Object.keys(items)
         .filter(key => items[key] instanceof AbstractDynamicControl || items[key] instanceof DynamicFormGroup)
@@ -16,9 +19,17 @@ function extractControls(items: { [key: string]: ControlOrTemplate }): { [key: s
 }
 
 /** Strong typed dynamic form group */
-export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> extends FormGroup {
+export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | DynamicFormGroup<any> }> extends FormGroup {
+    private _name: string;
+
     /** @inheritdoc */
     controls: { [key: string]: AbstractDynamicControl<any> };
+
+    get name() {
+        return this._name;
+    }
+
+    displayed = true;
 
     constructor(
         public readonly items: T,
@@ -26,6 +37,10 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> ex
         asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
     ) {
         super(extractControls(items), validatorOrOpts, asyncValidator);
+
+        if (isNullOrUndefined(this.parent)) {
+            this._name = 'root';
+        }
     }
 
     /** @inheritdoc */
@@ -49,7 +64,8 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate }> ex
         name: string,
         control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
     ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
-        this.items[name] = control;
+        const items: any = this.items;
+        items[name] = control;
         super.addControl('name', control);
         return control;
     }

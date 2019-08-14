@@ -1,25 +1,27 @@
 {
-  "textField": {
-    "type": "BootstrapTextField",
-    "inputs": {
-      "label": "Login",
-      "placeholder": "Enter something here"
+    "controls": {
+        "textField": {
+            "type": "BootstrapTextField",
+            "inputs": {
+                "label": "Login",
+                "placeholder": "Enter something here"
+            }
+        },
+        "multilineTextField": {
+            "type": "BootstrapTextField",
+            "inputs": {
+                "label": "Multiline text field",
+                "multiline": true,
+                "placeholder": "Enter something here"
+            }
+        },
+        "dropDown": {
+            "type": "BootstrapDropdown",
+            "inputs": {
+                "label": "Dropdown",
+                "placeholder": "Pick something",
+                "options": ["Dropdown value 1", "Dropdown value 2", "Dropdown value 3", "Dropdown value 4"]
+            }
+        }
     }
-  },
-  "multilineTextField": {
-    "type": "BootstrapTextField",
-    "inputs": {
-      "label": "Multiline text field",
-      "multiline": true,
-      "placeholder": "Enter something here"
-    }
-  },
-  "dropDown": {
-    "type": "BootstrapDropdown",
-    "inputs": {
-      "label": "Dropdown",
-      "placeholder": "Pick something",
-      "options": ["Dropdown value 1", "Dropdown value 2", "Dropdown value 3", "Dropdown value 4"]
-    }
-  }
 }

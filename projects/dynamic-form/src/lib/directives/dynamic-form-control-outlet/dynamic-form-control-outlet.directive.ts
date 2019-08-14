@@ -31,7 +31,7 @@ export const formControlBinding: any = {
  * Directive that is rendering control and binds its inputs/outputs
  */
 // tslint:disable-next-line:directive-selector
-@Directive({ selector: '[dynamicFormControlOutlet]', providers: [formControlBinding] })
+@Directive({ selector: `[${dynamicFormControlOutletProp}]`, providers: [formControlBinding] })
 export class DynamicFormControlOutletDirective extends NgControl implements OnChanges, OnDestroy, DoCheck {
     private dynamicControl: AbstractDynamicControl<any>;
     private displayed = false;
@@ -50,7 +50,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
     /**
      * A Dynamic control or a name of the dynamic control that exists in parent dynamic form group
      */
-    @Input()
+    @Input(dynamicFormControlOutletProp)
     dynamicFormControlOutlet: AbstractDynamicControl<any> | string;
 
     constructor(
@@ -71,7 +71,9 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
                     this.dynamicControl = this.dynamicFormControlOutlet as AbstractDynamicControl<any>;
                 }
 
-                this.buildComponentInstance();
+                if (!this.componentRef || this.componentRef.componentType !== this.dynamicControl.componentType) {
+                    this.buildComponentInstance();
+                }
             } else {
                 this.viewContainerRef.clear();
             }
@@ -80,22 +82,21 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
 
     private buildComponentInstance() {
         this.viewContainerRef.clear();
+        this.displayed = false;
 
         if (this.control instanceof AbstractDynamicControl) {
-            if (!this.componentRef) {
-                const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.control.componentType);
+            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.control.componentType);
 
-                this.componentRef = componentFactory.create(
-                    Injector.create({
-                        providers: [{ provide: NgControl, useValue: this }],
-                        parent: this.injector
-                    })
-                );
+            this.componentRef = componentFactory.create(
+                Injector.create({
+                    providers: [{ provide: NgControl, useValue: this }],
+                    parent: this.injector
+                })
+            );
 
-                this.inputsHandler = new InputsHandlerService(componentFactory);
-                this.outputsHandler = new OutputsHandlerService(componentFactory);
-                this.setupControl();
-            }
+            this.inputsHandler = new InputsHandlerService(componentFactory);
+            this.outputsHandler = new OutputsHandlerService(componentFactory);
+            this.setupControl();
         }
     }
 
@@ -123,16 +124,18 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
     }
 
     ngDoCheck() {
-        if (this.componentRef && this.componentRef.componentType !== this.control.componentType) {
-            this.buildComponentInstance();
-        }
+        if (this.componentRef) {
+            if (this.componentRef.componentType !== this.control.componentType) {
+                this.buildComponentInstance();
+            }
 
-        if (this.control instanceof AbstractDynamicControl) {
-            this.inputsHandler.handle(this.control.inputs, this.componentRef.instance);
-            this.outputsHandler.handle(this.control.outputs, this.componentRef.instance);
-        }
+            if (this.control instanceof AbstractDynamicControl) {
+                this.inputsHandler.handle(this.control.inputs, this.componentRef.instance);
+                this.outputsHandler.handle(this.control.outputs, this.componentRef.instance);
+            }
 
-        this.changeDisplayingState();
+            this.changeDisplayingState();
+        }
     }
 
     ngOnDestroy() {

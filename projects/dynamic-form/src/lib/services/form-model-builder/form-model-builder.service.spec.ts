@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { DYNAMIC_CONTROLS_DICTIONARY, VALIDATORS_DICTIONARY } from '../../constants';
 import { defaultValidatorsDictionary } from '../../default-validators-dictionary';
 import { TestDynamicControlModel } from '../../mocks';
-import { DynamicFormGroup } from '../../models';
 import { FormModelBuilderService } from './form-model-builder.service';
 
 const dynamicControlsDictionary = {
@@ -46,15 +45,15 @@ describe('FormModelBuilderService', () => {
 
             const dynamicFormGroup = service.buildFormModel(model);
 
-            expect(controlName in dynamicFormGroup.items).toBeTruthy();
-            expect(model[controlName].inputs.firstInput).toBe(dynamicFormGroup.items[controlName].inputs.firstInput);
-            expect(model[controlName].inputs.secondInput).toBe(dynamicFormGroup.items[controlName].inputs.secondInput);
+            expect(controlName in dynamicFormGroup.dynamicFormGroup.items).toBeTruthy();
+            expect(model[controlName].inputs.firstInput).toBe(dynamicFormGroup.dynamicFormGroup.items[controlName].inputs.firstInput);
+            expect(model[controlName].inputs.secondInput).toBe(dynamicFormGroup.dynamicFormGroup.items[controlName].inputs.secondInput);
 
-            dynamicFormGroup.controls[controlName].setValue(null);
-            expect(dynamicFormGroup.controls[controlName].errors).toEqual({ required: true });
+            dynamicFormGroup.dynamicFormGroup.controls[controlName].setValue(null);
+            expect(dynamicFormGroup.dynamicFormGroup.controls[controlName].errors).toEqual({ required: true });
 
-            dynamicFormGroup.controls[controlName].setValue('01234567890');
-            expect(dynamicFormGroup.controls[controlName].errors.maxlength).toBeTruthy();
+            dynamicFormGroup.dynamicFormGroup.controls[controlName].setValue('01234567890');
+            expect(dynamicFormGroup.dynamicFormGroup.controls[controlName].errors.maxlength).toBeTruthy();
         });
 
         it('should return DynamicFormGroup built from json representation of an object ', () => {
@@ -72,17 +71,17 @@ describe('FormModelBuilderService', () => {
 
             const json = JSON.stringify(model);
 
-            const dynamicFormGroup = service.buildFormModel(json);
+            const definition = service.buildFormModel(json);
 
-            expect(controlName in dynamicFormGroup.items).toBeTruthy();
-            expect(model[controlName].inputs.firstInput).toBe(dynamicFormGroup.items[controlName].inputs.firstInput);
-            expect(model[controlName].inputs.secondInput).toBe(dynamicFormGroup.items[controlName].inputs.secondInput);
+            expect(controlName in definition.dynamicFormGroup.items).toBeTruthy();
+            expect(model[controlName].inputs.firstInput).toBe(definition.dynamicFormGroup.items[controlName].inputs.firstInput);
+            expect(model[controlName].inputs.secondInput).toBe(definition.dynamicFormGroup.items[controlName].inputs.secondInput);
 
-            dynamicFormGroup.controls[controlName].setValue(null);
-            expect(dynamicFormGroup.controls[controlName].errors).toEqual({ required: true });
+            definition.dynamicFormGroup.controls[controlName].setValue(null);
+            expect(definition.dynamicFormGroup.controls[controlName].errors).toEqual({ required: true });
 
-            dynamicFormGroup.controls[controlName].setValue('01234567890');
-            expect(dynamicFormGroup.controls[controlName].errors.maxlength).toBeTruthy();
+            definition.dynamicFormGroup.controls[controlName].setValue('01234567890');
+            expect(definition.dynamicFormGroup.controls[controlName].errors.maxlength).toBeTruthy();
         });
     });
 });

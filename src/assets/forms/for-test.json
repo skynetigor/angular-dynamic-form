@@ -1,64 +1,66 @@
 {
-    "dropdown1": {
-        "type": "BootstrapDropdown",
-        "inputs": {
-            "label": "Dropdown 1",
-            "displayedProperty": "name",
-            "placeholder": "Pick Dropdown 2",
-            "options": [
-                {
-                    "name": "123",
-                    "value": "123"
-                },
-                {
-                    "name": "1234",
-                    "value": "1234"
-                },
-                {
-                    "name": "12345",
-                    "value": "1234"
+    "controls": {
+        "dropdown1": {
+            "type": "BootstrapDropdown",
+            "inputs": {
+                "label": "Dropdown 1",
+                "displayedProperty": "name",
+                "placeholder": "Pick Dropdown 2",
+                "options": [
+                    {
+                        "name": "123",
+                        "value": "123"
+                    },
+                    {
+                        "name": "1234",
+                        "value": "1234"
+                    },
+                    {
+                        "name": "12345",
+                        "value": "1234"
+                    }
+                ],
+                "required": true,
+                "errorTexts": {
+                    "required": "This field is required"
                 }
-            ],
-            "required": true,
-            "errorTexts": {
-                "required": "This field is required"
-            }
+            },
+            "validators": ["required"]
         },
-        "validators": ["required"]
-    },
-    "dropdown2": {
-        "type": "BootstrapDropdown",
-        "inputs": {
-            "label": "Dropdown 2",
-            "placeholder": "Pick Dropdown 2",
-            "displayedProperty": "name",
-            "options": [
-                {
-                    "name": "123",
-                    "value": "123"
-                },
-                {
-                    "name": "1234",
-                    "value": "1234"
-                },
-                {
-                    "name": "12345",
-                    "value": "12345"
+        "dropdown2": {
+            "type": "BootstrapDropdown",
+            "inputs": {
+                "label": "Dropdown 2",
+                "placeholder": "Pick Dropdown 2",
+                "displayedProperty": "name",
+                "options": [
+                    {
+                        "name": "123",
+                        "value": "123"
+                    },
+                    {
+                        "name": "1234",
+                        "value": "1234"
+                    },
+                    {
+                        "name": "12345",
+                        "value": "12345"
+                    }
+                ],
+                "required": true,
+                "errorTexts": {
+                    "required": "This field is required",
+                    "compare": "{0} {1} {2} {3}"
                 }
-            ],
-            "required": true,
-            "errorTexts": {
-                "required": "This field is required",
-                "compare": "{0} {1} {2} {3}"
-            }
-        },
-        "validators": [
-            "required",
-            {
-                "name": "compare",
-                "compareWith": "dropdown1",
-                "comparisonProperties": ["value", "name"]
-            }
-        ]
+            },
+            "validators": [
+                "required",
+                {
+                    "name": "compare",
+                    "compareWith": "dropdown1",
+                    "comparisonProperties": ["value", "name"]
+                }
+            ]
+        }
     }
 }
