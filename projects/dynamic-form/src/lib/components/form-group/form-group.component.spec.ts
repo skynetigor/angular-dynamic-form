@@ -1,10 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { DynamicFormGroupInjectionToken } from '../../constants';
+import { DynamicFormControlOutletDirective, NestedDynamicFormGroupOutletDirective } from '../../directives';
 import { TestDynamicControlModel } from '../../mocks';
 import { DynamicFormGroup } from '../../models';
+import { DynamicFormOutletComponent } from '../dynamic-form-outlet/dynamic-form-outlet.component';
 import { FormGroupComponent } from './form-group.component';
-import { DynamicFormGroupInjectionToken } from '../../constants';
 
 const formGroup = new DynamicFormGroup({
     firstControl: new TestDynamicControlModel({
@@ -32,7 +34,12 @@ describe('FormGroupComponent', () => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             providers: [{ provide: DynamicFormGroupInjectionToken, useValue: formGroup }],
-            declarations: [FormGroupComponent]
+            declarations: [
+                FormGroupComponent,
+                DynamicFormOutletComponent,
+                DynamicFormControlOutletDirective,
+                NestedDynamicFormGroupOutletDirective
+            ]
         });
 
         fixture = TestBed.createComponent(FormGroupComponent);

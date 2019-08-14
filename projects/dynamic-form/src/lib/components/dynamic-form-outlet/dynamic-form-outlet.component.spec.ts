@@ -15,7 +15,7 @@ import { DynamicFormOutletComponent } from './dynamic-form-outlet.component';
     template: `
         <lib-dynamic-form-outlet
             [formModel]="formGroup"
-            [controlWrapper]="useControlWrapper ? controlWrapper : null"
+            [controlWrappers]="useControlWrapper ? { firstControl: controlWrapper, secondControl: controlWrapper } : null"
         ></lib-dynamic-form-outlet>
 
         <ng-template #controlWrapper let-control="control">

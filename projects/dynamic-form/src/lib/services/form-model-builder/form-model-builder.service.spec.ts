@@ -33,39 +33,43 @@ describe('FormModelBuilderService', () => {
         it('should return DynamicFormGroup built from object ', () => {
             const controlName = 'someControl';
             const model = {
-                [controlName]: {
-                    type: 'control1',
-                    inputs: {
-                        firstInput: 'firstInput',
-                        secondInput: 'secondInput'
-                    },
-                    validators: ['required', { name: 'maxLength', value: 10 }]
+                controls: {
+                    [controlName]: {
+                        type: 'control1',
+                        inputs: {
+                            firstInput: 'firstInput',
+                            secondInput: 'secondInput'
+                        },
+                        validators: ['required', { name: 'maxLength', value: 10 }]
+                    }
                 }
             };
 
-            const dynamicFormGroup = service.buildFormModel(model);
+            const definition = service.buildFormModel(model);
 
-            expect(controlName in dynamicFormGroup.dynamicFormGroup.items).toBeTruthy();
-            expect(model[controlName].inputs.firstInput).toBe(dynamicFormGroup.dynamicFormGroup.items[controlName].inputs.firstInput);
-            expect(model[controlName].inputs.secondInput).toBe(dynamicFormGroup.dynamicFormGroup.items[controlName].inputs.secondInput);
+            expect(controlName in definition.dynamicFormGroup.items).toBeTruthy();
+            expect(model.controls[controlName].inputs.firstInput).toBe(definition.dynamicFormGroup.items[controlName].inputs.firstInput);
+            expect(model.controls[controlName].inputs.secondInput).toBe(definition.dynamicFormGroup.items[controlName].inputs.secondInput);
 
-            dynamicFormGroup.dynamicFormGroup.controls[controlName].setValue(null);
-            expect(dynamicFormGroup.dynamicFormGroup.controls[controlName].errors).toEqual({ required: true });
+            definition.dynamicFormGroup.controls[controlName].setValue(null);
+            expect(definition.dynamicFormGroup.controls[controlName].errors).toEqual({ required: true });
 
-            dynamicFormGroup.dynamicFormGroup.controls[controlName].setValue('01234567890');
-            expect(dynamicFormGroup.dynamicFormGroup.controls[controlName].errors.maxlength).toBeTruthy();
+            definition.dynamicFormGroup.controls[controlName].setValue('01234567890');
+            expect(definition.dynamicFormGroup.controls[controlName].errors.maxlength).toBeTruthy();
         });
 
         it('should return DynamicFormGroup built from json representation of an object ', () => {
             const controlName = 'someControl';
             const model = {
-                [controlName]: {
-                    type: 'control1',
-                    inputs: {
-                        firstInput: 'firstInput',
-                        secondInput: 'secondInput'
-                    },
-                    validators: ['required', { name: 'maxLength', value: 10 }]
+                controls: {
+                    [controlName]: {
+                        type: 'control1',
+                        inputs: {
+                            firstInput: 'firstInput',
+                            secondInput: 'secondInput'
+                        },
+                        validators: ['required', { name: 'maxLength', value: 10 }]
+                    }
                 }
             };
 
@@ -74,8 +78,8 @@ describe('FormModelBuilderService', () => {
             const definition = service.buildFormModel(json);
 
             expect(controlName in definition.dynamicFormGroup.items).toBeTruthy();
-            expect(model[controlName].inputs.firstInput).toBe(definition.dynamicFormGroup.items[controlName].inputs.firstInput);
-            expect(model[controlName].inputs.secondInput).toBe(definition.dynamicFormGroup.items[controlName].inputs.secondInput);
+            expect(model.controls[controlName].inputs.firstInput).toBe(definition.dynamicFormGroup.items[controlName].inputs.firstInput);
+            expect(model.controls[controlName].inputs.secondInput).toBe(definition.dynamicFormGroup.items[controlName].inputs.secondInput);
 
             definition.dynamicFormGroup.controls[controlName].setValue(null);
             expect(definition.dynamicFormGroup.controls[controlName].errors).toEqual({ required: true });
