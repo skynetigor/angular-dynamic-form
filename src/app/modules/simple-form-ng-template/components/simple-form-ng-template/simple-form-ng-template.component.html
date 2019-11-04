@@ -1,5 +1,5 @@
 <div class="card form-container">
-    <lib-dynamic-form-outlet [formModel]="formModel" [controlWrappers]="templates"></lib-dynamic-form-outlet>
+    <lib-dynamic-form-outlet [dynamicFormGroup]="formModel" [controlWrappers]="templates"></lib-dynamic-form-outlet>
     <div class="dropdown-divider"></div>
     <button (click)="click()" [disabled]="!formModel.valid" type="button" class="btn btn-primary">Send</button>
 </div>

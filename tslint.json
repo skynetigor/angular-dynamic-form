@@ -65,7 +65,6 @@
         "unified-signatures": true,
         "variable-name": false,
         "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"],
-        "directive-selector": [false, "attribute", "lib", "camelCase"],
         "component-selector": [true, "element", "lib", "kebab-case"],
         "no-output-on-prefix": false,
         "use-input-property-decorator": false,

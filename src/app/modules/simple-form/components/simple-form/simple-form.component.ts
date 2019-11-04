@@ -96,13 +96,22 @@ export class SimpleFormComponent implements OnInit, AfterViewInit, DoCheck {
 
     constructor() {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        // this.formGroup.disable();
+    }
 
     ngDoCheck() {
         console.log('cd');
     }
 
     ngAfterViewInit(): void {
+        const c = this as any;
+        c.index = 0;
+        setInterval(() => {
+            c.index = c.index + 1;
+            this.formModel.items.subject.inputs.options = [...this.formModel.items.subject.inputs.options, c.index.toString()];
+        }, 1000);
+
         // setTimeout(() => {
         //     // this.formGroup.items.formGroup.displayed = false;
         //     this.formModel.items.message.setValue('HELLLLLLOOOOO');

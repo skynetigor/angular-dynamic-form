@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     {
@@ -32,6 +32,10 @@ const routes: Routes = [
                 path: 'simple-form-with-inputs-binder-directive',
                 loadChildren:
                     './modules/simple-form-with-inputs-binder-directive/simple-form-with-inputs-binder-directive.module#SimpleFormWitInputsBinderModule'
+            },
+            {
+                path: 'dynamic-form-wizard',
+                loadChildren: './modules/wizard/wizard.module#WizardModule'
             },
             {
                 path: 'live-json-renderer',

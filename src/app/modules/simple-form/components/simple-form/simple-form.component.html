@@ -1,10 +1,11 @@
 <div class="card form-container">
-    <lib-dynamic-form-outlet [formModel]="formModel" [controlWrappers]="t ? { formGroup: formGroupTmpl } : null"> </lib-dynamic-form-outlet>
+    <lib-dynamic-form-outlet [dynamicFormGroup]="formModel" [controlWrappers]="t ? { formGroup: formGroupTmpl } : null">
+    </lib-dynamic-form-outlet>
 
     <div class="dropdown-divider"></div>
     <button (click)="click()" type="button" class="btn btn-primary">Send</button>
 </div>
 
 <ng-template #formGroupTmpl let-formGroup="formGroup"
-    ><div style="padding: 15px; background: wheat"><ng-container [nestedDynamicFormGroupOutlet]="formGroup"> </ng-container></div>
+    ><div style="padding: 15px; background: wheat"><lib-dynamic-form-outlet [dynamicFormGroup]="formGroup"> </lib-dynamic-form-outlet></div>
 </ng-template>
