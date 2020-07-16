@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 
-import { DynamicFormGroup } from '../../../dynamic-form/models';
+import { DynamicFormGroup, TemplateModel } from '../../../dynamic-form/models';
 import { ControlConfiguration } from '../../../dynamic-form/types';
 import { WizardControlsFactory } from '../../services';
-import { ControlDefinition } from '../../types';
+import { Config, ControlDefinition } from '../../types';
 
 @Component({
     selector: 'lib-control-configuration',
@@ -13,13 +13,23 @@ import { ControlDefinition } from '../../types';
 export class ControlConfigurationComponent implements OnInit {
     private static InitialInputsKey = 'initialInputs';
 
+    private staticControls: Config[] = [{ name: 'controlName', required: true, viewType: 'textfield', displayName: 'Control id (name)' }];
+
+    @ViewChild('section')
+    sectionTemplateRef: TemplateRef<any>;
+
     @Input()
     controlConfiguration: ControlConfiguration<any, any, any>;
 
     @Input()
     controlDefinition: ControlDefinition;
 
+    @Input()
+    controlName: string;
+
     formGroup = new DynamicFormGroup({
+        info: null,
+        initialInputsSection: null,
         [ControlConfigurationComponent.InitialInputsKey]: null
     });
 
@@ -29,8 +39,19 @@ export class ControlConfigurationComponent implements OnInit {
     constructor(private controlsFactory: WizardControlsFactory) {}
 
     ngOnInit() {
-        const controls = {};
+        let controls = {};
 
+        this.formGroup.items.initialInputsSection = new TemplateModel({ name: 'Controls inputs' }, this.sectionTemplateRef);
+
+        this.staticControls.forEach(def => {
+            controls[def.name] = this.controlsFactory.createControl(def, this.controlConfiguration);
+        });
+
+        this.formGroup.items.info = new DynamicFormGroup(controls);
+
+        this.formGroup.addFormGroup('info', new DynamicFormGroup(controls));
+
+        controls = {};
         this.controlDefinition.inputs.forEach(def => {
             controls[def.name] = this.controlsFactory.createControl(def, this.controlConfiguration);
         });

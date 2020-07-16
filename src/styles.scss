@@ -8,6 +8,18 @@
     animation: appear 200ms;
 }
 
+@media screen and (max-width: 1240px) {
+    .form-container {
+        min-width: 450px;
+    }
+}
+
+@media screen and (max-width: 1130px) {
+    .form-container {
+        min-width: 350px;
+    }
+}
+
 @keyframes appear {
     0% {
         transform: scaleX(1);
@@ -42,5 +54,11 @@
     }
     .key {
         color: red;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .form-container {
+        min-width: 300px;
     }
 }

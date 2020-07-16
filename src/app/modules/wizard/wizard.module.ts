@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BootstrapControlsModule, BootstrapDropdownComponent, BootstrapTextfieldComponent } from 'bootstrap-controls';
-import { AbstractControlsFactory, DynamicFormWizardModule, WizardControl } from 'dynamic-form';
+import { DynamicFormWizardModule, WizardControl } from 'dynamic-form';
 
 import { WizardComponent } from './components/wizard/wizard.component';
-import { ControlsFactory } from './services/controls-factory';
 
 const controls: WizardControl[] = [
     {
@@ -29,7 +28,7 @@ const controls: WizardControl[] = [
                     valueProperty: 'data'
                 }
             ]
-        }
+        } as any
     },
     {
         componentType: BootstrapDropdownComponent,
@@ -53,7 +52,7 @@ const controls: WizardControl[] = [
                 }
             ]
         }
-    }
+    } as any
 ];
 
 @NgModule({

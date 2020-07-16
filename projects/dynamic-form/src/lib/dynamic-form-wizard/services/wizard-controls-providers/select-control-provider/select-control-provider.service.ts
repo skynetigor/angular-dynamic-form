@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
 
 import { AbstractDynamicControl, GenericDynamicControl } from '../../../../dynamic-form/models';
 import { ControlConfiguration } from '../../../../dynamic-form/types';
@@ -9,7 +10,13 @@ import { AbstractControlProvider } from '../abstract-control-provider';
 @Injectable()
 export class SelectControlProvider extends AbstractControlProvider {
     create(def: Config, currentConfig: ControlConfiguration<any, any, any>): AbstractDynamicControl<any, any, any, any> {
-        const config = {
+        const validators = [];
+
+        if (def.required) {
+            validators.push(Validators.required);
+        }
+
+        const config: ControlConfiguration<any, any, any> = {
             initialInputs: {
                 label: def.displayName,
                 options: def.data,
@@ -17,7 +24,8 @@ export class SelectControlProvider extends AbstractControlProvider {
                 valueProperty: def.valueProperty,
                 multiple: def.multiple
             },
-            initialValue: currentConfig.initialValue
+            initialValue: currentConfig.initialValue,
+            validators
         };
 
         return new GenericDynamicControl(config, MaterialSelectComponent);

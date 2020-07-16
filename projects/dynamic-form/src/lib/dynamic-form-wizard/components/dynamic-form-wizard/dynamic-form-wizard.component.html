@@ -1,5 +1,6 @@
 <div class="main-bound">
     <div #popup [hidden]="!controlToEdit" class="popup">
+        <div (click)="closePopup()"></div>
         <lib-control-configuration
             *ngIf="controlToEdit"
             [controlConfiguration]="controlToEdit.initialConfig"

@@ -1,12 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 import { GenericDynamicControl } from '../../../dynamic-form/models';
-import { ControlConfiguration } from '../../../dynamic-form/types';
 import { ControlsSourceService } from '../../services';
-import { WizardRuntimeControl } from '../../types';
+import { WizardControlConfiguration, WizardRuntimeControl } from '../../types';
 
 @Component({
     selector: 'lib-dynamic-form-wizard',
@@ -15,6 +14,7 @@ import { WizardRuntimeControl } from '../../types';
 })
 export class DynamicFormWizardComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
+    private currentControl: WizardRuntimeControl;
 
     @ViewChild('popup')
     private popupElementRef: ElementRef<HTMLDivElement>;
@@ -24,6 +24,9 @@ export class DynamicFormWizardComponent implements OnInit, OnDestroy {
     controlToEdit: WizardRuntimeControl;
 
     controlsStream$: Observable<WizardRuntimeControl[]>;
+
+    @Output()
+    formReady = new EventEmitter<object>();
 
     constructor(controlsSource: ControlsSourceService) {
         this.controlsStream$ = controlsSource.getWizardControlsStream().pipe(
@@ -68,16 +71,26 @@ export class DynamicFormWizardComponent implements OnInit, OnDestroy {
     }
 
     editControl(wizardControl: WizardRuntimeControl) {
+        this.currentControl = wizardControl;
         this.controlToEdit = {
             control: wizardControl.control,
             initialConfig: { initialInputs: { ...wizardControl.control.inputs } },
             componentType: null,
-            controlDefinition: wizardControl.controlDefinition
+            controlDefinition: wizardControl.controlDefinition,
+            name: wizardControl.name
         };
     }
 
-    submitEditing(config: ControlConfiguration<any, any, any>) {
+    submitEditing(config: WizardControlConfiguration) {
         this.controlToEdit.control.inputs = { ...config.initialInputs };
+        this.controlToEdit.initialConfig = { ...config };
+        this.controlToEdit = undefined;
+        this.currentControl.name = config.info.controlName;
+
+        this.currentControl = undefined;
+    }
+
+    closePopup() {
         this.controlToEdit = undefined;
     }
 

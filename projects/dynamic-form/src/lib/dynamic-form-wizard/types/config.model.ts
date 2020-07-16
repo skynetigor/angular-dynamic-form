@@ -4,6 +4,7 @@ export interface Config {
     viewType: string;
     data?: any;
     multiple?: boolean;
+    required?: boolean;
     displayProperty?: string;
     valueProperty?: string;
 }

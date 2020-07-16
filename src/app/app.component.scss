@@ -12,13 +12,17 @@
 }
 
 .menu {
-    width: 500px;
-    min-width: 500px;
-    max-width: 500px;
+    min-width: 350px;
+    max-width: 350px;
+}
+
+.menu,
+.form-state-reflection {
+    overflow-y: auto;
 }
 
 .form-state-reflection {
-    min-width: 400px;
+    min-width: 300px;
     max-width: 400px;
 }
 
@@ -75,5 +79,40 @@
 
     .form-control[readonly] {
         background-color: white;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .menu,
+    .form-state-reflection {
+        max-width: 400px;
+        min-width: 250px;
+    }
+
+    .form-state {
+        .input-group-prepend {
+            span {
+                width: 65px;
+            }
+        }
+    }
+
+    .title {
+        font-size: 1rem !important;
+    }
+
+    .form-output .card-body {
+        max-height: 100px;
+    }
+
+    .input-group-text {
+        font-size: 0.8rem;
+        font-weight: 400;
+    }
+}
+
+@media screen and (max-width: 820px) {
+    :host {
+        min-width: 820px;
     }
 }
