@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 
 import { AbstractValueAccessor, MakeProvider } from '../../abstractions';
 import { IBootstrapDropdownInputs } from '../../interfaces';
@@ -9,7 +9,7 @@ import { IBootstrapDropdownInputs } from '../../interfaces';
     styleUrls: ['./bootstrap-dropdown.component.scss', '../common-styles.scss'],
     providers: [MakeProvider(BootstrapDropdownComponent)]
 })
-export class BootstrapDropdownComponent extends AbstractValueAccessor implements OnInit, IBootstrapDropdownInputs {
+export class BootstrapDropdownComponent extends AbstractValueAccessor implements OnInit, IBootstrapDropdownInputs, OnChanges {
     private _options = [];
 
     isDropdownOpened = false;
@@ -17,7 +17,7 @@ export class BootstrapDropdownComponent extends AbstractValueAccessor implements
     @Input()
     set options(value) {
         if (this._options !== value) {
-            this._options = value;
+            // this._options = value;
             this.dirty = false;
             this.value = null;
 
@@ -40,6 +40,12 @@ export class BootstrapDropdownComponent extends AbstractValueAccessor implements
 
     constructor(injector: Injector) {
         super(injector);
+    }
+
+    ngOnChanges(obj: SimpleChanges) {
+        if ('options' in obj) {
+            this._options = obj['options'].currentValue;
+        }
     }
 
     toggleDropdown() {

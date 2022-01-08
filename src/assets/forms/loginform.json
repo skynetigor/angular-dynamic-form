@@ -1,5 +1,5 @@
 {
-    "script": "if (typeof this.counter === 'undefined') { this.counter = 0; } else { this.counter++; } this.formGroup.controls.login.inputs.label = this.counter.toString();",
+    "script": "if (typeof this.counter === 'undefined') { this.counter = 0; } else { this.counter++; } this.formGroup.controls.login.inputs.label = this.counter.toString() + '2000';",
     "controls": {
         "login": {
             "type": "BootstrapTextField",

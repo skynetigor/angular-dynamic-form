@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 import { DynamicFormGroup, TemplateModel } from 'dynamic-form';
@@ -11,7 +11,10 @@ import { DynamicFormGroup, TemplateModel } from 'dynamic-form';
 export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     @ViewChild('tmpl') tmpl;
 
-    showTeplatesInWrapper = false;
+    @ViewChild('wrapper')
+    private wrapper;
+
+    templates: { [key: string]: TemplateRef<any> };
 
     private errorTexts = {
         required: 'This field is required'
@@ -63,8 +66,11 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     constructor() {}
 
     click() {
-        if (this.showTeplatesInWrapper) {
-            this.showTeplatesInWrapper = false;
+        if (!this.templates) {
+            this.templates = {};
+
+            ['name', 'email', 'subject', 'message'].forEach(str => (this.templates[str] = this.wrapper));
+
             (<any>this.formModel.items).hello = new BootstrapTextFieldModel({
                 initialInputs: {
                     label: 'Email',
@@ -74,7 +80,7 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
                 }
             });
         } else {
-            this.showTeplatesInWrapper = true;
+            this.templates = null;
             (<any>this.formModel.items).hello = null;
         }
     }
