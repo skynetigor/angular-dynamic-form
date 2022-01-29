@@ -1,5 +1,5 @@
 import { AsyncValidatorFn, ControlValueAccessor, FormGroup, ValidatorFn } from '@angular/forms';
-import { isNullOrUndefined } from '../utils';
+import { isNullOrUndefined } from '../utils/is-null-or-undefined/is-null-or-undefined.function';
 
 import { ControlOrTemplate, OutputsObject } from '../types';
 import { AbstractDynamicControl } from './controls';
