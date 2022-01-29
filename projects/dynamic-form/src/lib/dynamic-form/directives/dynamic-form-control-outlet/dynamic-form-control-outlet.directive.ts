@@ -13,12 +13,11 @@ import {
     ViewContainerRef
 } from '@angular/core';
 import { FormGroupDirective, NgControl } from '@angular/forms';
-import { isString } from 'util';
 
 import { dynamicControlAttrName } from '../../constants';
 import { AbstractDynamicControl } from '../../models';
 import { InputsHandlerService, OutputsHandlerService } from '../../services';
-import { setupControl } from '../../utils';
+import { setupControl, isString } from '../../utils';
 
 export const formControlBinding: any = {
     provide: NgControl,

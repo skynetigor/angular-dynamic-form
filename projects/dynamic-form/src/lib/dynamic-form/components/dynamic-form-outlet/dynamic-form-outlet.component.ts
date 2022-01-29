@@ -1,6 +1,7 @@
 import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
-import { DynamicFormGroup } from '../../models';
+import { AbstractDynamicControl, DynamicFormGroup, TemplateModel } from '../../models';
+import { FormBodyItem } from '../../types';
 import { isDynamicControl, isDynamicFormGroup, isTemplateModel } from '../../utils';
 
 /**
@@ -11,11 +12,11 @@ import { isDynamicControl, isDynamicFormGroup, isTemplateModel } from '../../uti
     templateUrl: './dynamic-form-outlet.component.html'
 })
 export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
-    @ViewChild('defaultControlWrapper')
+    @ViewChild('defaultControlWrapper', { static: true })
     private defaultControlWrapper: TemplateRef<any>;
-    @ViewChild('defaultTemplateWrapper')
+    @ViewChild('defaultTemplateWrapper', { static: true })
     private defaultTemplateWrapper: TemplateRef<any>;
-    @ViewChild('formGroupTemplate')
+    @ViewChild('formGroupTemplate', { static: true })
     private formGroupTemplate: TemplateRef<any>;
 
     private differ = this.differs.find({}).create();
@@ -36,7 +37,7 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
     /**
      * Form body that is built based on FormGroup
      */
-    formBody = [];
+    formBody: FormBodyItem[] = [];
 
     constructor(private differs: KeyValueDiffers) {}
 
@@ -49,6 +50,7 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
             this.refreshControlWrappers();
             this.buildFormBody();
         }
+
     }
 
     trackByFn(_, obj: { trackBy: any }) {
@@ -65,6 +67,9 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
         } else {
             this.formBody = [];
         }
+
+        console.log(this.formBody)
+
     }
 
     private refreshControlWrappers() {
@@ -74,6 +79,7 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
     private buildFormBody() {
         this.formBody = Object.keys(this.dynamicFormGroup.items)
             .map(key => {
+                const name = key;
                 const item = this.dynamicFormGroup.items[key];
                 const wrapper = this._controlWrappers[key];
 
@@ -81,27 +87,30 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
                     const template = wrapper ? wrapper : this.defaultControlWrapper;
 
                     return {
+                        name,
                         instance: item,
                         trackBy: item,
                         template: template,
                         context: { control: item, name: key }
-                    };
+                    } as FormBodyItem<{ control: AbstractDynamicControl<any>, name: string }>;
                 } else if (isTemplateModel(item)) {
                     return {
+                        name,
                         instance: item,
                         trackBy: item.templateRef,
                         template: this.defaultTemplateWrapper,
                         context: { templateModel: item }
-                    };
+                    } as FormBodyItem<{ templateModel: TemplateModel }>;
                 } else if (isDynamicFormGroup(item)) {
                     return {
+                        name,
                         instance: item,
                         trackBy: item,
                         template: wrapper ? wrapper : this.formGroupTemplate,
-                        context: { formModel: item, name: key }
-                    };
+                        context: { dynamicFormGroup: item, name: key }
+                    } as FormBodyItem<{dynamicFormGroup: DynamicFormGroup<any>, name: string}>;
                 }
             })
-            .filter(t => t);
+            .filter(item => item);
     }
 }

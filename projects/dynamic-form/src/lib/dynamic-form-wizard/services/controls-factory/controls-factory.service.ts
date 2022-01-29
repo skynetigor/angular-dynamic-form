@@ -1,5 +1,4 @@
 import { Injectable, Injector, Type } from '@angular/core';
-import { isNullOrUndefined } from 'util';
 
 import { AbstractDynamicControl } from '../../../dynamic-form/models';
 import { ControlConfiguration } from '../../../dynamic-form/types';
@@ -26,7 +25,7 @@ export class WizardControlsFactory extends AbstractControlsFactory {
             abs = customFactory.createControl(def, currentConfig);
         }
 
-        if (isNullOrUndefined(abs)) {
+        if (abs === null || abs === undefined) {
             abs = (this.injector.get(this.controlsProviders[def.viewType]) as AbstractControlProvider).create(def, currentConfig);
         }
 

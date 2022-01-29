@@ -1,5 +1,4 @@
 import { Injectable, Injector, Type } from '@angular/core';
-import { isArray } from 'util';
 
 import { DYNAMIC_CONTROLS_DICTIONARY, VALIDATORS_DICTIONARY } from '../../constants';
 import { AbstractDynamicControl, DynamicFormGroup } from '../../models';
@@ -65,7 +64,7 @@ export class FormModelBuilderService {
 
     private getValidators(control) {
         const validators = [];
-        if (isArray(control.validators)) {
+        if (Array.isArray(control.validators)) {
             control.validators.forEach(element => {
                 switch (typeof element) {
                     case 'string':

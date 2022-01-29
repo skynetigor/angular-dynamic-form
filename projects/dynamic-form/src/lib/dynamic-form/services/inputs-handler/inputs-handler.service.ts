@@ -1,5 +1,5 @@
 import { ComponentFactory, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
-import { isFunction } from 'util';
+import { isFunction } from '../../utils';
 
 export class InputsHandlerService {
     // private firstChangeTrackingDictionary: { [key: string]: boolean } = {};

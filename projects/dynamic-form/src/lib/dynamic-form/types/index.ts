@@ -1,3 +1,4 @@
+import { TemplateRef } from '@angular/core';
 import { AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 
 import { AbstractDynamicControl, TemplateModel } from '../models';
@@ -21,4 +22,12 @@ export declare interface ControlConfiguration<TInputs, TOutputs extends OutputsO
  */
 export declare interface OutputsObject {
     [key: string]: Function;
+}
+
+export interface FormBodyItem<TContext = any> {
+    name: string;
+    instance: any,
+    trackBy: any,
+    template: TemplateRef<TContext>,
+    context: TContext
 }

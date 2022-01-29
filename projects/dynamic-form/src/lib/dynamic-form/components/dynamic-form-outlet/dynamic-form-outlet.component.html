@@ -7,8 +7,8 @@
     </ng-container>
 </ng-template>
 
-<ng-template #formGroupTemplate let-formModel="formModel" let-name="name">
-    <lib-dynamic-form-outlet [id]="name" [dynamicFormGroup]="formModel"></lib-dynamic-form-outlet>
+<ng-template #formGroupTemplate let-dynamicFormGroup="dynamicFormGroup" let-name="name">
+    <lib-dynamic-form-outlet [id]="name" [dynamicFormGroup]="dynamicFormGroup"></lib-dynamic-form-outlet>
 </ng-template>
 
 <form

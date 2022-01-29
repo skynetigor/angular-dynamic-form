@@ -1,5 +1,5 @@
 import { ControlValueAccessor, FormControl } from '@angular/forms';
-import { isFunction } from 'util';
+import { isFunction } from '../../utils';
 
 /**
  * Function that binds value accessor on state changes of form control

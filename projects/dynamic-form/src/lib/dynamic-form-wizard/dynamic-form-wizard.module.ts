@@ -2,6 +2,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { ANALYZE_FOR_ENTRY_COMPONENTS, ModuleWithProviders, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -15,7 +16,7 @@ import { SelectControlProvider, TextfieldControlProvider } from './services/wiza
 import { WizardControl } from './types/wizard-control';
 
 @NgModule({
-    imports: [CommonModule, DynamicFormModule, DragDropModule, MatInputModule, MatSelectModule, MatButtonModule],
+    imports: [CommonModule, DynamicFormModule, DragDropModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
     declarations: [
         DynamicFormWizardComponent,
         DropAreaDirective,
@@ -29,7 +30,7 @@ import { WizardControl } from './types/wizard-control';
     providers: [ControlsSourceService, WizardControlsFactory, TextfieldControlProvider, SelectControlProvider]
 })
 export class DynamicFormWizardModule {
-    static withControls(controls: WizardControl[]): ModuleWithProviders {
+    static withControls(controls: WizardControl[]): ModuleWithProviders<DynamicFormWizardModule> {
         return {
             ngModule: DynamicFormWizardModule,
             providers: [

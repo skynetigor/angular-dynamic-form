@@ -1,12 +1,11 @@
 import { Type } from '@angular/core';
 import { ControlValueAccessor, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { isArray } from 'util';
 
 import { ControlConfiguration, OutputsObject } from '../../types';
 
 function convertToValidatorsArray(obj) {
-    return (isArray(obj) ? obj : [obj]).filter(val => val);
+    return (Array.isArray(obj) ? obj : [obj]).filter(val => val);
 }
 
 /** Strongly typed dynamic form control */

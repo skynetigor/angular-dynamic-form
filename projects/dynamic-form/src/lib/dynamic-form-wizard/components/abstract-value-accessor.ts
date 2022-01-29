@@ -1,8 +1,11 @@
-import { AfterViewInit, ElementRef, forwardRef, Injectable, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, Injectable, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
-@Injectable()
+@Component({
+    selector: '',
+    template: ''
+})
 export abstract class AbstractValueAccessor implements ControlValueAccessor, AfterViewInit, OnDestroy, OnChanges {
     private _isDisabled = false;
     private _value: any = null;

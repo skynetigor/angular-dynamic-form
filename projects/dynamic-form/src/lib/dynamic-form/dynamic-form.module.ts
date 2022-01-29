@@ -28,7 +28,7 @@ export class DynamicFormModule {
             [key: string]: Type<AbstractDynamicControl<any>>;
         },
         validatorsDictionary?: { [key: string]: (validatorCfg?) => ValidatorFn | Validator }
-    ): ModuleWithProviders {
+    ): ModuleWithProviders<DynamicFormModule> {
         return {
             ngModule: DynamicFormModule,
             providers: [
