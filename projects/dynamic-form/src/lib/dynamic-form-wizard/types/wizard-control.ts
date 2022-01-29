@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { ControlConfiguration } from 'dynamic-form';
+import { ControlConfiguration } from '../../dynamic-form/types';
 
 import { ControlDefinition } from './control-configuration.model';
 
