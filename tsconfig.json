@@ -8,9 +8,6 @@
     "paths": {
       "dynamic-form": [
         "projects/dynamic-form/src/index.ts"
-      ],
-      "bootstrap-controls": [
-        "projects/bootstrap-controls/src/index.ts"
       ]
     },
     "strict": false, // TODO: Make strict equal to true
