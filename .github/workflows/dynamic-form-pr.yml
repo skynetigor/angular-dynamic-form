@@ -1,8 +1,8 @@
-name: Build/Test
+name: Build PR
 
 on:
-  push:
-    branches: [master, develop]
+  pull_request:
+    branches: [develop, master, 'feature/*']
 
 jobs:
   build:
