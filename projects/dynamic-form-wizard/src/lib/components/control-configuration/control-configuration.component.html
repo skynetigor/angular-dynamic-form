@@ -1,0 +1,4 @@
+<lib-dynamic-form-outlet [dynamicFormGroup]="formGroup"></lib-dynamic-form-outlet>
+<div class="flexbox"><button [disabled]="!formGroup.valid" mat-raised-button color="primary" (click)="submitForm()">Submit</button></div>
+
+<ng-template #section let-name="name">{{ name }}</ng-template>

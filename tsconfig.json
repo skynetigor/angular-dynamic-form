@@ -6,8 +6,8 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "dynamic-form": [
-        "projects/dynamic-form/src/index.ts"
+      "@skynet-ng/dynamic-form": [
+        "projects/dynamic-form/src/public-api.ts"
       ]
     },
     "strict": false, // TODO: Make strict equal to true
