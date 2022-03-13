@@ -1,6 +1,6 @@
 {
   "name": "@skynet-ng/dynamic-form",
-  "version": "0.0.1",
+  "version": "1.0.0-alpha1",
   "peerDependencies": {
     "@angular/common": "^12.2.0",
     "@angular/core": "^12.2.0"
