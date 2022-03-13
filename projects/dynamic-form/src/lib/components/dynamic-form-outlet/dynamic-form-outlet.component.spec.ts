@@ -13,10 +13,10 @@ import { DynamicFormOutletComponent } from './dynamic-form-outlet.component';
 @Component({
     selector: 'lib-test-component',
     template: `
-        <lib-dynamic-form-outlet
+        <dynamic-form-outlet
             [dynamicFormGroup]="formGroup"
             [controlWrappers]="useControlWrapper ? { firstControl: controlWrapper, secondControl: controlWrapper } : null"
-        ></lib-dynamic-form-outlet>
+        ></dynamic-form-outlet>
 
         <ng-template #controlWrapper let-control="control">
             <div id="{{ control.name }}Wrapper"><ng-container #some [dynamicFormControlOutlet]="control"></ng-container></div>

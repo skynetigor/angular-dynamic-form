@@ -8,7 +8,7 @@ import { isDynamicControl, isDynamicFormGroup, isTemplateModel } from '../../uti
  * A component for rendering form based on @class DynamicFormGroup
  */
 @Component({
-    selector: 'lib-dynamic-form-outlet',
+    selector: 'dynamic-form-outlet',
     templateUrl: './dynamic-form-outlet.component.html'
 })
 export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
