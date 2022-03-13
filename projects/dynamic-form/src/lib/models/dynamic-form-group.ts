@@ -25,7 +25,7 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     /** @inheritdoc */
     controls: { [key: string]: AbstractDynamicControl<any> };
 
-    get name() {
+    get name(): string {
         return this._name;
     }
 

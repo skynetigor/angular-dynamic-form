@@ -23,7 +23,7 @@ export class BindControlOutputsDirective implements OnInit, DoCheck {
         this.valueAccessor = valueAccessors[0];
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         const componentType = (<any>this.valueAccessor).constructor;
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
         this.outputsHandler = new OutputsHandlerService(componentFactory);

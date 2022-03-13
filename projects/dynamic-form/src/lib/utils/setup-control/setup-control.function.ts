@@ -6,7 +6,7 @@ import { isFunction } from '../is-function/is-function';
  * @param control A form control that value accessor will be subscribed on state changes of
  * @param valueAccessor Value accessor
  */
-export function setupControl(control: FormControl, valueAccessor: ControlValueAccessor) {
+export function setupControl(control: FormControl, valueAccessor: ControlValueAccessor): void {
     if (isFunction(valueAccessor.registerOnChange)) {
         valueAccessor.registerOnChange(v => {
             control.setValue(v);

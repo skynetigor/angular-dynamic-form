@@ -12,7 +12,7 @@ export class InputsHandlerService {
      * @param objWithInputs Object with inputs that component inputs are synchronized with based on its properties
      * @param componentInstance Component instance
      */
-    handle(objWithInputs, componentInstance) {
+    handle(objWithInputs, componentInstance): void {
         const simpleChanges: SimpleChanges = {};
 
         if (objWithInputs) {

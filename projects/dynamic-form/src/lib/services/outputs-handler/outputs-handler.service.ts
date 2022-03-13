@@ -11,7 +11,8 @@ export class OutputsHandlerService {
      * @param objWithInputs Object with callbacks that listens to component events
      * @param componentInstance Component instance
      */
-    handle(outputsObj: { [key: string]: Function }, componentInstance) {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    handle(outputsObj: { [key: string]: Function }, componentInstance): void {
         this.unsubscribeFromOutputsSubscription();
 
         if (outputsObj) {
@@ -27,7 +28,7 @@ export class OutputsHandlerService {
         }
     }
 
-    private unsubscribeFromOutputsSubscription() {
+    private unsubscribeFromOutputsSubscription(): void {
         this.outputsSubscriptions.forEach(s => s.unsubscribe());
     }
 }

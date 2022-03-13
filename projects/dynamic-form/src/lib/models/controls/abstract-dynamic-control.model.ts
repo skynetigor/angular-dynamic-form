@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ControlConfiguration, OutputsObject } from '../../types';
 
-function convertToValidatorsArray(obj) {
+function convertToValidatorsArray<T>(obj: T | T[]): T[] {
     return (Array.isArray(obj) ? obj : [obj]).filter(val => val);
 }
 
@@ -17,7 +17,7 @@ export abstract class AbstractDynamicControl<
 > extends FormControl {
     private _name: string;
 
-    get name() {
+    get name(): string {
         return this._name;
     }
 
@@ -67,6 +67,7 @@ export abstract class AbstractDynamicControl<
     }
 
     /**@inheritdoc */
+    // eslint-disable-next-line @typescript-eslint/ban-types
     reset(value?: TValue, options?: Object): void {
         super.reset(value, options);
     }

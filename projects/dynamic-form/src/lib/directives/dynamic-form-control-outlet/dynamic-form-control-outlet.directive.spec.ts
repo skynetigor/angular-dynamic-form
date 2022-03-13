@@ -10,7 +10,7 @@ import { DynamicFormControlOutletDirective } from './dynamic-form-control-outlet
 import { configureTestSuite } from 'ng-bullet';
 
 @Component({
-    selector: 'pxl-test-component',
+    selector: 'app-test-component',
     template: `
         <form [formGroup]="formGroup">
             <ng-container *dynamicFormControlOutlet="formGroup.items.firstControl"></ng-container>
@@ -38,9 +38,9 @@ class TestComponent {
         })
     });
 
-    callBackOfFirstOutput() {}
+    callBackOfFirstOutput(): void {}
 
-    callBackOfSecondOutput() {}
+    callBackOfSecondOutput(): void {}
 }
 
 @NgModule({

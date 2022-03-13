@@ -24,7 +24,7 @@ export class BindControlInputsDirective implements OnInit, DoCheck {
         this.valueAccessor = valueAccessors[0];
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         const componentType = (<any>this.valueAccessor).constructor;
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
         this.inputsHandler = new InputsHandlerService(componentFactory);

@@ -21,6 +21,7 @@ export declare interface ControlConfiguration<TInputs, TOutputs extends OutputsO
  * The interface for outputs
  */
 export declare interface OutputsObject {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     [key: string]: Function;
 }
 

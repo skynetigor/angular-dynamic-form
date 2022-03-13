@@ -4,6 +4,7 @@ import { setupControl } from './setup-control.function';
 describe('setupControl', () => {
     it('should bind form control to value changes of value accessor and bind value accessor on value changes of form control', () => {
         const control = new FormControl('kjkj');
+        // eslint-disable-next-line @typescript-eslint/ban-types
         let registerOnChangeCallback: Function;
 
         const valueAccessor: ControlValueAccessor = {

@@ -41,11 +41,11 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
 
     constructor(private differs: KeyValueDiffers) {}
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.refreshControlWrappers();
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges): void {
         if ('controlWrappers' in changes) {
             this.refreshControlWrappers();
             this.buildFormBody();
@@ -53,11 +53,11 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
 
     }
 
-    trackByFn(_, obj: { trackBy: any }) {
+    trackByFn(_, obj: { trackBy: any }): void {
         return obj.trackBy;
     }
 
-    ngDoCheck() {
+    ngDoCheck(): void {
         if (this.dynamicFormGroup instanceof DynamicFormGroup) {
             const diff = this.differ.diff(this.dynamicFormGroup.items);
 
@@ -67,16 +67,13 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
         } else {
             this.formBody = [];
         }
-
-        console.log(this.formBody)
-
     }
 
-    private refreshControlWrappers() {
+    private refreshControlWrappers(): void {
         this._controlWrappers = this.controlWrappers ? this.controlWrappers : {};
     }
 
-    private buildFormBody() {
+    private buildFormBody(): void {
         this.formBody = Object.keys(this.dynamicFormGroup.items)
             .map(key => {
                 const name = key;
