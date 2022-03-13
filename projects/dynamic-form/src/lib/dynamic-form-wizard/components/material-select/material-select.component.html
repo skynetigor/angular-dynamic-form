@@ -1,8 +1,0 @@
-<mat-form-field>
-    <mat-label>{{ label }}</mat-label>
-    <mat-select [(ngModel)]="value" [multiple]="multiple">
-        <mat-option *ngFor="let opt of options" [value]="valueProperty ? opt[valueProperty] : opt">
-            {{ displayProperty ? opt[displayProperty] : opt }}
-        </mat-option>
-    </mat-select>
-</mat-form-field>
