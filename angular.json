@@ -29,7 +29,12 @@
           "options": {
             "main": "projects/dynamic-form/src/test.ts",
             "tsConfig": "projects/dynamic-form/tsconfig.spec.json",
-            "karmaConfig": "projects/dynamic-form/karma.conf.js"
+            "karmaConfig": "karma-configs/karma.conf.base.js"
+          },
+          "configurations": {
+            "single-run": {
+              "karmaConfig": "karma-configs/karma.conf.ci.js"
+            }
           }
         }
       }

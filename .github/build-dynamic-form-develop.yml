@@ -1,0 +1,27 @@
+name: Build/Test develop
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run ng build dynamic-form
+
+      - name: Lint
+        run: npm run ng lint dynamic-form
+
+      - name: Test
+        run: npm run ng test dynamic-form -c=single-run

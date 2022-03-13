@@ -158,7 +158,7 @@ describe('DynamicFormOutlet', () => {
 
         // Act
 
-        const ngControl = controlComponentInstance.injector.get(NgControl as Type<NgControl>);
+        const ngControl = controlComponentInstance.injector.get(NgControl);
 
         fixture.detectChanges();
         await fixture.whenStable();
