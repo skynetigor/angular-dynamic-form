@@ -1,12 +1,12 @@
-export { DynamicFormModule } from './lib/dynamic-form/dynamic-form.module';
-export { DynamicFormOutletComponent } from './lib/dynamic-form/components';
-export { AbstractDynamicControl, GenericDynamicControl, TemplateModel, DynamicFormGroup } from './lib/dynamic-form/models';
-export { DynamicFormControlOutletDirective, BindControlInputsDirective, BindControlOutputsDirective } from './lib/dynamic-form/directives';
-export { ControlConfiguration, ControlOrTemplate, OutputsObject } from './lib/dynamic-form/types';
-export { FormModelBuilderService, InputsHandlerService, OutputsHandlerService } from './lib/dynamic-form/services';
+export { DynamicFormModule } from './lib/dynamic-form.module';
+export { DynamicFormOutletComponent } from './lib/components';
+export { AbstractDynamicControl, GenericDynamicControl, TemplateModel, DynamicFormGroup } from './lib/models';
+export { DynamicFormControlOutletDirective, BindControlInputsDirective, BindControlOutputsDirective } from './lib/directives';
+export { ControlConfiguration, ControlOrTemplate, OutputsObject } from './lib/types';
+export { FormModelBuilderService, InputsHandlerService, OutputsHandlerService } from './lib/services';
 // temp
-export { dynamicControlAttrName, DYNAMIC_CONTROLS_DICTIONARY, VALIDATORS_DICTIONARY } from './lib/dynamic-form/constants';
-export { isDynamicControl, isTemplateModel, setupControl } from './lib/dynamic-form/utils';
+export { dynamicControlAttrName, DYNAMIC_CONTROLS_DICTIONARY, VALIDATORS_DICTIONARY } from './lib/constants';
+export { isDynamicControl, isTemplateModel, setupControl } from './lib/utils';
 export {
     emailValidator,
     phoneValidator,
@@ -15,5 +15,4 @@ export {
     minLength,
     required,
     compareValidator
-} from './lib/dynamic-form/validators';
-export * from './lib/dynamic-form-wizard';
+} from './lib/validators';
