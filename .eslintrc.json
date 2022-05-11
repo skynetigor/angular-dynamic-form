@@ -1,71 +1,35 @@
 {
   "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nrwl/nx"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:jasmine/recommended",
-        "eslint:recommended",
-        "plugin:import/recommended",
-        "plugin:import/typescript"
-      ],
-      "plugins": [
-        "jasmine",
-        "import"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "prefer-const": "off",
-        "@typescript-eslint/no-empty-function": "off", // temporary, should be ok for tests
-        "@typescript-eslint/no-explicit-any": "off", // temporary, should be ok for tests
-        "@typescript-eslint/explicit-function-return-type": [
+        "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
-            "allowExpressions": true
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
           }
-        ],
-        "@typescript-eslint/ban-types": [
-          "error",
-          {
-            "types": {
-              "String": {
-                "message": "Use string instead",
-                "fixWith": "string"
-              },
-              "{}": false,
-              "object": false
-            }
-          }
-        ],
-        "no-console": "error",
-        "no-unused-vars": "off",
-        "no-undef": "off",
-        "no-prototype-builtins": "off",
-        "no-sparse-arrays": "off",
-        "no-redeclare": "off",
-        "getter-return": "off",
-        "no-extra-boolean-cast": "off",
-        "no-useless-escape": "off",
-        "no-empty": "off",
-        "semi": "error",
-        "import/no-unresolved": "off"
+        ]
       }
-    }
-  ],
-  "settings": { // https://github.com/alexgorbatchev/eslint-import-resolver-typescript
-    "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
     },
-    "import/resolver": {
-      "typescript": {
-        "alwaysTryTypes": true // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
-      }
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
     }
-  }
+  ]
 }

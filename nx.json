@@ -1,0 +1,52 @@
+{
+  "npmScope": "mf-app",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "auth": {
+      "tags": []
+    },
+    "dynamic-form": {
+      "tags": []
+    },
+    "gallery": {
+      "tags": []
+    },
+    "platform": {
+      "tags": []
+    },
+    "shared-auth": {
+      "tags": []
+    },
+    "shared-data-store": {
+      "tags": []
+    },
+    "shell": {
+      "tags": []
+    }
+  }
+}

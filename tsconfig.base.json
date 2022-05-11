@@ -1,0 +1,24 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@mf-app/shared/auth": ["libs/shared/auth/src/index.ts"],
+      "@mf-app/shared/data-store": ["libs/shared/data-store/src/index.ts"],
+      "@skynet-ng/dynamic-form": ["libs/dynamic-form/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
