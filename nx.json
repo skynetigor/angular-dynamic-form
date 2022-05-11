@@ -27,25 +27,7 @@
     ]
   },
   "projects": {
-    "auth": {
-      "tags": []
-    },
     "dynamic-form": {
-      "tags": []
-    },
-    "gallery": {
-      "tags": []
-    },
-    "platform": {
-      "tags": []
-    },
-    "shared-auth": {
-      "tags": []
-    },
-    "shared-data-store": {
-      "tags": []
-    },
-    "shell": {
       "tags": []
     }
   }

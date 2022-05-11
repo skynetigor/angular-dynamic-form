@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/no-conflicting-lifecycle */
 import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
 import { AbstractDynamicControl, DynamicFormGroup, TemplateModel } from '../../models';
@@ -106,6 +107,8 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
                         template: wrapper ? wrapper : this.formGroupTemplate,
                         context: { dynamicFormGroup: item, name: key }
                     } as FormBodyItem<{dynamicFormGroup: DynamicFormGroup<any>, name: string}>;
+                } else {
+                    return null;
                 }
             })
             .filter(item => item);
