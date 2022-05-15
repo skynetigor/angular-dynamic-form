@@ -35,4 +35,6 @@ module.exports = function (config) {
     singleRun: true,
     restartOnFileChange: false,
   });
+
+  return config;
 };

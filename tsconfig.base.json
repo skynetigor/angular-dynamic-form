@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "strict": false, // TODO: Make strict equal to true
+    "noImplicitReturns": false, // TODO: Decide whether there is a need in it
+    "strictFunctionTypes": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "paths": {
+      "@skynet-ng/dynamic-form": ["libs/dynamic-form/src/public_api.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

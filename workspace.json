@@ -1,0 +1,71 @@
+{
+  "version": 2,
+  "projects": {
+    "dynamic-form": {
+      "projectType": "library",
+      "root": "libs/dynamic-form",
+      "sourceRoot": "libs/dynamic-form/src",
+      "prefix": "mf-app",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/angular:package",
+          "outputs": ["dist/libs/dynamic-form"],
+          "options": {
+            "project": "libs/dynamic-form/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/dynamic-form/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/dynamic-form/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "executor": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/dynamic-form/src/test.ts",
+            "tsConfig": "libs/dynamic-form/tsconfig.spec.json",
+            "karmaConfig": "libs/dynamic-form/karma.conf.js"
+          },
+          "configurations": {
+            "single-run": {
+              "karmaConfig": "libs/dynamic-form/karma.conf.ci.js"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/dynamic-form/src/**/*.ts",
+              "libs/dynamic-form/src/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "generators": {
+    "@nrwl/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "karma",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "karma"
+    },
+    "@nrwl/angular:component": {
+      "style": "css"
+    }
+  },
+  "defaultProject": "shell"
+}
