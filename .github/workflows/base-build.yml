@@ -101,7 +101,6 @@ on:
       
       - name: Build
         run: npx nx build ${{ inputs.appName }} --quiet
-              - name: Upload app artifacts
       
       - name: Upload app artifacts
         if: ${{ inputs.uploadArtifacts }}
