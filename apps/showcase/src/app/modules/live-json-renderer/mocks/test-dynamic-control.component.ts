@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    // eslint-disable-next-line @angular-eslint/component-selector
     selector: 'lib-test-control-component',
     template: `
         Control is working
