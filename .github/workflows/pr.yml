@@ -1,0 +1,19 @@
+name: Build PR
+
+on:
+  pull_request:
+    branches: [develop, master, 'feature/*']
+
+jobs:
+  build_lib:
+    uses: ./.github/workflows/base-build.yml
+    with:
+      appName: dynamic-form
+      branch: temp
+      uploadArtifacts: false
+  
+  build_showcase:
+    uses: ./.github/workflows/base-build.yml
+    with:
+      appName: showcase
+      branch: temp
