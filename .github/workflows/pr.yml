@@ -17,3 +17,13 @@ jobs:
     with:
       appName: showcase
       branch: temp
+  
+  check_for_failures:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Finish build
+    needs: [build_lib,build_showcase]
+    steps:
+      - name: Check build status
+        if: ${{ needs.build_lib.result != 'success' || needs.build_showcase.result != 'success' }}
+        run: exit 1
