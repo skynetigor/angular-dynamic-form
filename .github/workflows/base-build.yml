@@ -100,7 +100,7 @@ jobs:
             ${{ runner.os }}-
       
       - name: Build
-        run: npx nx build ${{ inputs.appName }} --quiet
+        run: npx nx build ${{ inputs.appName }}
       
       - name: Upload app artifacts
         if: ${{ inputs.uploadArtifacts }}
