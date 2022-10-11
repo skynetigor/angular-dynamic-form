@@ -1,7 +1,8 @@
 import { FormControl } from '@angular/forms';
 
-import { emailRegExp } from '../../constants/regular-expressions';
 import { patternValidator } from './pattern.validator';
+
+const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 describe('pattern validator', () => {
     describe('if requiredFormat is not specified', () => {

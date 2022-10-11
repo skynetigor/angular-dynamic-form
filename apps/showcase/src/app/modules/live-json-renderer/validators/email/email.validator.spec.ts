@@ -1,7 +1,6 @@
 import { FormControl } from '@angular/forms';
 
-import { emailRegExp } from '../../constants/regular-expressions';
-import { emailValidator } from './email.validator';
+import { emailRegExp, emailValidator } from './email.validator';
 
 describe('email validator for the FormModelBuilder', () => {
     it('should return error if email in control value is in wrong format', () => {

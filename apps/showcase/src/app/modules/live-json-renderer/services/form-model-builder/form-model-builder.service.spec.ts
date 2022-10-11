@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { DYNAMIC_CONTROLS_DICTIONARY, VALIDATORS_DICTIONARY } from '../../const';
 
-import { DYNAMIC_CONTROLS_DICTIONARY, VALIDATORS_DICTIONARY } from '../../constants';
-import { defaultValidatorsDictionary } from '../../default-validators-dictionary';
+import { validatorsDictionary } from '../../default-validators-dictionary';
 import { TestDynamicControlModel } from '../../mocks';
 import { FormModelBuilderService } from './form-model-builder.service';
 
@@ -18,7 +18,7 @@ describe('FormModelBuilderService', () => {
                 { provide: DYNAMIC_CONTROLS_DICTIONARY, useValue: dynamicControlsDictionary },
                 {
                     provide: VALIDATORS_DICTIONARY,
-                    useValue: defaultValidatorsDictionary
+                    useValue: validatorsDictionary
                 }
             ]
         });

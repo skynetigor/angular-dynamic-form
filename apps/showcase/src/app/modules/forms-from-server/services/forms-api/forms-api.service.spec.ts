@@ -1,11 +1,13 @@
 import { FormsApiService } from "./forms-api.service";
 import { TestBed } from "@angular/core/testing";
+import { HttpClientModule } from "@angular/common/http";
 
 describe("FormsApiService", () => {
 
   let service: FormsApiService;
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       providers: [
         FormsApiService
       ]

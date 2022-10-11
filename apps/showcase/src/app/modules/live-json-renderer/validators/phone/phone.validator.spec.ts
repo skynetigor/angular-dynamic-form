@@ -1,7 +1,6 @@
 import { FormControl } from '@angular/forms';
 
-import { phoneRegExp } from '../../constants/regular-expressions';
-import { phoneValidator } from './phone.validator';
+import { phoneRegExp, phoneValidator } from './phone.validator';
 
 describe('phone validator', () => {
     describe('if regular expression and format is not specified explicitly', () => {

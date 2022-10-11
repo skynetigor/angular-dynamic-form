@@ -1,5 +1,5 @@
 import { patternValidator } from '../pattern/pattern.validator';
-const phoneRegExp = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+export const phoneRegExp = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
 
 /**
  * Phone validator for the {@link FormModelBuilderService}

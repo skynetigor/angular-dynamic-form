@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class FormsApiService {
-    constructor(private client: Http) {}
+    constructor(private client: HttpClient) {}
 
     getLoginForm(): Observable<any> {
-        return this.client.get('assets/forms/loginform.json').pipe(map(t => t.json()));
+        return this.client.get('assets/forms/loginform.json');
     }
 
     getRegistrationForm(): Observable<any> {
-        return this.client.get('assets/forms/registrationform.json').pipe(map(t => t.json()));
+        return this.client.get('assets/forms/registrationform.json');
     }
 
     getAllAvailableControls(): Observable<any> {
-        return this.client.get('assets/forms/all-available-controls.json').pipe(map(t => t.json()));
+        return this.client.get('assets/forms/all-available-controls.json');
     }
 
     getByName(name: string) {
-        return this.client.get(`assets/forms/${name}.json`).pipe(map(t => t.json()));
+        return this.client.get(`assets/forms/${name}.json`);
     }
 }
