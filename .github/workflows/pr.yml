@@ -14,7 +14,6 @@ jobs:
     with:
       appName: dynamic-form
       branch: temp
-      uploadArtifacts: false
   
   build_showcase:
     uses: ./.github/workflows/base-build.yml
