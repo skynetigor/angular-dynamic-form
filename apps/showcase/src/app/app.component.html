@@ -1,0 +1,39 @@
+<div class="sidebar menu">
+    <div class="title">Dynamic Form Showcase</div>
+    <button
+        *ngFor="let formButton of formButtons"
+        type="button"
+        [routerLink]="formButton.path"
+        routerLinkActive="btn-active"
+        class="btn btn-dark"
+    >
+        {{ formButton.title }}
+    </button>
+</div>
+<div class="content">
+    <div><router-outlet (activate)="activateRoute($event)" (deactivate)="deactivateRoute($event)"></router-outlet></div>
+</div>
+<div class="sidebar form-state-reflection" *ngIf="currentComponent && !currentComponent.hideFormStateReflection">
+    <div class="card form-output">
+        <div class="card-header">Form output</div>
+        <div class="card-body">
+            <pre
+                class="json-display"
+                [innerHtml]="currentComponent.formGroup ? (currentComponent.formGroup.valueChanges | async | prettyjson: 3) : ''"
+            ></pre>
+        </div>
+    </div>
+    <div class="card form-state">
+        <div class="card-header">Form State</div>
+        <div class="card-body">
+            <ng-container>
+                <div *ngFor="let fs of formStateReflectings" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">{{ fs.title }}</span>
+                    </div>
+                    <input type="text" readonly class="form-control" [value]="parse(fs.selector())" />
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="card form-container">
+    <dynamic-form-outlet [dynamicFormGroup]="selectorFormModel"></dynamic-form-outlet>
+    <div *ngIf="formGroup">
+        <div class="dropdown-divider"></div>
+        <dynamic-form-outlet [dynamicFormGroup]="formGroup"></dynamic-form-outlet>
+        <div class="dropdown-divider"></div>
+        <button [disabled]="!formGroup.valid" type="button" class="btn btn-primary">Send</button>
+    </div>
+</div>

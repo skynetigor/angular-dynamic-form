@@ -1,0 +1,27 @@
+<header class="label" *ngIf="label && label !== ''">
+  <span *ngIf="required" class="asterik"></span> <span>{{ label }}</span>
+</header>
+<div class="ms-TextField">
+  <input
+    *ngIf="!multiline"
+    [disabled]="isDisabled"
+    [type]="type"
+    class="form-control"
+    [(ngModel)]="value"
+    [placeholder]="placeholder"
+    (blur)="markAsDirty()"
+    [disabled]="isDisabled"
+  />
+  <textarea
+    *ngIf="multiline"
+    [disabled]="isDisabled"
+    class="form-control"
+    [(ngModel)]="value"
+    [placeholder]="placeholder"
+    (blur)="markAsDirty()"
+    [disabled]="isDisabled"
+  ></textarea>
+</div>
+<div class="errorText">
+  <span *ngIf="errorTexts && dirty">{{ buildErrorText() }}</span>
+</div>
