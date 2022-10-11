@@ -139,6 +139,11 @@
             "styles": [],
             "scripts": [],
             "assets": []
+          },
+          "configurations": {
+            "single-run": {
+              "karmaConfig": "libs/dynamic-form/karma.conf.ci.js"
+            }
           }
         }
       }
