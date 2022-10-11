@@ -1,2 +1,4 @@
-<app-json-editor (valueChanged)="jsonChanged($event)"></app-json-editor>
-<dynamic-form-outlet [dynamicFormGroup]="formModel"></dynamic-form-outlet>
+<app-json-editor class="editor" [data]="data" (valueChanged)="jsonChanged($event)"></app-json-editor>
+<div class="card form-container">
+    <dynamic-form-outlet [dynamicFormGroup]="formModel"></dynamic-form-outlet>
+</div>

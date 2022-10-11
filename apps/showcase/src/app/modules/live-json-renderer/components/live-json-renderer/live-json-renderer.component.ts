@@ -22,19 +22,58 @@ export class LiveJsonRendererComponent implements OnInit {
 
     options = new JsonEditorOptions();
     data = {
-        controls: {
-            login: {
-                type: 'BootstrapTextField',
-                inputs: {
-                    label: 'Login',
-                    multiline: false,
-                    placeholder: 'Enter login',
-                    required: true,
-                    errorTexts: {
-                        required: 'This field is required'
+        "controls": {
+            "login": {
+                "type": "BootstrapTextField",
+                "inputs": {
+                    "label": "Login",
+                    "multiline": false,
+                    "placeholder": "Enter login",
+                    "required": false,
+                    "errorTexts": {
+                        "required": "This field is required"
+                    }
+                }
+            },
+            "password": {
+                "type": "BootstrapTextField",
+                "inputs": {
+                    "label": "Password",
+                    "multiline": false,
+                    "placeholder": "Enter password",
+                    "required": true,
+                    "type": "password",
+                    "errorTexts": {
+                        "required": "This field is required"
                     }
                 },
-                validators: ['required']
+                "validators": ["required"]
+            },
+            "numberField": {
+                "type": "BootstrapTextField",
+                "inputs": {
+                    "label": "Number",
+                    "multiline": false,
+                    "placeholder": "Enter number",
+                    "required": true,
+                    "type": "text",
+                    "errorTexts": {
+                        "required": "This field is required",
+                        "maxlength": "Field value should be less than {0}.",
+                        "minlength": "Field value should be greater than {0}."
+                    }
+                },
+                "validators": [
+                    "required",
+                    {
+                        "name": "maxLength",
+                        "value": 10
+                    },
+                    {
+                        "name": "minLength",
+                        "value": 5
+                    }
+                ]
             }
         }
     };

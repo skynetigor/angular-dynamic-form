@@ -1,6 +1,17 @@
+$width: 500px;
+
+:host {
+    padding: 20px;
+}
+
 :host::ng-deep {
     .jsoneditor {
-        width: 500px;
-        height: 200px;
+        height: 400px;
     }
+}
+
+.form-container {
+    margin-top: 15px;
+    width: $width;
+    max-width: $width;
 }
