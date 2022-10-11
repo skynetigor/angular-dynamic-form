@@ -9,9 +9,9 @@ on:
       appName:
         required: true
         type: string
-      uploadArtifacts:
-        type: boolean
-        default: true
+      artifactName:
+        type: string
+        default: ''
   
 jobs:
   install-deps:
@@ -103,8 +103,8 @@ jobs:
         run: npx nx build ${{ inputs.appName }}
       
       - name: Upload app artifacts
-        if: ${{ inputs.uploadArtifacts }}
+        if: ${{ inputs.artifactName }}
         uses: actions/upload-artifact@master
         with:
-          name: app
+          name: ${{ inputs.artifactName }}
           path: dist
