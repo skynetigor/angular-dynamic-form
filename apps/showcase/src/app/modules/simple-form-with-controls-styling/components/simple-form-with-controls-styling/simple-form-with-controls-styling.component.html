@@ -1,0 +1,15 @@
+<div class="card form-container">
+    <dynamic-form-outlet [dynamicFormGroup]="formModel"></dynamic-form-outlet>
+    <div class="dropdown-divider"></div>
+    <button [disabled]="!formModel.valid" type="button" class="btn btn-primary">Send</button>
+</div>
+
+<ng-template #infoTmpl let-text="text">
+    <div class="alert alert-info">
+        DynamicForm supports styling of several controls and styling of particular control.<br />
+        Here is example how styling of controls works. All you need to do is to specify styles through <b>::ng-deep.</b> <br />If you want
+        to specify styles for all controls you need to do it in styles for elemnts that has <b>'@skynet-ng/dynamic-form'</b> attribute.<br />If you
+        want to style particular control you can do it by styling <b>'.#controlName#'</b> class, where <b>'#controlName#'</b> is name that
+        you create control with in formModel.
+    </div>
+</ng-template>

@@ -1,0 +1,16 @@
+<div class="card form-container">
+    <dynamic-form-outlet [dynamicFormGroup]="formModel" [controlWrappers]="templates"></dynamic-form-outlet>
+    <div class="dropdown-divider"></div>
+    <button (click)="click()" [disabled]="!formModel.valid" type="button" class="btn btn-primary">Send</button>
+</div>
+
+<ng-template #wrapper let-control="control">
+    <div class="alert alert-primary">This is template that is being displayed before each control</div>
+    <ng-container #some [dynamicFormControlOutlet]="control"></ng-container>
+
+    <div class="alert alert-danger">This is template that is being displayed after each control</div>
+</ng-template>
+
+<ng-template let-text="text" let-alertClass="alertClass" #alertTmpl>
+    <div (click)="click()" class="alert {{ alertClass }}">{{ text }}</div>
+</ng-template>

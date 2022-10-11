@@ -1,0 +1,26 @@
+<div class="card form-container">
+  <form [formGroup]="formGroup">
+    <showcase-bootstrap-textfield
+      [required]="true"
+      formControlName="name"
+      [bindControlInputs]="formConfig.name.inputs"
+    ></showcase-bootstrap-textfield>
+    <showcase-bootstrap-textfield
+      [required]="true"
+      formControlName="email"
+      [bindControlInputs]="formConfig.email.inputs"
+    ></showcase-bootstrap-textfield>
+    <showcase-bootstrap-dropdown
+      [required]="true"
+      formControlName="subject"
+      [bindControlInputs]="formConfig.subject.inputs"
+      [bindControlOutputs]="formConfig.subject.outputs"
+    ></showcase-bootstrap-dropdown>
+    <showcase-bootstrap-textfield
+      formControlName="message"
+      [bindControlInputs]="formConfig.message.inputs"
+    ></showcase-bootstrap-textfield>
+  </form>
+  <div class="dropdown-divider"></div>
+  <button [disabled]="!formGroup.valid" type="button" class="btn btn-primary">Send</button>
+</div>

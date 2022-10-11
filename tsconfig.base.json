@@ -14,8 +14,8 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "strict": false, // TODO: Make strict equal to true
-    "noImplicitReturns": false, // TODO: Decide whether there is a need in it
+    "strict": false,
+    "noImplicitReturns": false,
     "strictFunctionTypes": true,
     "strictNullChecks": false,
     "noImplicitAny": false,

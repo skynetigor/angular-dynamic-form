@@ -5,7 +5,6 @@
       "projectType": "library",
       "root": "libs/dynamic-form",
       "sourceRoot": "libs/dynamic-form/src",
-      "prefix": "mf-app",
       "targets": {
         "build": {
           "executor": "@nrwl/angular:package",
@@ -43,6 +42,108 @@
               "libs/dynamic-form/src/**/*.ts",
               "libs/dynamic-form/src/**/*.html"
             ]
+          }
+        }
+      }
+    },
+    "showcase": {
+      "projectType": "application",
+      "root": "apps/showcase",
+      "sourceRoot": "apps/showcase/src",
+      "prefix": "showcase",
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/showcase",
+            "index": "apps/showcase/src/index.html",
+            "main": "apps/showcase/src/main.ts",
+            "polyfills": "apps/showcase/src/polyfills.ts",
+            "tsConfig": "apps/showcase/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/showcase/src/favicon.ico",
+              "apps/showcase/src/assets"
+            ],
+            "styles": ["apps/showcase/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/showcase/src/environments/environment.ts",
+                  "with": "apps/showcase/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "showcase:build:production"
+            },
+            "development": {
+              "browserTarget": "showcase:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "showcase:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/showcase/src/**/*.ts",
+              "apps/showcase/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/showcase/src/test.ts",
+            "tsConfig": "apps/showcase/tsconfig.spec.json",
+            "karmaConfig": "apps/showcase/karma.conf.js",
+            "polyfills": "apps/showcase/src/polyfills.ts",
+            "styles": [],
+            "scripts": [],
+            "assets": []
+          },
+          "configurations": {
+            "single-run": {
+              "karmaConfig": "libs/dynamic-form/karma.conf.ci.js"
+            }
           }
         }
       }

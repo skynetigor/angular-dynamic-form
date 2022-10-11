@@ -29,6 +29,9 @@
   "projects": {
     "dynamic-form": {
       "tags": []
+    },
+    "showcase": {
+      "tags": []
     }
   }
 }
