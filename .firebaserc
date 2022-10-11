@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "anecdotes-mfe-poc"
+    "default": "dynamic-form-showcase"
   },
   "targets": {
-    "anecdotes-mfe-poc": {
+    "dynamic-form-showcase": {
       "hosting": {
-        "develop": [
-          "anecdotes-mfe-poc"
+        "previews": [
+          "dynamic-form-showcase"
         ]
       }
     }

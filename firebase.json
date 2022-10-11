@@ -1,19 +1,17 @@
 {
-  "hosting": [
+  "hosting": [{
+    "public": "dist/apps/showcase",
+    "target": "previews",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
       {
-      "public": "dist",
-      "target": "develop",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/apps/shell/index.html"
-        }
-      ]
-    }
-  ]
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }]
 }
