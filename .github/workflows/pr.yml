@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [develop, master, 'feature/*']
 
+concurrency: 
+  group: pr-build-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   build_lib:
     uses: ./.github/workflows/base-build.yml
