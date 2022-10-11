@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~jsoneditor/dist/jsoneditor.min.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.form-container {
+    padding: 30px;
+    min-width: 550px;
+    animation: appear 200ms;
+}
+
+@media screen and (max-width: 1240px) {
+    .form-container {
+        min-width: 450px;
+    }
+}
+
+@media screen and (max-width: 1130px) {
+    .form-container {
+        min-width: 350px;
+    }
+}
+
+@keyframes appear {
+    0% {
+        transform: scaleX(1);
+    }
+
+    50% {
+        transform: scaleX(0);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+.json-display {
+    height: 100%;
+
+    span {
+        white-space: normal;
+    }
+    .string {
+        color: green;
+    }
+    .number {
+        color: darkorange;
+    }
+    .boolean {
+        color: blue;
+    }
+    .null {
+        color: magenta;
+    }
+    .key {
+        color: red;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .form-container {
+        min-width: 300px;
+    }
+}
