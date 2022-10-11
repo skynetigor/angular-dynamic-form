@@ -5,7 +5,7 @@
   "targets": {
     "dynamic-form-showcase": {
       "hosting": {
-        "develop": [
+        "previews": [
           "dynamic-form-showcase"
         ]
       }
