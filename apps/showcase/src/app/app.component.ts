@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // 'Forms from server': 'forms-from-server',
         'Simple form with inputs binder directive': 'simple-form-with-inputs-binder-directive',
         'Live JSON renderer': 'live-json-renderer',
-        'Dynamic form wizard': 'dynamic-form-wizard'
+        // 'Dynamic form wizard': 'dynamic-form-wizard'
     };
 
     formState = {

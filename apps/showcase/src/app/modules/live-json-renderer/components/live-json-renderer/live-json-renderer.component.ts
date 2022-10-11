@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
-import { DynamicFormGroup, FormModelBuilderService } from '@skynet-ng/dynamic-form';
+import { DynamicFormGroup } from '@skynet-ng/dynamic-form';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { FormModelBuilderService } from '../../services';
 
 @Component({
     selector: 'app-live-json-renderer',

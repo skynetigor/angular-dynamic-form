@@ -35,10 +35,10 @@ const routes: Routes = [
             //     path: 'dynamic-form-wizard',
             //     loadChildren: () => import('./modules/wizard/wizard.module').then(x => x.WizardModule)
             // },
-            // {
-            //     path: 'live-json-renderer',
-            //     loadChildren: () => import('./modules/live-json-renderer/live-json-renderer.module').then(x => x.LiveJsonRendererModule)
-            // }
+            {
+                path: 'live-json-renderer',
+                loadChildren: () => import('./modules/live-json-renderer/live-json-renderer.module').then(x => x.LiveJsonRendererModule)
+            }
         ]
     },
     { path: '**', pathMatch: 'full', redirectTo: 'simple-form-without-renderer' }
