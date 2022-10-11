@@ -74,5 +74,5 @@ jobs:
     needs: [build_lib,create_showcase_preview_link]
     steps:
       - name: Check build status
-        if: ${{ needs.build_lib.result != 'success' || needs.build_showcase.result != 'success' }}
+        if: ${{ needs.build_lib.result != 'success' || needs.create_showcase_preview_link.result != 'success' }}
         run: exit 1
