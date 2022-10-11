@@ -21,6 +21,22 @@ jobs:
     with:
       appName: showcase
       branch: temp
+
+  create_showcase_preview_link:
+    needs: [build_showcase]
+    runs-on: ubuntu-latest
+    env:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.firebase_service_account }}
+
+    steps:
+      - name: Deploy to firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ env.FIREBASE_SERVICE_ACCOUNT }}'
+          projectId: dynamic-form-showcase
+          expires: 2d
+          target: previews
   
   check_for_failures:
     if: ${{ always() }}
