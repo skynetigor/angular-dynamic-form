@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 import { DynamicFormGroup } from '@skynet-ng/dynamic-form';
 import { Validators } from '@angular/forms';
@@ -8,7 +8,7 @@ import { Validators } from '@angular/forms';
   templateUrl: './simple-form-without-renderer.component.html',
   styleUrls: ['./simple-form-without-renderer.component.scss']
 })
-export class SimpleFormWithoutRendererComponent implements OnInit, AfterViewInit {
+export class SimpleFormWithoutRendererComponent implements AfterViewInit {
   private errorTexts = {
     required: 'This field is required'
   };
@@ -50,10 +50,6 @@ export class SimpleFormWithoutRendererComponent implements OnInit, AfterViewInit
   get formGroup() {
     return this.formModel;
   }
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   ngAfterViewInit() {
     setTimeout(() => {

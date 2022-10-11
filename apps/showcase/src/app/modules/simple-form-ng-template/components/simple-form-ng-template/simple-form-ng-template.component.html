@@ -11,6 +11,6 @@
     <div class="alert alert-danger">This is template that is being displayed after each control</div>
 </ng-template>
 
-<ng-template let-text="text" let-alertClass="alertClass" #tmpl>
+<ng-template let-text="text" let-alertClass="alertClass" #alertTmpl>
     <div (click)="click()" class="alert {{ alertClass }}">{{ text }}</div>
 </ng-template>

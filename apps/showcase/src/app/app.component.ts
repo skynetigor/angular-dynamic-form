@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 export function isPrimitive(obj): boolean {
@@ -19,7 +18,7 @@ export function isPrimitive(obj): boolean {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnDestroy {
     private forms = {
         'Simple form native approach': 'simple-form-native-approach',
         'Simple form without renderer': 'simple-form-without-renderer',
@@ -59,11 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     currentComponent: any;
-
-    constructor(private router: Router) {}
-
-    ngOnInit(): void {}
-
+    
     ngOnDestroy() {
         this.subscriptions.forEach(t => t.unsubscribe());
     }

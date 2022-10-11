@@ -4,12 +4,12 @@ import { AbstractValueAccessor, MakeProvider } from '../../abstractions';
 import { IBootstrapDropdownInputs } from '../../interfaces';
 
 @Component({
-    selector: 'lib-bootstrap-dropdown',
+    selector: 'showcase-bootstrap-dropdown',
     templateUrl: './bootstrap-dropdown.component.html',
     styleUrls: ['./bootstrap-dropdown.component.scss', '../common-styles.scss'],
     providers: [MakeProvider(BootstrapDropdownComponent)]
 })
-export class BootstrapDropdownComponent extends AbstractValueAccessor implements OnInit, IBootstrapDropdownInputs, OnChanges {
+export class BootstrapDropdownComponent extends AbstractValueAccessor implements IBootstrapDropdownInputs, OnChanges {
     private _options = [];
 
     isDropdownOpened = false;
@@ -21,7 +21,7 @@ export class BootstrapDropdownComponent extends AbstractValueAccessor implements
             this.dirty = false;
             this.value = null;
 
-            if (!!this.formControl) {
+            if (this.formControl) {
                 this.formControl.reset();
             }
         }

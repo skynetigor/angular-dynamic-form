@@ -4,7 +4,7 @@ import { AbstractValueAccessor, MakeProvider } from '../../abstractions';
 import { IBootstrapTextfieldInputs } from '../../interfaces';
 
 @Component({
-    selector: 'lib-bootstrap-textfield',
+    selector: 'showcase-bootstrap-textfield',
     templateUrl: './bootstrap-textfield.component.html',
     styleUrls: ['./bootstrap-textfield.component.scss', '../common-styles.scss'],
     providers: [MakeProvider(BootstrapTextfieldComponent)]

@@ -5,10 +5,6 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: './wizard.component.html',
     styleUrls: ['./wizard.component.scss']
 })
-export class WizardComponent implements OnInit {
+export class WizardComponent {
     hideFormStateReflection = true;
-
-    constructor() {}
-
-    ngOnInit() {}
 }

@@ -3,10 +3,12 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl } from 
 import { formatString } from '../utils';
 
 @Component({
+    // eslint-disable-next-line @angular-eslint/component-selector
     selector: 'abstract-value-accessor',
     template: ''
 })
-export abstract class AbstractValueAccessor implements ControlValueAccessor, OnInit, AfterViewInit {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export abstract class AbstractValueAccessor implements ControlValueAccessor, AfterViewInit {
     dirty = false;
 
     @Input()
@@ -58,8 +60,10 @@ export abstract class AbstractValueAccessor implements ControlValueAccessor, OnI
         this._value = value;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onChange = _ => {};
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onTouch = () => {};
 
     registerOnChange(fn: (_: any) => void): void {
@@ -73,8 +77,6 @@ export abstract class AbstractValueAccessor implements ControlValueAccessor, OnI
     setDisabledState(isDisabled: boolean) {
         this.isDisabled = isDisabled;
     }
-
-    ngOnInit() {}
 
     ngAfterViewInit() {
         this.formControl = this.injector.get(NgControl).control as FormControl;

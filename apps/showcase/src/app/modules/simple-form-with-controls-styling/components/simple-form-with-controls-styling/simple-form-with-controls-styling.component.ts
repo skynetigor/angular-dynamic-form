@@ -54,8 +54,6 @@ export class SimpleFormWithControlsStylingComponent implements OnInit {
     return this.formModel;
   }
 
-  constructor() {}
-
   ngOnInit() {
     this.formModel.items.info.templateRef = this.infoTmpl;
   }

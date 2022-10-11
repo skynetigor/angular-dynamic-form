@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstrap-controls';
 import { DynamicFormGroup, TemplateModel } from '@skynet-ng/dynamic-form';
@@ -8,11 +8,11 @@ import { DynamicFormGroup, TemplateModel } from '@skynet-ng/dynamic-form';
     templateUrl: './simple-form-ng-template.component.html',
     styleUrls: ['./simple-form-ng-template.component.scss']
 })
-export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
-    @ViewChild('tmpl') tmpl;
+export class SimpleFormNgTemplateComponent implements OnInit {
+    @ViewChild('alertTmpl', { static: true }) alertTemplate: TemplateRef<any>;
 
     @ViewChild('wrapper')
-    private wrapper;
+    private wrapper: TemplateRef<any>;
 
     templates: { [key: string]: TemplateRef<any> };
 
@@ -63,8 +63,6 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
         return this.formModel;
     }
 
-    constructor() {}
-
     click() {
         if (!this.templates) {
             this.templates = {};
@@ -86,8 +84,6 @@ export class SimpleFormNgTemplateComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.formModel.items.greenBox.templateRef = this.tmpl;
+        this.formModel.items.greenBox.templateRef = this.alertTemplate;
     }
-
-    ngAfterViewInit() {}
 }
