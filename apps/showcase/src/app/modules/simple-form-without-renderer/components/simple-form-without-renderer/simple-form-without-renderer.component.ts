@@ -4,7 +4,7 @@ import { DynamicFormGroup } from '@skynet-ng/dynamic-form';
 import { Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-simple-form-without-renderer',
+  selector: 'showcase-simple-form-without-renderer',
   templateUrl: './simple-form-without-renderer.component.html',
   styleUrls: ['./simple-form-without-renderer.component.scss']
 })

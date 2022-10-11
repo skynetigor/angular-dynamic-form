@@ -13,7 +13,7 @@ import {
 import * as angJson from 'ang-jsoneditor';
 
 @Component({
-  selector: 'app-json-editor',
+  selector: 'showcase-json-editor',
   templateUrl: './json-editor.component.html',
   styleUrls: ['./json-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

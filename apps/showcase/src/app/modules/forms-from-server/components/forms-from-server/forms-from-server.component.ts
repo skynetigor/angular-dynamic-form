@@ -7,7 +7,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { FormsApiService } from '../../services';
 
 @Component({
-    selector: 'app-forms-from-server',
+    selector: 'showcase-forms-from-server',
     templateUrl: './forms-from-server.component.html',
     styleUrls: ['./forms-from-server.component.scss']
 })

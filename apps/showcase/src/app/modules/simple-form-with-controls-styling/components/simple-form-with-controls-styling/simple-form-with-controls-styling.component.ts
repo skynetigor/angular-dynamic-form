@@ -4,7 +4,7 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
 import { Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-simple-form-with-controls-styling',
+  selector: 'showcase-simple-form-with-controls-styling',
   templateUrl: './simple-form-with-controls-styling.component.html',
   styleUrls: ['./simple-form-with-controls-styling.component.scss']
 })

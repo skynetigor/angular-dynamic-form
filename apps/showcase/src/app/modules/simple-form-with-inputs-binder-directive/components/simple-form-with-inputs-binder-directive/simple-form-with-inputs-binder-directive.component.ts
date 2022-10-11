@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-simple-form-with-inputs-binder-directive',
+  selector: 'showcase-simple-form-with-inputs-binder-directive',
   templateUrl: './simple-form-with-inputs-binder-directive.component.html',
   styleUrls: ['./simple-form-with-inputs-binder-directive.component.scss']
 })

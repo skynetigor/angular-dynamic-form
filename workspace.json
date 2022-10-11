@@ -5,7 +5,6 @@
       "projectType": "library",
       "root": "libs/dynamic-form",
       "sourceRoot": "libs/dynamic-form/src",
-      "prefix": "mf-app",
       "targets": {
         "build": {
           "executor": "@nrwl/angular:package",
@@ -51,7 +50,7 @@
       "projectType": "application",
       "root": "apps/showcase",
       "sourceRoot": "apps/showcase/src",
-      "prefix": "mf-app",
+      "prefix": "showcase",
       "targets": {
         "build": {
           "executor": "@angular-devkit/build-angular:browser",

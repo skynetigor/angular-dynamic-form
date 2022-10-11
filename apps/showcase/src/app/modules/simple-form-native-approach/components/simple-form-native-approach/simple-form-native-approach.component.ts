@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-simple-form-native-approach',
+  selector: 'showcase-simple-form-native-approach',
   templateUrl: './simple-form-native-approach.component.html',
   styleUrls: ['./simple-form-native-approach.component.scss']
 })

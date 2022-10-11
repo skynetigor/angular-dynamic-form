@@ -6,7 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 import { FormModelBuilderService } from '../../services';
 
 @Component({
-    selector: 'app-live-json-renderer',
+    selector: 'showcase-live-json-renderer',
     templateUrl: './live-json-renderer.component.html',
     styleUrls: ['./live-json-renderer.component.scss']
 })

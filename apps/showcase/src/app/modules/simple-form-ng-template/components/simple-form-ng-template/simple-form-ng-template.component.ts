@@ -4,7 +4,7 @@ import { BootstrapDropdownControlModel, BootstrapTextFieldModel } from 'bootstra
 import { DynamicFormGroup, TemplateModel } from '@skynet-ng/dynamic-form';
 
 @Component({
-    selector: 'app-simple-form-ng-template',
+    selector: 'showcase-simple-form-ng-template',
     templateUrl: './simple-form-ng-template.component.html',
     styleUrls: ['./simple-form-ng-template.component.scss']
 })

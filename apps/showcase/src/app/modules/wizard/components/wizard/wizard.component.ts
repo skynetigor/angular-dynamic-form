@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-wizard',
+    selector: 'showcase-wizard',
     templateUrl: './wizard.component.html',
     styleUrls: ['./wizard.component.scss']
 })
