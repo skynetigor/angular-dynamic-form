@@ -35,13 +35,3 @@ jobs:
       channelId: live
     secrets:
       FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-  
-  check_for_failures:
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    name: Finish build
-    needs: [build_lib,create_showcase_preview_link]
-    steps:
-      - name: Check build status
-        if: ${{ needs.build_lib.result != 'success' || needs.create_showcase_preview_link.result != 'success' }}
-        run: exit 1
