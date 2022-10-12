@@ -19,7 +19,7 @@ jobs:
   deploy_to_firebase:
     runs-on: ubuntu-latest
     env:
-      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.firebase_service_account }}
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
     steps:
       - uses: actions/checkout@v2
