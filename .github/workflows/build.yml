@@ -30,7 +30,7 @@ jobs:
     with:
       branch: temp
       artifactName: showcase
-      target: previews
+      target: showcase
       expires: 2d
       channelId: live
     secrets:
