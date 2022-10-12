@@ -3,8 +3,6 @@ name: Build develop
 on:
   push:
     branches: [deploy_showcase_to_firebases]
-  pull_request:
-    branches: [develop] # temp
 
 concurrency: 
   group: build-develop-${{ github.head_ref || github.ref_name }}
