@@ -14,12 +14,14 @@ on:
         required: true
       expires:
         type: string
+      sa:
+        type: string
   
 jobs:
   deploy_to_firebase:
     runs-on: ubuntu-latest
     env:
-      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      FIREBASE_SERVICE_ACCOUNT: ${{ inputs.sa }}
 
     steps:
       - uses: actions/checkout@v2

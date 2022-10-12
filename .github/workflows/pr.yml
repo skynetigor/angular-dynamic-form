@@ -21,6 +21,7 @@ jobs:
       appName: showcase
       branch: temp
       artifactName: showcase
+      sa: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
   create_showcase_preview_link:
     uses: ./.github/workflows/deploy-to-firebase.yml
