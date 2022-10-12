@@ -14,14 +14,14 @@ on:
         required: true
       expires:
         type: string
-      sa:
+    
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT:
         type: string
   
 jobs:
   deploy_to_firebase:
     runs-on: ubuntu-latest
-    env:
-      FIREBASE_SERVICE_ACCOUNT: ${{ inputs.sa }}
 
     steps:
       - uses: actions/checkout@v2
@@ -57,7 +57,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ env.FIREBASE_SERVICE_ACCOUNT }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
           projectId: dynamic-form-showcase
           expires: ${{ inputs.expires }}
           target: ${{ inputs.target }}
