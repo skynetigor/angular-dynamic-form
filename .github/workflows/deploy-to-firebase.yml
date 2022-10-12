@@ -12,6 +12,8 @@ on:
       target:
         type: string
         required: true
+      channelId:
+        type: string
       expires:
         type: string
     
@@ -60,4 +62,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
           projectId: dynamic-form-showcase
           expires: ${{ inputs.expires }}
+          channelId: ${{ inputs.channelId }}
           target: ${{ inputs.target }}

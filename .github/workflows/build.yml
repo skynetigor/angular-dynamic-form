@@ -1,29 +1,45 @@
-name: Build/Test
+name: Build develop
 
 on:
   push:
-    branches: [master, develop]
+    branches: [deploy_showcase_to_firebases]
+
+concurrency: 
+  group: build-develop-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build_lib:
+    uses: ./.github/workflows/base-build.yml
+    with:
+      appName: dynamic-form
+      branch: temp
+  
+  build_showcase:
+    uses: ./.github/workflows/base-build.yml
+    with:
+      appName: showcase
+      branch: temp
+      artifactName: showcase
+
+  deploy_to_firebase:
+    uses: ./.github/workflows/deploy-to-firebase.yml
+    needs: [build_showcase]
+    with:
+      branch: temp
+      artifactName: showcase
+      target: previews
+      expires: 2d
+      channelId: live
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+  
+  check_for_failures:
+    if: ${{ always() }}
     runs-on: ubuntu-latest
-
+    name: Finish build
+    needs: [build_lib,create_showcase_preview_link]
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.15.4
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Test
-        run: npm run test-single-run
+      - name: Check build status
+        if: ${{ needs.build_lib.result != 'success' || needs.create_showcase_preview_link.result != 'success' }}
+        run: exit 1

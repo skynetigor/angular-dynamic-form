@@ -1,7 +1,7 @@
 {
   "hosting": [{
     "public": "dist/apps/showcase",
-    "target": "previews",
+    "target": "showcase",
     "ignore": [
       "firebase.json",
       "**/.*",

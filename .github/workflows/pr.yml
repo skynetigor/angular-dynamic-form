@@ -28,7 +28,7 @@ jobs:
     with:
       branch: temp
       artifactName: showcase
-      target: previews
+      target: showcase
       expires: 2d
     secrets:
       FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
