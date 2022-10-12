@@ -17,7 +17,7 @@ on:
     
     secrets:
       FIREBASE_SERVICE_ACCOUNT:
-        type: string
+        required: true
   
 jobs:
   deploy_to_firebase:
