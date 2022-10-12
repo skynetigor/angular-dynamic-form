@@ -2,7 +2,7 @@ name: Build develop
 
 on:
   push:
-    branches: [deploy_showcase_to_firebases]
+    branches: [develop]
 
 concurrency: 
   group: build-develop-${{ github.head_ref || github.ref_name }}
