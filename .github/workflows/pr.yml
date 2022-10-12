@@ -21,8 +21,6 @@ jobs:
       appName: showcase
       branch: temp
       artifactName: showcase
-    secrets:
-      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
   create_showcase_preview_link:
     uses: ./.github/workflows/deploy-to-firebase.yml
@@ -32,6 +30,8 @@ jobs:
       artifactName: showcase
       target: previews
       expires: 2d
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
   
   check_for_failures:
     if: ${{ always() }}
