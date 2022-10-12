@@ -53,8 +53,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ env.FIREBASE_SERVICE_ACCOUNT }}'
+          firebaseServiceAccount: ${{ secrets.firebase_service_account }}
           projectId: dynamic-form-showcase
           expires: ${{ inputs.expires }}
           target: ${{ inputs.target }}
-          
