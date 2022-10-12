@@ -24,6 +24,7 @@ jobs:
 
   create_showcase_preview_link:
     uses: ./.github/workflows/deploy-to-firebase.yml
+    needs: [build_showcase]
     with:
       branch: temp
       artifactName: showcase
