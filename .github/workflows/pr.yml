@@ -2,7 +2,7 @@ name: Build PR
 
 on:
   pull_request:
-    branches: [develop, master, 'feature/*']
+    branches: [develop]
 
 concurrency: 
   group: pr-build-${{ github.head_ref }}
@@ -23,49 +23,15 @@ jobs:
       artifactName: showcase
 
   create_showcase_preview_link:
+    uses: ./.github/workflows/deploy-to-firebase.yml
     needs: [build_showcase]
-    runs-on: ubuntu-latest
-    env:
-      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.firebase_service_account }}
-
-    steps:
-      - uses: actions/checkout@v2
-        name: Checkout Base
-
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14.18.0
-
-      - name: Cache or restore node_modules
-        id: cache-nodemodules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          # caching node_modules
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      
-      - name: Download app artifacts
-        uses: actions/download-artifact@master
-        continue-on-error: true
-        with:
-          name: showcase
-          path: dist
-
-      - name: Deploy to firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ env.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: dynamic-form-showcase
-          expires: 2d
-          target: previews
+    with:
+      branch: temp
+      artifactName: showcase
+      target: showcase
+      expires: 2d
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
   
   check_for_failures:
     if: ${{ always() }}

@@ -1,0 +1,66 @@
+name: Deployment to firebase.
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      artifactName:
+        type: string
+        required: true
+      target:
+        type: string
+        required: true
+      channelId:
+        type: string
+      expires:
+        type: string
+    
+    secrets:
+      FIREBASE_SERVICE_ACCOUNT:
+        required: true
+  
+jobs:
+  deploy_to_firebase:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout Base
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.18.0
+
+      - name: Cache or restore node_modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      
+      - name: Download app artifacts
+        uses: actions/download-artifact@master
+        continue-on-error: true
+        with:
+          name: ${{ inputs.artifactName }}
+          path: dist
+
+      - name: Deploy to firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          projectId: dynamic-form-showcase
+          expires: ${{ inputs.expires }}
+          channelId: ${{ inputs.channelId }}
+          target: ${{ inputs.target }}
