@@ -31,7 +31,6 @@ jobs:
       branch: temp
       artifactName: showcase
       target: showcase
-      expires: 2d
       channelId: live
     secrets:
       FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
