@@ -2,7 +2,7 @@ name: Build PR
 
 on:
   pull_request:
-    branches: [develop, master, 'feature/*']
+    branches: [developeee]
 
 concurrency: 
   group: pr-build-${{ github.head_ref }}
