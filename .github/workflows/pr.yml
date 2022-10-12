@@ -2,6 +2,7 @@ name: Build PR
 
 on:
   pull_request:
+    # branches: [develop]
     branches: [developeee]
 
 concurrency: 
