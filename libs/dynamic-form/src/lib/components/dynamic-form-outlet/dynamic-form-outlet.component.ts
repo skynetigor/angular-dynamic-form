@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, DoCheck, HostBinding, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { AbstractDynamicControl, DynamicFormGroup, TemplateModel } from '../../models';
 import { FormBodyItem } from '../../types';
@@ -19,6 +19,11 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
     private defaultTemplateWrapper: TemplateRef<any>;
     @ViewChild('formGroupTemplate', { static: true })
     private formGroupTemplate: TemplateRef<any>;
+    @ViewChild('container', { static: true })
+    private containerTemplate: TemplateRef<any>;
+
+    @HostBinding('style.display')
+    private display = 'none !important';
 
     private differ = this.differs.find({}).create();
     private _controlWrappers: any;
@@ -40,10 +45,11 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
      */
     formBody: FormBodyItem[] = [];
 
-    constructor(private differs: KeyValueDiffers) {}
+    constructor(private differs: KeyValueDiffers, private viewContainerRef: ViewContainerRef) {}
 
     ngOnInit(): void {
         this.refreshControlWrappers();
+        this.viewContainerRef.insert(this.containerTemplate.createEmbeddedView({}));
     }
 
     ngOnChanges(changes: SimpleChanges): void {

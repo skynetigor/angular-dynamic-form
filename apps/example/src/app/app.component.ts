@@ -7,7 +7,9 @@ import { TextfieldControl } from './models';
   template: `
     <div class="flex justify-center items-center absolute w-full h-full bg-gray-200">
       <div class="bg-white flex flex-col w-96 border-gray-300 border border-solid p-5 rounded-md gap-4">
-        <dynamic-form-outlet class="flex flex-col gap-4" [dynamicFormGroup]="dynamicFormGroup"></dynamic-form-outlet>
+        <form class="flex flex-col gap-4">
+          <dynamic-form-outlet [dynamicFormGroup]="dynamicFormGroup"></dynamic-form-outlet>
+        </form>
         <button class="self-end h-10 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700">
           Submit
         </button>

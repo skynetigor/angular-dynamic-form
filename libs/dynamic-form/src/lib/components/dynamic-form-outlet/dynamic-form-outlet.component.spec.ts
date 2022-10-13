@@ -70,6 +70,30 @@ describe('DynamicFormOutlet', () => {
         component = fixture.componentInstance;
     });
 
+    describe('outlet native element', () => {
+        it('should have display css property set to `none`', () => {
+            // Arrange
+            const componentUnderTestDebugElement = fixture.debugElement.query(By.directive(DynamicFormOutletComponent));
+    
+            // Act
+            fixture.detectChanges();
+    
+            // Assert
+            expect(componentUnderTestDebugElement.styles['display']).toEqual('none');
+        });
+
+        it('should have no elements', () => {
+            // Arrange
+            const componentUnderTestDebugElement = fixture.debugElement.query(By.directive(DynamicFormOutletComponent));
+    
+            // Act
+            fixture.detectChanges();
+    
+            // Assert
+            expect(componentUnderTestDebugElement.children.filter(d => d.nativeNode.type !== Node.COMMENT_NODE).length).toEqual(0);
+        });
+    });
+
     it('should render controls components', () => {
         // Arrange
         const items = Object.values(component.formGroup.items);
@@ -273,7 +297,8 @@ describe('DynamicFormOutlet', () => {
 
         fixture.detectChanges();
 
-        const formDebugElement = fixture.debugElement.queryAll(By.css('form > *'));
+        const componentUnderTestDebugElement = fixture.debugElement.query(By.directive(DynamicFormOutletComponent));
+        const formDebugElement = fixture.debugElement.children.filter(debugElement => debugElement !== componentUnderTestDebugElement);
 
         const controlsObjects = Object.values(component.formGroup.controls);
 
