@@ -35,7 +35,7 @@ export class SomeModule {}
 ```
 
 **Step 3:**
-Create [ControlValueAccessor] component. Example of such a component is [here](https://www.digitalocean.com/community/tutorials/angular-custom-form-control).
+Create [ControlValueAccessor](https://angular.io/api/forms/ControlValueAccessor) component. Example of such a component is [here](https://www.digitalocean.com/community/tutorials/angular-custom-form-control).
 Let's assume that we created TextfieldComponent.
 
 ```ts
@@ -122,14 +122,6 @@ export class BootstrapTextFieldModel extends AbstractDynamicControl<TextfieldCom
 In your component's ts file you want the form in, define form via DynamicFormGroup.
 
 ```ts
-import { AbstractDynamicControl, ControlConfiguration } from '@skynet-ng/dynamic-form';
-import { TextfieldComponent } from '../components';
-
-export class BootstrapTextFieldModel extends AbstractDynamicControl<TextfieldComponent> {
-    constructor(config: ControlConfiguration<any, any, string>) {
-        super(config, TextfieldComponent);
-    }
-}
 ```
 
 
@@ -140,6 +132,3 @@ export class BootstrapTextFieldModel extends AbstractDynamicControl<TextfieldCom
 
 
 
-
-
-[ControlValueAccessor]: <https://angular.io/api/forms/ControlValueAccessor>
