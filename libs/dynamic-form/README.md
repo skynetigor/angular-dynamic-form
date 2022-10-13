@@ -172,7 +172,7 @@ export class AppComponent {
 }
 ```
 
-
+You can play with it in [Stackblitz](https://stackblitz.com/edit/skynet-ng-dynamic-form-example-jarsjn?file=src/app/app.component.scss)
 
 
 
