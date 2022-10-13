@@ -1,5 +1,3 @@
-### Contributors 
-
 ### @skynet-ng/dynamic-form
 An extension for Angular Reactive forms for rendering forms dynamically.
 
@@ -172,7 +170,7 @@ export class AppComponent {
 }
 ```
 
-You can play with it in [Stackblitz](https://stackblitz.com/edit/skynet-ng-dynamic-form-example-jarsjn?file=src/app/app.component.scss)
+You can play with it in [StackBlitz](https://stackblitz.com/edit/skynet-ng-dynamic-form-example-jarsjn?file=src/app/app.component.scss). Also, this example is availabe in [GitHub](https://github.com/skynetigor/angular-dynamic-form/tree/develop/apps/example/src/app)
 
 
 
