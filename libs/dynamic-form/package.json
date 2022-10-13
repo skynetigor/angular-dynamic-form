@@ -1,6 +1,10 @@
 {
   "name": "@skynet-ng/dynamic-form",
-  "version": "0.0.1",
+  "version": "1.0.0-alpha2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skynetigor/angular-dynamic-form/tree/develop/libs/dynamic-form"
+  },
   "peerDependencies": {
     "@angular/common": "^12.2.0",
     "@angular/core": "^12.2.0"
