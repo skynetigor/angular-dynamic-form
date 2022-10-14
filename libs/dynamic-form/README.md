@@ -3,7 +3,7 @@ An extension for Angular Reactive forms for rendering forms dynamically.
 
 ### About
 Reactive forms compatible dynamic form called upon to facilitate work with form, render a form from a config (from JSON, from Back-end response, etc).
-Works with ControlValueAccessor powered components. Supports all the functionality owned by Angular Dynamic form.
+Works with ControlValueAccessor powered components. Supports all the functionality owned by Angular Reactive Forms.
 
 ### Showcase
 [See showcase here](https://dynamic-form-showcase.firebaseapp.com)
