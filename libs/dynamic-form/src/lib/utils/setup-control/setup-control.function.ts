@@ -9,7 +9,7 @@ import { isFunction } from '../is-function/is-function';
 export function setupControl(control: FormControl, valueAccessor: ControlValueAccessor): void {
     if (isFunction(valueAccessor.registerOnChange)) {
         valueAccessor.registerOnChange(v => {
-            control.setValue(v);
+            control.setValue(v, { emitModelToViewChange: false });
         });
     }
 

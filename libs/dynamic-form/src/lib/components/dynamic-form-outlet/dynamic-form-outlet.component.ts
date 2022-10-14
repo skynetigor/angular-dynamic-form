@@ -1,7 +1,7 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
 import { Component, DoCheck, HostBinding, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { AbstractDynamicControl, DynamicFormGroup, TemplateModel } from '../../models';
+import { DynamicControl, DynamicFormGroup, TemplateModel } from '../../models';
 import { FormBodyItem } from '../../types';
 import { isDynamicControl, isDynamicFormGroup, isTemplateModel } from '../../utils';
 
@@ -96,7 +96,7 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
                         trackBy: item,
                         template: template,
                         context: { control: item, name: key }
-                    } as FormBodyItem<{ control: AbstractDynamicControl<any>, name: string }>;
+                    } as FormBodyItem<{ control: DynamicControl<any>, name: string }>;
                 } else if (isTemplateModel(item)) {
                     return {
                         name,

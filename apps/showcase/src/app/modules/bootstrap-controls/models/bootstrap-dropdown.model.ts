@@ -1,9 +1,9 @@
-import { AbstractDynamicControl, ControlConfiguration } from '@skynet-ng/dynamic-form';
+import { DynamicControl, ControlConfiguration } from '@skynet-ng/dynamic-form';
 
 import { BootstrapDropdownComponent } from '../components';
 import { IBootstrapDropdownInputs } from '../interfaces';
 
-export class BootstrapDropdownControlModel<T, TValue = any> extends AbstractDynamicControl<
+export class BootstrapDropdownControlModel<T, TValue = any> extends DynamicControl<
   BootstrapDropdownComponent,
   IBootstrapDropdownInputs<T>,
   any,

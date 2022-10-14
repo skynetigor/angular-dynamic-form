@@ -113,13 +113,13 @@ export class TextfieldComponent implements ControlValueAccessor {
 ```
 
 **Step 4:**
-Create dynamic control by inheriting AbstractDynamicControl class and passing component config and component type (`TextfieldComponent`) through the `super` call.
+Create dynamic control by inheriting DynamicControl class and passing component config and component type (`TextfieldComponent`) through the `super` call.
 
 ```ts
-import { AbstractDynamicControl, ControlConfiguration } from '@skynet-ng/dynamic-form';
+import { DynamicControl, ControlConfiguration } from '@skynet-ng/dynamic-form';
 import { TextfieldComponent } from '../components';
 
-export class TextfieldControl extends AbstractDynamicControl<TextfieldComponent> {
+export class TextfieldControl extends DynamicControl<TextfieldComponent> {
     constructor(config: ControlConfiguration<any, any, string>) {
         super(config, TextfieldComponent);
     }

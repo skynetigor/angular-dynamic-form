@@ -16,7 +16,7 @@ import {
 import { FormGroupDirective, NgControl } from '@angular/forms';
 
 import { dynamicControlAttrName } from '../../constants';
-import { AbstractDynamicControl } from '../../models';
+import { DynamicControl } from '../../models';
 import { InputsHandlerService, OutputsHandlerService } from '../../services';
 import { setupControl, isString } from '../../utils';
 
@@ -30,7 +30,7 @@ export const formControlBinding: any = {
  */
 @Directive({ selector: `[dynamicFormControlOutlet]`, providers: [formControlBinding] })
 export class DynamicFormControlOutletDirective extends NgControl implements OnChanges, OnDestroy, DoCheck {
-    private dynamicControl: AbstractDynamicControl<any>;
+    private dynamicControl: DynamicControl<any>;
     private displayed = false;
     private componentViewRefIndex: number;
     private componentRef: ComponentRef<any>;
@@ -41,7 +41,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
     /**
      * @inheritdoc
      */
-    get control(): AbstractDynamicControl<any> {
+    get control(): DynamicControl<any> {
         return this.dynamicControl;
     }
 
@@ -49,7 +49,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
      * A Dynamic control or a name of the dynamic control that exists in parent dynamic form group
      */
     @Input()
-    dynamicFormControlOutlet: AbstractDynamicControl<any> | string;
+    dynamicFormControlOutlet: DynamicControl<any> | string;
 
     @Input()
     name: string;
@@ -67,9 +67,9 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
         if ('dynamicFormControlOutlet' in simpleChanges) {
             if (simpleChanges.dynamicFormControlOutlet.currentValue) {
                 if (isString(this.dynamicFormControlOutlet)) {
-                    this.dynamicControl = <AbstractDynamicControl<any>>this.formGroup.control.get(this.dynamicFormControlOutlet as string);
+                    this.dynamicControl = <DynamicControl<any>>this.formGroup.control.get(this.dynamicFormControlOutlet as string);
                 } else {
-                    this.dynamicControl = this.dynamicFormControlOutlet as AbstractDynamicControl<any>;
+                    this.dynamicControl = this.dynamicFormControlOutlet as DynamicControl<any>;
                 }
 
                 this.name = this.control.name;
@@ -139,7 +139,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
         this.viewContainerRef.clear();
         this.displayed = false;
 
-        if (this.control instanceof AbstractDynamicControl) {
+        if (this.control instanceof DynamicControl) {
             const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.control.componentType);
 
             this.componentRef = componentFactory.create(
@@ -156,7 +156,7 @@ export class DynamicFormControlOutletDirective extends NgControl implements OnCh
     }
 
     private syncInputsOutputs(): void {
-        if (this.control instanceof AbstractDynamicControl) {
+        if (this.control instanceof DynamicControl) {
             this.inputsHandler.handle(this.control.inputs, this.componentRef.instance);
             this.outputsHandler.handle(this.control.outputs, this.componentRef.instance);
         }

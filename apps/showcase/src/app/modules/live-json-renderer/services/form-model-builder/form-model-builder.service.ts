@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Injectable, Injector, Type } from '@angular/core';
 import {
-  AbstractDynamicControl,
+  DynamicControl,
   DynamicFormGroup,
 } from '@skynet-ng/dynamic-form';
 
@@ -17,7 +17,7 @@ function isArray(obj): boolean {
 @Injectable()
 export class FormModelBuilderService {
   private dynamicControlsDictionary: {
-    [key: string]: Type<AbstractDynamicControl<any>>;
+    [key: string]: Type<DynamicControl<any>>;
   };
   private validatorsDictionary;
 

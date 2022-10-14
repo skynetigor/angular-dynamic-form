@@ -1,12 +1,12 @@
 import { TemplateRef } from '@angular/core';
 import { AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 
-import { AbstractDynamicControl, TemplateModel } from '../models';
+import { DynamicControl, TemplateModel } from '../models';
 
-export declare type ControlOrTemplate = AbstractDynamicControl<any> | TemplateModel<any>;
+export declare type ControlOrTemplate = DynamicControl<any> | TemplateModel<any>;
 
 /**
- * The interface for configuring AbstractDynamicControl
+ * The interface for configuring DynamicControl
  */
 export declare interface ControlConfiguration<TInputs, TOutputs extends OutputsObject, TValue> {
     initialInputs?: TInputs;

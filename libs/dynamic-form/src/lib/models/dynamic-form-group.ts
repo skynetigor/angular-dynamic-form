@@ -2,14 +2,14 @@ import { AsyncValidatorFn, ControlValueAccessor, FormGroup, ValidatorFn } from '
 import { isNullOrUndefined } from '../utils/is-null-or-undefined/is-null-or-undefined.function';
 
 import { ControlOrTemplate, OutputsObject } from '../types';
-import { AbstractDynamicControl } from './controls';
+import { DynamicControl } from './controls';
 
 function extractControls(items: {
     [key: string]: ControlOrTemplate | DynamicFormGroup<any>;
-}): { [key: string]: AbstractDynamicControl<any> } {
+}): { [key: string]: DynamicControl<any> } {
     const result = {};
     Object.keys(items)
-        .filter(key => items[key] instanceof AbstractDynamicControl || items[key] instanceof DynamicFormGroup)
+        .filter(key => items[key] instanceof DynamicControl || items[key] instanceof DynamicFormGroup)
         .forEach(key => {
             result[key] = items[key];
             items[key]['_name'] = key;
@@ -23,7 +23,7 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     private _name: string;
 
     /** @inheritdoc */
-    controls: { [key: string]: AbstractDynamicControl<any> };
+    controls: { [key: string]: DynamicControl<any> };
 
     get name(): string {
         return this._name;
@@ -46,15 +46,15 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     /** @inheritdoc */
     public get<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
         name: string
-    ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
-        return super.get(name) as AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>;
+    ): DynamicControl<TComponent, TInputs, TOutputs, TValue> {
+        return super.get(name) as DynamicControl<TComponent, TInputs, TOutputs, TValue>;
     }
 
     /** @inheritdoc */
     public registerControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
         name: string,
-        control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
-    ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
+        control: DynamicControl<TComponent, TInputs, TOutputs, TValue>
+    ): DynamicControl<TComponent, TInputs, TOutputs, TValue> {
         super.registerControl(name, control);
         return control;
     }
@@ -62,8 +62,8 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     /** @inheritdoc */
     public addControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
         name: string,
-        control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
-    ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
+        control: DynamicControl<TComponent, TInputs, TOutputs, TValue>
+    ): DynamicControl<TComponent, TInputs, TOutputs, TValue> {
         const items: any = this.items;
         items[name] = control;
         super.addControl(name, control);
@@ -87,8 +87,8 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     /** @inheritdoc */
     public setControl<TComponent extends ControlValueAccessor, TInputs, TOutputs extends OutputsObject, TValue>(
         name: string,
-        control: AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue>
-    ): AbstractDynamicControl<TComponent, TInputs, TOutputs, TValue> {
+        control: DynamicControl<TComponent, TInputs, TOutputs, TValue>
+    ): DynamicControl<TComponent, TInputs, TOutputs, TValue> {
         throw new Error('Setting up control is not supported');
     }
 }
