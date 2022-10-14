@@ -8,6 +8,8 @@ Works with ControlValueAccessor powered components. Supports all the functionali
 ## Showcase
 [See showcase here](https://dynamic-form-showcase.firebaseapp.com)
 
+[Showcase source code](https://github.com/skynetigor/angular-dynamic-form/tree/develop/apps/showcase/src/app/modules)
+
 ## Get started
 **Step 1:**
 Install the lib.
