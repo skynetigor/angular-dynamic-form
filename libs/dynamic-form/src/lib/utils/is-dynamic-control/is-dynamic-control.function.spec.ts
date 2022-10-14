@@ -1,14 +1,14 @@
-import { AbstractDynamicControl } from '../../models';
+import { DynamicControl } from '../../models';
 import { isDynamicControl } from './is-dynamic-control.function';
 
-class TestControl extends AbstractDynamicControl<any> {
+class TestControl extends DynamicControl<any> {
     constructor() {
         super({}, null);
     }
 }
 
 describe('isDynamicControl function', () => {
-    it('should return true if AbstractDynamicControls instance is passed', () => {
+    it('should return true if DynamicControls instance is passed', () => {
         expect(isDynamicControl(new TestControl())).toBeTruthy();
     });
 

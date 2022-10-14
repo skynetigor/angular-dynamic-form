@@ -9,7 +9,7 @@ function convertToValidatorsArray<T>(obj: T | T[]): T[] {
 }
 
 /** Strongly typed dynamic form control */
-export abstract class AbstractDynamicControl<
+export class DynamicControl<
     TControlComponent extends ControlValueAccessor,
     TInputs = any,
     TOutputs extends OutputsObject = any,

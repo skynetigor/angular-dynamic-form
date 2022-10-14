@@ -1,6 +1,6 @@
 export { DynamicFormModule } from './lib/dynamic-form.module';
 export { DynamicFormOutletComponent } from './lib/components';
-export { AbstractDynamicControl, GenericDynamicControl, TemplateModel, DynamicFormGroup } from './lib/models';
+export { DynamicControl, TemplateModel, DynamicFormGroup } from './lib/models';
 export { DynamicFormControlOutletDirective, BindControlInputsDirective, BindControlOutputsDirective } from './lib/directives';
 export { ControlConfiguration, ControlOrTemplate, OutputsObject } from './lib/types';
 // temp

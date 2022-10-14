@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { DynamicFormGroup } from '@skynet-ng/dynamic-form';
-import { TextfieldControl } from './models';
+import { DynamicControl, DynamicFormGroup } from '@skynet-ng/dynamic-form';
+import { TextfieldComponent } from './components';
 
 @Component({
   selector: 'example-app-root',
@@ -19,24 +19,24 @@ import { TextfieldControl } from './models';
 })
 export class AppComponent {
   dynamicFormGroup = new DynamicFormGroup({
-    name: new TextfieldControl({
+    name: new DynamicControl({
       initialInputs: {
         label: 'Name',
         placeholder: 'Enter your name'
       }
-    }),
-    surname: new TextfieldControl({
+    }, TextfieldComponent),
+    surname: new DynamicControl({
       initialInputs: {
         label: 'Surname',
         placeholder: 'Enter your surname'
       }
-    }),
-    age: new TextfieldControl({
+    }, TextfieldComponent),
+    age: new DynamicControl({
       initialInputs: {
         label: 'Age',
         placeholder: 'Enter your age',
         type: 'number'
       }
-    })
+    }, TextfieldComponent)
   });
 }

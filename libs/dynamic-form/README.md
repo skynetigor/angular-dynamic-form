@@ -1,5 +1,5 @@
 ## @skynet-ng/dynamic-form
-An extension for Angular Reactive forms for rendering forms dynamically.
+An extension for Angular Reactive forms to render forms dynamically.
 
 ## About
 Reactive forms compatible dynamic form called upon to facilitate work with form, render a form from a config (from JSON, from Back-end response, etc).
@@ -113,33 +113,21 @@ export class TextfieldComponent implements ControlValueAccessor {
 ```
 
 **Step 4:**
-Create dynamic control by inheriting AbstractDynamicControl class and passing component config and component type (`TextfieldComponent`) through the `super` call.
-
-```ts
-import { AbstractDynamicControl, ControlConfiguration } from '@skynet-ng/dynamic-form';
-import { TextfieldComponent } from '../components';
-
-export class TextfieldControl extends AbstractDynamicControl<TextfieldComponent> {
-    constructor(config: ControlConfiguration<any, any, string>) {
-        super(config, TextfieldComponent);
-    }
-}
-```
-
-**Step 5:**
 In your component's ts file you want to implement form in, define form via DynamicFormGroup. After dynamic form is defined, pass it through `dynamicFormGroup` input in `dynamic-form-outlet` component. 
 
 ```ts
 import { Component } from '@angular/core';
-import { DynamicFormGroup } from '@skynet-ng/dynamic-form';
-import { TextfieldControl } from './models';
+import { DynamicControl, DynamicFormGroup } from '@skynet-ng/dynamic-form';
+import { TextfieldComponent } from './components';
 
 @Component({
   selector: 'example-app-root',
   template: `
     <div class="flex justify-center items-center absolute w-full h-full bg-gray-200">
       <div class="bg-white flex flex-col w-96 border-gray-300 border border-solid p-5 rounded-md gap-4">
-        <dynamic-form-outlet class="flex flex-col gap-4" [dynamicFormGroup]="dynamicFormGroup"></dynamic-form-outlet>
+        <form class="flex flex-col gap-4">
+          <dynamic-form-outlet [dynamicFormGroup]="dynamicFormGroup"></dynamic-form-outlet>
+        </form>
         <button class="self-end h-10 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700">
           Submit
         </button>
@@ -149,27 +137,28 @@ import { TextfieldControl } from './models';
 })
 export class AppComponent {
   dynamicFormGroup = new DynamicFormGroup({
-    name: new TextfieldControl({
+    name: new DynamicControl({
       initialInputs: {
         label: 'Name',
         placeholder: 'Enter your name'
       }
-    }),
-    surname: new TextfieldControl({
+    }, TextfieldComponent),
+    surname: new DynamicControl({
       initialInputs: {
         label: 'Surname',
         placeholder: 'Enter your surname'
       }
-    }),
-    age: new TextfieldControl({
+    }, TextfieldComponent),
+    age: new DynamicControl({
       initialInputs: {
         label: 'Age',
         placeholder: 'Enter your age',
         type: 'number'
       }
-    })
+    }, TextfieldComponent)
   });
 }
+
 ```
 
 You can play with it in [StackBlitz](https://stackblitz.com/edit/skynet-ng-dynamic-form-example-jarsjn?file=src/app/app.component.scss). Also, this example is availabe in [GitHub](https://github.com/skynetigor/angular-dynamic-form/tree/develop/apps/example/src/app).
