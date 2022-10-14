@@ -1,14 +1,16 @@
-### @skynet-ng/dynamic-form
+## @skynet-ng/dynamic-form
 An extension for Angular Reactive forms for rendering forms dynamically.
 
-### About
+## About
 Reactive forms compatible dynamic form called upon to facilitate work with form, render a form from a config (from JSON, from Back-end response, etc).
 Works with ControlValueAccessor powered components. Supports all the functionality owned by Angular Reactive Forms.
 
-### Showcase
+## Showcase
 [See showcase here](https://dynamic-form-showcase.firebaseapp.com)
 
-### Get started
+[Showcase source code](https://github.com/skynetigor/angular-dynamic-form/tree/develop/apps/showcase/src/app/modules)
+
+## Get started
 **Step 1:**
 Install the lib.
 ```sh
@@ -172,7 +174,18 @@ export class AppComponent {
 
 You can play with it in [StackBlitz](https://stackblitz.com/edit/skynet-ng-dynamic-form-example-jarsjn?file=src/app/app.component.scss). Also, this example is availabe in [GitHub](https://github.com/skynetigor/angular-dynamic-form/tree/develop/apps/example/src/app).
 
+## Usage notes
+- Controls are being rendered outside `dynamic-form-outlet` element. This is done this way in order to allow outer element to apply layout styles for controls. `dynamic-form-outlet` has `display: none` CSS property so it does not participate in layout. See screenshot from the dev tools:
 
+![image](https://user-images.githubusercontent.com/20903171/195823124-3b81bc27-a056-4288-86e1-7f5b3f5e8fe0.png)
+
+- The rendering system adds ids for each control. It takes the name of a control which it's defined in `DynamicFormGroup` with (how it looks like in dev tools can bee seen on the screenshot from the previous bullet). This part of functionality is needed for automation tests so that they can select specific control HTML elements. Example of names the rendering system use:
+
+![image](https://user-images.githubusercontent.com/20903171/195823533-7b779b8a-ee97-4d33-bfad-b736fcb1561b.png)
+
+- The rendering system puts `dynamic-control` empty attribute for each being rendered controls. Might be useful for selection purposes.
+
+![image](https://user-images.githubusercontent.com/20903171/195820666-80d3ef64-3975-4b90-891a-880171cc0a23.png)
 
 
 
