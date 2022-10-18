@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-import { Component, DoCheck, HostBinding, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { DynamicControl, DynamicFormGroup, TemplateModel } from '../../models';
 import { FormBodyItem } from '../../types';
