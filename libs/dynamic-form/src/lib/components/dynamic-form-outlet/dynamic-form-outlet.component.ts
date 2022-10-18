@@ -22,9 +22,6 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
     @ViewChild('container', { static: true })
     private containerTemplate: TemplateRef<any>;
 
-    @HostBinding('style.display')
-    private display = 'none !important';
-
     private differ = this.differs.find({}).create();
     private _controlWrappers: any;
 
@@ -49,6 +46,7 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
 
     ngOnInit(): void {
         this.refreshControlWrappers();
+        (this.viewContainerRef.element.nativeElement as HTMLElement).remove();
         this.viewContainerRef.insert(this.containerTemplate.createEmbeddedView({}));
     }
 
