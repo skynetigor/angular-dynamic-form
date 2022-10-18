@@ -8,7 +8,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { DynamicFormControlOutletDirective } from '../../directives';
 import { TestDynamicControlComponent, TestDynamicControlModel } from '../../mocks';
 import { DynamicFormGroup } from '../../models';
-import { DynamicFormOutletComponent } from './dynamic-form-outlet.component';
+import { componentSelector, DynamicFormOutletComponent } from './dynamic-form-outlet.component';
 
 @Component({
     selector: 'lib-test-component',
@@ -71,26 +71,15 @@ describe('DynamicFormOutlet', () => {
     });
 
     describe('outlet native element', () => {
-        it('should have display css property set to `none`', () => {
+        it('should not be in DOM', () => {
             // Arrange
-            const componentUnderTestDebugElement = fixture.debugElement.query(By.directive(DynamicFormOutletComponent));
-    
-            // Act
             fixture.detectChanges();
-    
-            // Assert
-            expect(componentUnderTestDebugElement.styles['display']).toEqual('none');
-        });
 
-        it('should have no elements', () => {
-            // Arrange
-            const componentUnderTestDebugElement = fixture.debugElement.query(By.directive(DynamicFormOutletComponent));
-    
             // Act
-            fixture.detectChanges();
-    
+            const componentUnderTestDebugElement = (fixture.debugElement.nativeElement as HTMLElement).querySelector(componentSelector);
+
             // Assert
-            expect(componentUnderTestDebugElement.children.filter(d => d.nativeNode.type !== Node.COMMENT_NODE).length).toEqual(0);
+            expect(componentUnderTestDebugElement).toBeNull();
         });
     });
 

@@ -1,15 +1,17 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-import { Component, DoCheck, HostBinding, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { DynamicControl, DynamicFormGroup, TemplateModel } from '../../models';
 import { FormBodyItem } from '../../types';
 import { isDynamicControl, isDynamicFormGroup, isTemplateModel } from '../../utils';
 
+export const componentSelector = 'dynamic-form-outlet';
+
 /**
  * A component for rendering form based on @class DynamicFormGroup
  */
 @Component({
-    selector: 'dynamic-form-outlet',
+    selector: componentSelector,
     templateUrl: './dynamic-form-outlet.component.html'
 })
 export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
@@ -21,9 +23,6 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
     private formGroupTemplate: TemplateRef<any>;
     @ViewChild('container', { static: true })
     private containerTemplate: TemplateRef<any>;
-
-    @HostBinding('style.display')
-    private display = 'none !important';
 
     private differ = this.differs.find({}).create();
     private _controlWrappers: any;
@@ -49,6 +48,7 @@ export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
 
     ngOnInit(): void {
         this.refreshControlWrappers();
+        (this.viewContainerRef.element.nativeElement as HTMLElement).remove();
         this.viewContainerRef.insert(this.containerTemplate.createEmbeddedView({}));
     }
 
