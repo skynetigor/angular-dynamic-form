@@ -5,11 +5,13 @@ import { DynamicControl, DynamicFormGroup, TemplateModel } from '../../models';
 import { FormBodyItem } from '../../types';
 import { isDynamicControl, isDynamicFormGroup, isTemplateModel } from '../../utils';
 
+export const componentSelector = 'dynamic-form-outlet';
+
 /**
  * A component for rendering form based on @class DynamicFormGroup
  */
 @Component({
-    selector: 'dynamic-form-outlet',
+    selector: componentSelector,
     templateUrl: './dynamic-form-outlet.component.html'
 })
 export class DynamicFormOutletComponent implements OnInit, OnChanges, DoCheck {
