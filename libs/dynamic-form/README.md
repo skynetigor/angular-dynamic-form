@@ -164,9 +164,9 @@ export class AppComponent {
 You can play with it in [StackBlitz](https://stackblitz.com/edit/skynet-ng-dynamic-form-example-jarsjn?file=src/app/app.component.scss). Also, this example is availabe in [GitHub](https://github.com/skynetigor/angular-dynamic-form/tree/develop/apps/example/src/app).
 
 ## Usage notes
-- Controls are being rendered outside `dynamic-form-outlet` element. This is done this way in order to allow outer element to apply layout styles for controls. `dynamic-form-outlet` has `display: none` CSS property so it does not participate in layout. See screenshot from the dev tools:
+- Controls are being rendered outside `dynamic-form-outlet` element. This is done this way in order to allow outer element to apply layout styles for controls. `dynamic-form-outlet` element gets removed from DOM so it does not participate in layout. See screenshot from the dev tools:
 
-![image](https://user-images.githubusercontent.com/20903171/195823124-3b81bc27-a056-4288-86e1-7f5b3f5e8fe0.png)
+![image](https://user-images.githubusercontent.com/20903171/196500121-075e7bbe-9e35-4248-81ed-a9e363e006d4.png)
 
 - The rendering system adds ids for each control. It takes the name of a control which it's defined in `DynamicFormGroup` with (how it looks like in dev tools can bee seen on the screenshot from the previous bullet). This part of functionality is needed for automation tests so that they can select specific control HTML elements. Example of names the rendering system use:
 
@@ -174,7 +174,7 @@ You can play with it in [StackBlitz](https://stackblitz.com/edit/skynet-ng-dynam
 
 - The rendering system puts `dynamic-control` empty attribute for each being rendered controls. Might be useful for selection purposes.
 
-![image](https://user-images.githubusercontent.com/20903171/195820666-80d3ef64-3975-4b90-891a-880171cc0a23.png)
+![image](https://user-images.githubusercontent.com/20903171/196500497-7e36c5fe-da82-4a3d-afc7-39994199aacf.png)
 
 
 
