@@ -1,4 +1,4 @@
-import { AsyncValidatorFn, ControlValueAccessor, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, ControlValueAccessor, FormGroup, ValidatorFn } from '@angular/forms';
 import { isNullOrUndefined } from '../utils/is-null-or-undefined/is-null-or-undefined.function';
 
 import { ControlOrTemplate, OutputsObject } from '../types';
@@ -21,9 +21,11 @@ function extractControls(items: {
 /** Strong typed dynamic form group */
 export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | DynamicFormGroup<any> }> extends FormGroup {
     private _name: string;
+    private _items: T;
 
-    /** @inheritdoc */
-    controls: { [key: string]: DynamicControl<any> };
+    get items(): T {
+        return this._items;
+    }
 
     get name(): string {
         return this._name;
@@ -32,11 +34,12 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     displayed = true;
 
     constructor(
-        public readonly items: T,
+        items: T,
         validatorOrOpts?: ValidatorFn | ValidatorFn[] | null,
         asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
     ) {
         super(extractControls(items), validatorOrOpts, asyncValidator);
+        this._items = items;
 
         if (isNullOrUndefined(this.parent)) {
             this._name = 'root';
@@ -80,8 +83,21 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     }
 
     /** @inheritdoc */
-    public removeControl(name: string): void {
-        throw new Error('Removing controls is not supported.');
+    public removeControl(name: string, options?: { emitEvent: boolean }): void {
+        if (this.isControl(name)) {
+            super.removeControl(name, options);
+            this.deleteItem(name);
+        }
+    }
+
+    public removeItem(name: string): void {
+        if (this.doesItemExist(name)) {
+            if (this.isControl(name)) {
+                this.removeControl(name);
+            } else {
+                this.deleteItem(name);
+            }
+        }
     }
 
     /** @inheritdoc */
@@ -90,5 +106,17 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
         control: DynamicControl<TComponent, TInputs, TOutputs, TValue>
     ): DynamicControl<TComponent, TInputs, TOutputs, TValue> {
         throw new Error('Setting up control is not supported');
+    }
+
+    private isControl(name: string): boolean {
+        return this._items[name] instanceof AbstractControl;
+    }
+
+    private doesItemExist(name: string): boolean {
+        return name in this._items;
+    }
+
+    private deleteItem(name: string): void {
+        delete this._items[name];
     }
 }
