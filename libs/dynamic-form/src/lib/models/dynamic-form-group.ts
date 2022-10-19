@@ -23,6 +23,9 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     private _name: string;
     private _items: T;
 
+    /** @inheritdoc */
+    controls: { [key: string]: DynamicControl<any> };
+
     get items(): T {
         return this._items;
     }
