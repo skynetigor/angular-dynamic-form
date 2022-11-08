@@ -1,10 +1,9 @@
 import { TemplateRef } from '@angular/core';
+import { ControlNamePrivatePropertyName } from '../../types';
 
 export class TemplateModel<TContext = any> {
-    private _name: string;
-
     public get name(): string {
-        return this._name;
+        return this[ControlNamePrivatePropertyName];
     }
 
     public templateRef: TemplateRef<any>;

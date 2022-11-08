@@ -1,2 +1,2 @@
 export { DynamicControl, TemplateModel } from './controls/index';
-export { DynamicFormGroup } from './dynamic-form-group';
+export { DynamicFormGroup } from './dynamic-form-group/dynamic-form-group';

@@ -1,8 +1,8 @@
 import { AbstractControl, AsyncValidatorFn, ControlValueAccessor, FormGroup, ValidatorFn } from '@angular/forms';
-import { isNullOrUndefined } from '../utils/is-null-or-undefined/is-null-or-undefined.function';
+import { isNullOrUndefined } from '../../utils/is-null-or-undefined/is-null-or-undefined.function';
 
-import { ControlOrTemplate, OutputsObject } from '../types';
-import { DynamicControl } from './controls';
+import { ControlNamePrivatePropertyName, ControlOrTemplate, OutputsObject } from '../../types';
+import { DynamicControl } from '../controls';
 
 function extractControls(items: {
     [key: string]: ControlOrTemplate | DynamicFormGroup<any>;
@@ -12,7 +12,7 @@ function extractControls(items: {
         .filter(key => items[key] instanceof DynamicControl || items[key] instanceof DynamicFormGroup)
         .forEach(key => {
             result[key] = items[key];
-            items[key]['_name'] = key;
+            items[key][ControlNamePrivatePropertyName] = key;
         });
 
     return result;
@@ -20,7 +20,6 @@ function extractControls(items: {
 
 /** Strong typed dynamic form group */
 export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | DynamicFormGroup<any> }> extends FormGroup {
-    private _name: string;
     private _items: T;
 
     /** @inheritdoc */
@@ -31,7 +30,7 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
     }
 
     get name(): string {
-        return this._name;
+        return this[ControlNamePrivatePropertyName];
     }
 
     displayed = true;
@@ -45,7 +44,7 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
         this._items = items;
 
         if (isNullOrUndefined(this.parent)) {
-            this._name = 'root';
+            this[ControlNamePrivatePropertyName] = 'root';
         }
     }
 
@@ -70,9 +69,7 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
         name: string,
         control: DynamicControl<TComponent, TInputs, TOutputs, TValue>
     ): DynamicControl<TComponent, TInputs, TOutputs, TValue> {
-        const items: any = this.items;
-        items[name] = control;
-        super.addControl(name, control);
+        this._addControl(name, control);
         return control;
     }
 
@@ -80,8 +77,7 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
         name: string,
         formGroup: DynamicFormGroup<TConfig>
     ): DynamicFormGroup<TConfig> {
-        (this.items as any)[name] = formGroup;
-        super.addControl(name, formGroup);
+        this._addControl(name, formGroup);
         return formGroup;
     }
 
@@ -121,5 +117,12 @@ export class DynamicFormGroup<T extends { [key: string]: ControlOrTemplate | Dyn
 
     private deleteItem(name: string): void {
         delete this._items[name];
+    }
+
+    private _addControl(name: string, control: AbstractControl): void {
+        const items: any = this.items;
+        items[name] = control;
+        control[ControlNamePrivatePropertyName] = name;
+        super.addControl(name, control);
     }
 }
