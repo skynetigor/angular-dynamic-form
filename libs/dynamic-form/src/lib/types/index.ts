@@ -32,3 +32,5 @@ export interface FormBodyItem<TContext = any> {
     template: TemplateRef<TContext>,
     context: TContext
 }
+
+export const ControlNamePrivatePropertyName = '_name';
