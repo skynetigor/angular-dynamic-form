@@ -19,7 +19,7 @@ class FakeComponent implements ControlValueAccessor {
     }
 }
 
-fdescribe('DynamicFormGroup', () => {
+describe('DynamicFormGroup', () => {
   let underTest: DynamicFormGroup<any>;
 
   describe('when DynamicFormGroup is instantiated', () => {
