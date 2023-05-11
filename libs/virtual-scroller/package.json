@@ -1,0 +1,23 @@
+{
+  "name": "@skynet-ng/virtual-scroller",
+  "version": "1.0.0",
+  "description": "Angular dynamic form",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skynetigor/angular-virtual-scroller/tree/develop/libs/virtual-scroller"
+  },
+  "homepage": "https://github.com/skynetigor/angular-virtual-scroller/blob/develop/libs/virtual-scroller/README.md",
+  "keywords": [
+    "angular",
+    "virtual-scroller",
+    "dynamic",
+    "form"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^12.2.0",
+    "@angular/core": "^12.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

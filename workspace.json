@@ -46,6 +46,51 @@
         }
       }
     },
+    "virtual-scroller": {
+      "projectType": "library",
+      "root": "libs/virtual-scroller",
+      "sourceRoot": "libs/virtual-scroller/src",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/angular:package",
+          "outputs": ["dist/libs/virtual-scroller"],
+          "options": {
+            "project": "libs/virtual-scroller/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/virtual-scroller/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/virtual-scroller/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "executor": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/virtual-scroller/src/test.ts",
+            "tsConfig": "libs/virtual-scroller/tsconfig.spec.json",
+            "karmaConfig": "libs/virtual-scroller/karma.conf.js"
+          },
+          "configurations": {
+            "single-run": {
+              "karmaConfig": "libs/virtual-scroller/karma.conf.ci.js"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/virtual-scroller/src/**/*.ts",
+              "libs/virtual-scroller/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "example": {
       "projectType": "application",
       "root": "apps/example",
