@@ -60,6 +60,7 @@ jobs:
         id: sharedVarsStep
         uses: actions/github-script@v6
         env:
+          NODE_VERSION: 14.18.0
           DEPENDENCIES_CACHE_KEY: ${{ runner.os }}-build-cache-node-modules-${{ hashFiles('**/package-lock.json') }}
           DEPENDENCIES_RESTORE_KEY: ''
 

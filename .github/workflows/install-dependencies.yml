@@ -31,7 +31,6 @@ jobs:
         id: cache-nodemodules
         uses: actions/cache@v3
         with:
-          # caching node_modules
           path: node_modules
           key: ${{ env.DEPENDENCIES_CACHE_KEY }}
           restore-keys: ${{ env.DEPENDENCIES_RESTORE_KEY }}
