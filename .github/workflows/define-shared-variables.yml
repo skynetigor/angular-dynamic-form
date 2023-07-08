@@ -1,0 +1,87 @@
+name: Define shared variables to be reused by callable workflow
+
+on:
+  workflow_call:
+    inputs:
+      shared-variables:
+        required: false
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout Base
+        with:
+          fetch-depth: 0
+
+      - name: Export variables to JSON
+        id: varsStep
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const sharedVariablesObject = '${{ inputs.shared-variables }}' || {};
+
+            function exportVariable(name, value) {
+              sharedVariablesObject[name] = value;
+            }
+
+            switch('${{ github.event_name }}') {
+              case 'pull_request': {
+                exportVariable('HEAD_SHA', '${{ github.event.pull_request.head.sha }}');
+                exportVariable('CURRENT_BRANCH', '${{ github.head_ref }}');
+                exportVariable('BASE_BRANCH', '${{ github.base_ref }}');
+                exportVariable('NX_BASE', 'origin/${{ github.base_ref }}');
+                exportVariable('NX_HEAD', 'origin/${{ github.head_ref }}');
+                exportVariable('NX_BRANCH', '${{ github.head_ref }}');
+                break;
+              }
+              case 'workflow_dispatch':
+              case 'push': {
+                exportVariable('HEAD_SHA', '${{ github.sha }}');
+                exportVariable('CURRENT_BRANCH', '${{ github.ref_name }}');
+                exportVariable('BASE_BRANCH', '${{ github.ref_name }}');
+                exportVariable('NX_HEAD', 'origin/${{ github.ref_name }}');
+                exportVariable('NX_BRANCH', '${{ github.ref_name }}');
+                break;
+              }
+            }
+
+            core.setOutput('value', JSON.stringify(sharedVariablesObject));
+            Object.entries(sharedVariablesObject).forEach(([name, value]) => {
+              core.exportVariable(name, value);
+            });
+
+      - name: Export composed variables to JSON
+        id: sharedVarsStep
+        uses: actions/github-script@v6
+        env:
+          NODE_VERSION: 16.15.1
+          DEPENDENCIES_CACHE_KEY: ${{ runner.os }}-build-cache-node-modules-${{ hashFiles('**/package-lock.json') }}
+          DEPENDENCIES_RESTORE_KEY: ''
+
+        with:
+          script: |
+            const fileName = 'temp/variables.json';
+            const fs = require('fs');
+            const path = require('path')
+            const sharedVariablesObject = ${{ steps.varsStep.outputs.value }};
+            const stepEnvVariables = ${{ toJson(env) }};
+            const mergedVariables = { ...sharedVariablesObject, ...stepEnvVariables };
+            fs.mkdirSync(path.dirname(fileName), { recursive: true })
+            fs.writeFileSync(fileName, JSON.stringify(mergedVariables));
+            core.setOutput('value', JSON.stringify(mergedVariables));
+
+      - name: Save success targets
+        uses: actions/cache/save@v3
+        with:
+          path: 'temp/variables.json'
+          key: shared-variables-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Display variables
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(${{ steps.sharedVarsStep.outputs.value }});

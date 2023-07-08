@@ -9,14 +9,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  define_shared_variables:
+    uses: ./.github/workflows/define-shared-variables.yml
+
+  install_dependencies:
+    uses: ./.github/workflows/install-dependencies.yml
+    needs: define_shared_variables
+
   build_lib:
     uses: ./.github/workflows/base-build.yml
+    needs: install_dependencies
     with:
       appName: dynamic-form
       branch: temp
   
   build_showcase:
     uses: ./.github/workflows/base-build.yml
+    needs: install_dependencies
     with:
       appName: showcase
       branch: temp
