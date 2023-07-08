@@ -9,6 +9,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  define_shared_variables:
+    uses: ./.github/workflows/define-shared-variables.yml
+
   build_lib:
     uses: ./.github/workflows/base-build.yml
     with:
