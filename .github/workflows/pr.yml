@@ -27,7 +27,6 @@ jobs:
       NX_HEAD: origin/${{ github.head_ref }}
       NX_BASE: origin/${{ github.base_ref }}
       NX_BRANCH: ${{ github.head_ref }}
-      SOMEVARKA: 'SAMOVAR'
 
     steps:
       - name: Export variables to JSON
