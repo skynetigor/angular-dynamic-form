@@ -29,7 +29,13 @@ jobs:
       NX_BRANCH: ${{ github.head_ref }}
       SOMEVARKA: 'SAMOVAR'
     with:
-      shared-variables: ${{ toJson(env) }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      CURRENT_BRANCH: ${{ github.head_ref }}
+      BASE_BRANCH: ${{ github.base_ref }}
+      NX_HEAD: origin/${{ github.head_ref }}
+      NX_BASE: origin/${{ github.base_ref }}
+      NX_BRANCH: ${{ github.head_ref }}
+      SOMEVARKA: 'SAMOVAR'
 
   install_dependencies:
     uses: ./.github/workflows/install-dependencies.yml
