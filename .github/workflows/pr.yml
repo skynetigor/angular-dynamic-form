@@ -18,12 +18,14 @@ jobs:
 
   build_lib:
     uses: ./.github/workflows/base-build.yml
+    needs: install_dependencies
     with:
       appName: dynamic-form
       branch: temp
   
   build_showcase:
     uses: ./.github/workflows/base-build.yml
+    needs: install_dependencies
     with:
       appName: showcase
       branch: temp

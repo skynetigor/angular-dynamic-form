@@ -29,9 +29,7 @@ jobs:
 
       - name: Cache or restore node_modules
         id: cache-nodemodules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
+        uses: actions/cache@v3
         with:
           # caching node_modules
           path: node_modules
