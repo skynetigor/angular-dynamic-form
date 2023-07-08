@@ -11,6 +11,8 @@ concurrency:
 jobs:
   define_shared_variables:
     uses: ./.github/workflows/define-shared-variables.yml
+    with:
+      shared-variables: ${{ toJson(env) }}
 
   install_dependencies:
     uses: ./.github/workflows/install-dependencies.yml
