@@ -22,8 +22,8 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const envVarsFromInputs = ${{ toJson(inputs) }}
-            const sharedVariablesObject = envVarsFromInputs;
+            const envVarsFromInputs = `${{ toJson(inputs) }}`;
+            const sharedVariablesObject = envVarsFromInputs ? JSON.parse(envVarsFromInputs) : {};
 
             function exportVariable(name, value) {
               sharedVariablesObject[name] = value;

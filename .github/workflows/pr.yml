@@ -19,8 +19,8 @@ concurrency:
 
 jobs:
   define_shared_variables:
-    uses: ./.github/workflows/define-shared-variables.yml
-    with:
+    runs-on: ubuntu-latest
+    env:
       HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       CURRENT_BRANCH: ${{ github.head_ref }}
       BASE_BRANCH: ${{ github.base_ref }}
@@ -28,6 +28,21 @@ jobs:
       NX_BASE: origin/${{ github.base_ref }}
       NX_BRANCH: ${{ github.head_ref }}
       SOMEVARKA: 'SAMOVAR'
+
+    steps:
+      - name: Export variables to JSON
+        id: varsStep
+        uses: actions/github-script@v6
+        with: core.setOutput('value', ${{ toJson(env) }})
+    
+    outputs:
+      vars: ${{ steps.varsStep.outputs.value }}
+  
+  shared_variables:
+    uses: ./.github/workflows/define-shared-variables.yml
+    needs: define_shared_variables
+    with:
+      shared-variables: needs.define_shared_variables.outputs.vars
 
   install_dependencies:
     uses: ./.github/workflows/install-dependencies.yml
