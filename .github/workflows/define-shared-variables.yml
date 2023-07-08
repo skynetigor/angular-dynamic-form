@@ -69,7 +69,7 @@ jobs:
             const sharedVariablesObject = ${{ steps.varsStep.outputs.value }};
             const stepEnvVariables = ${{ toJson(env) }};
             const mergedVariables = { ...sharedVariablesObject, ...stepEnvVariables };
-            fs.writeFileSync('temp/variables.json', JSON.stringify(firebaseJson));
+            fs.writeFileSync('temp/variables.json', JSON.stringify(mergedVariables));
 
       - name: Save success targets
         uses: actions/cache/save@v3
