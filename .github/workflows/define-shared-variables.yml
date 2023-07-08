@@ -22,7 +22,8 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const sharedVariablesObject = '${{ inputs.shared-variables }}' || {};
+            const envVarsFromInputs = `${{ inputs.shared-variables }}`;
+            const sharedVariablesObject = envVarsFromInputs ? JSON.parse(envVarsFromInputs) : {};
 
             function exportVariable(name, value) {
               sharedVariablesObject[name] = value;
@@ -58,7 +59,6 @@ jobs:
         id: sharedVarsStep
         uses: actions/github-script@v6
         env:
-          NODE_VERSION: 16.15.1
           DEPENDENCIES_CACHE_KEY: ${{ runner.os }}-build-cache-node-modules-${{ hashFiles('**/package-lock.json') }}
           DEPENDENCIES_RESTORE_KEY: ''
 
