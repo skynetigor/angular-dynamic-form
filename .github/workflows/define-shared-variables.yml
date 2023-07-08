@@ -29,15 +29,15 @@ jobs:
             }
 
             switch('${{ github.event_name }}') {
-              case 'pull_request': {
-                exportVariable('HEAD_SHA', '${{ github.event.pull_request.head.sha }}');
-                exportVariable('CURRENT_BRANCH', '${{ github.head_ref }}');
-                exportVariable('BASE_BRANCH', '${{ github.base_ref }}');
-                exportVariable('NX_BASE', 'origin/${{ github.base_ref }}');
-                exportVariable('NX_HEAD', 'origin/${{ github.head_ref }}');
-                exportVariable('NX_BRANCH', '${{ github.head_ref }}');
-                break;
-              }
+              # case 'pull_request': {
+              #   exportVariable('HEAD_SHA', '${{ github.event.pull_request.head.sha }}');
+              #   exportVariable('CURRENT_BRANCH', '${{ github.head_ref }}');
+              #   exportVariable('BASE_BRANCH', '${{ github.base_ref }}');
+              #   exportVariable('NX_BASE', 'origin/${{ github.base_ref }}');
+              #   exportVariable('NX_HEAD', 'origin/${{ github.head_ref }}');
+              #   exportVariable('NX_BRANCH', '${{ github.head_ref }}');
+              #   break;
+              # }
               case 'workflow_dispatch':
               case 'push': {
                 exportVariable('HEAD_SHA', '${{ github.sha }}');
