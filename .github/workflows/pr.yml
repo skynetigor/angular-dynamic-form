@@ -24,7 +24,7 @@ jobs:
     outputs:
       vars: ${{ steps.varsStep.outputs.value }}
   
-  shared_variables:
+  share_variables:
     uses: ./.github/workflows/define-shared-variables.yml
     needs: define_shared_variables
     with:
@@ -32,7 +32,7 @@ jobs:
 
   install_dependencies:
     uses: ./.github/workflows/install-dependencies.yml
-    needs: shared_variables
+    needs: share_variables
 
   build_lib:
     uses: ./.github/workflows/base-build.yml

@@ -10,13 +10,29 @@ concurrency:
 
 jobs:
   define_shared_variables:
+    runs-on: ubuntu-latest
+    env:
+      NODE_VERSION: 16.15.1
+
+    steps:
+      - name: Export variables to JSON
+        id: varsStep
+        uses: actions/github-script@v6
+        with:
+          script: core.setOutput('value', ${{ toJson(env) }})
+    
+    outputs:
+      vars: ${{ steps.varsStep.outputs.value }}
+  
+  share_variables:
     uses: ./.github/workflows/define-shared-variables.yml
+    needs: define_shared_variables
     with:
-      shared-variables: ${{ toJson(env) }}
+      shared-variables: ${{ needs.define_shared_variables.outputs.vars }}
 
   install_dependencies:
     uses: ./.github/workflows/install-dependencies.yml
-    needs: define_shared_variables
+    needs: share_variables
 
   build_lib:
     uses: ./.github/workflows/base-build.yml
