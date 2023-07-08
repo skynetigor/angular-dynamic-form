@@ -26,6 +26,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Restore variables
+        uses: actions/cache/restore@v3
+        with:
+          path: 'temp/variables.json'
+          key: shared-variables-${{ github.run_id }}-${{ github.run_attempt }}
+      
+      - name: Set env variables
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const sharedVariables = JSON.parse(fs.readFileSync('temp/variables.json', { encoding: 'utf8' }))
+            Object.entries(sharedVariables).forEach(([name, value]) => {
+              core.exportVariable(name, value);
+            });
+
       - uses: actions/checkout@v2
         name: Checkout Base
 
@@ -34,19 +50,12 @@ jobs:
         with:
           node-version: 14.18.0
 
-      - name: Cache or restore node_modules
-        id: cache-nodemodules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
+      - name: Restore node_modules
+        uses: actions/cache/restore@v3
         with:
-          # caching node_modules
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          key: ${{ env.DEPENDENCIES_CACHE_KEY }}
+          restore-keys: ${{ env.DEPENDENCIES_RESTORE_KEY }}
       
       - name: Download app artifacts
         uses: actions/download-artifact@master
