@@ -24,7 +24,7 @@
     "ang-jsoneditor": "^1.7.5",
     "angular2-prettyjson": "^3.0.1",
     "bootstrap": "^4.2.1",
-    "firebase-tools": "^11.14.1",
+    "firebase-tools": "^11.22.0",
     "jsoneditor": "^5.32.5",
     "nx": "^13.7.1",
     "rxjs": "~6.6.0",
