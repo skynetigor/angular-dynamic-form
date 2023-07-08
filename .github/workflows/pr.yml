@@ -21,12 +21,7 @@ jobs:
   define_shared_variables:
     runs-on: ubuntu-latest
     env:
-      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-      CURRENT_BRANCH: ${{ github.head_ref }}
-      BASE_BRANCH: ${{ github.base_ref }}
-      NX_HEAD: origin/${{ github.head_ref }}
-      NX_BASE: origin/${{ github.base_ref }}
-      NX_BRANCH: ${{ github.head_ref }}
+      NODE_VERSION: 16.15.1
 
     steps:
       - name: Export variables to JSON
