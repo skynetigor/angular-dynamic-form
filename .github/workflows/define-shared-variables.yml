@@ -65,11 +65,16 @@ jobs:
 
         with:
           script: |
+            const fileName = 'temp/variables.json';
             const fs = require('fs');
+            const path = require('path')
             const sharedVariablesObject = ${{ steps.varsStep.outputs.value }};
             const stepEnvVariables = ${{ toJson(env) }};
             const mergedVariables = { ...sharedVariablesObject, ...stepEnvVariables };
-            fs.writeFileSync('temp/variables.json', JSON.stringify(mergedVariables));
+
+            fs.mkdirSync(path.dirname(fileName), { recursive: true })
+            
+            fs.writeFileSync(fileName, JSON.stringify(mergedVariables));
 
       - name: Save success targets
         uses: actions/cache/save@v3
