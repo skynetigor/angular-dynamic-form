@@ -43,7 +43,7 @@ jobs:
     uses: ./.github/workflows/define-shared-variables.yml
     needs: define_shared_variables
     with:
-      shared-variables: needs.define_shared_variables.outputs.vars
+      shared-variables: ${{ needs.define_shared_variables.outputs.vars }}
 
   install_dependencies:
     uses: ./.github/workflows/install-dependencies.yml
