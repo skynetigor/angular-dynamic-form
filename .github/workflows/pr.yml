@@ -33,7 +33,8 @@ jobs:
       - name: Export variables to JSON
         id: varsStep
         uses: actions/github-script@v6
-        with: core.setOutput('value', ${{ toJson(env) }})
+        with:
+          script: core.setOutput('value', ${{ toJson(env) }})
     
     outputs:
       vars: ${{ steps.varsStep.outputs.value }}
