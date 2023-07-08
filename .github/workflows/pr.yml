@@ -47,7 +47,7 @@ jobs:
 
   install_dependencies:
     uses: ./.github/workflows/install-dependencies.yml
-    needs: define_shared_variables
+    needs: shared_variables
 
   build_lib:
     uses: ./.github/workflows/base-build.yml
