@@ -65,6 +65,7 @@ jobs:
 
         with:
           script: |
+            const fs = require('fs');
             const sharedVariablesObject = ${{ steps.varsStep.outputs.value }};
             const stepEnvVariables = ${{ toJson(env) }};
             const mergedVariables = { ...sharedVariablesObject, ...stepEnvVariables };
