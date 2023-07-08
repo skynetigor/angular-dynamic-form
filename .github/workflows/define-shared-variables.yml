@@ -33,9 +33,7 @@ jobs:
                 exportVariable('HEAD_SHA', '${{ github.event.pull_request.head.sha }}');
                 exportVariable('CURRENT_BRANCH', '${{ github.head_ref }}');
                 exportVariable('BASE_BRANCH', '${{ github.base_ref }}');
-                // Temporary disabled as it introduces the issue for PRS
-                // that do not affect all projects
-                // exportVariable('NX_BASE', 'origin/${{ github.base_ref }}');
+                exportVariable('NX_BASE', 'origin/${{ github.base_ref }}');
                 exportVariable('NX_HEAD', 'origin/${{ github.head_ref }}');
                 exportVariable('NX_BRANCH', '${{ github.head_ref }}');
                 break;
