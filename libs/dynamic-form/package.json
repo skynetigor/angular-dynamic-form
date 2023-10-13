@@ -6,6 +6,7 @@
     "type": "git",
     "url": "https://github.com/skynetigor/angular-dynamic-form/tree/develop/libs/dynamic-form"
   },
+  "license":"MIT",
   "homepage": "https://github.com/skynetigor/angular-dynamic-form/blob/develop/libs/dynamic-form/README.md",
   "keywords": [
     "angular",
